@@ -42,6 +42,16 @@ public class UserService {
     }
 
     /**
+     * Finds a user by ID without authentication
+     *
+     * @param id User ID
+     * @return Optional containing the user if found
+     */
+    public Optional<User> findUserById(String id) {
+        return userRepository.findById(id);
+    }
+
+    /**
      * Registers a new employee in the system
      *
      * @param employee The employee to register
