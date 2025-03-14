@@ -20,50 +20,6 @@ public class Station {
     public Station() {
         this.status = "CLOSED";
         this.supportedCategories = new ArrayList<>();
-
-        public List<Category> getSupportedCategories() {
-            return new ArrayList<>(supportedCategories);  // Return a copy to maintain encapsulation
-        }
-
-        /**
-         * Compares this Station to another object for equality
-         *
-         * @param o The object to compare with
-         * @return true if the objects are equal, false otherwise
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Station station = (Station) o;
-            return id == station.id;
-        }
-
-        /**
-         * Generates a hash code for this Station
-         *
-         * @return The hash code
-         */
-        @Override
-        public int hashCode() {
-            return Objects.hash(id);
-        }
-
-        /**
-         * Returns a string representation of this Station
-         *
-         * @return A string representation
-         */
-        @Override
-        public String toString() {
-            return "Station{" +
-                    "id=" + id +
-                    ", number=" + number +
-                    ", status='" + status + '\'' +
-                    ", employee=" + (assignedEmployee != null ? assignedEmployee.getName() : "None") +
-                    ", supportedCategories=" + supportedCategories.size() +
-                    '}';
-        }
     }
 
     /**
@@ -187,3 +143,48 @@ public class Station {
             employee.setAssignedStation(this);
         }
     }
+
+    public List<Category> getSupportedCategories() {
+        return new ArrayList<>(supportedCategories);  // Return a copy to maintain encapsulation
+    }
+
+    /**
+     * Compares this Station to another object for equality
+     *
+     * @param o The object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Station station = (Station) o;
+        return id == station.id;
+    }
+
+    /**
+     * Generates a hash code for this Station
+     *
+     * @return The hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    /**
+     * Returns a string representation of this Station
+     *
+     * @return A string representation
+     */
+    @Override
+    public String toString() {
+        return "Station{" +
+                "id=" + id +
+                ", number=" + number +
+                ", status='" + status + '\'' +
+                ", employee=" + (assignedEmployee != null ? assignedEmployee.getName() : "None") +
+                ", supportedCategories=" + supportedCategories.size() +
+                '}';
+    }
+}
