@@ -1,0 +1,52 @@
+[
+  {
+    "id": "C001",
+    "name": "Sofia Alejandra Martínez Rivas",
+    "contactInfo": "sofia.martinez@gmail.com"
+  },
+  {
+    "id": "C002",
+    "name": "José Antonio Hernández Portillo",
+    "contactInfo": "7894-5612"
+  },
+  {
+    "id": "C003",
+    "name": "Gabriela María Flores Melara",
+    "contactInfo": "gabriela.flores@outlook.com"
+  },
+  {
+    "id": "C004",
+    "name": "Carlos Eduardo Escobar Lemus",
+    "contactInfo": "7123-8945"
+  },
+  {
+    "id": "C005",
+    "name": "María Fernanda Campos Pineda",
+    "contactInfo": "mfcampos@yahoo.com"
+  },
+  {
+    "id": "C006",
+    "name": "Diego Alejandro Castillo Menéndez",
+    "contactInfo": "7765-4321"
+  },
+  {
+    "id": "C007",
+    "name": "Andrea Isabel Morales Guzmán",
+    "contactInfo": "andrea.morales@gmail.com"
+  },
+  {
+    "id": "C008",
+    "name": "Roberto Carlos Gutiérrez Orellana",
+    "contactInfo": "7654-9876"
+  },
+  {
+    "id": "C009",
+    "name": "Daniela Elizabeth Chávez Quintanilla",
+    "contactInfo": "daniela.chavez@outlook.com"
+  },
+  {
+    "id": "C010",
+    "name": "Manuel Enrique Figueroa Zelaya",
+    "contactInfo": "7612-3498"
+  }
+]

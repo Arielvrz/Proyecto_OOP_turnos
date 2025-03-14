@@ -1,0 +1,54 @@
+[
+  {
+    "type": "Employee",
+    "id": "emp1",
+    "name": "Carlos Rodríguez Mejía",
+    "password": "emp123",
+    "availabilityStatus": "OFFLINE",
+    "assignedStation": null,
+    "attendedTickets": []
+  },
+  {
+    "type": "Employee",
+    "id": "emp2",
+    "name": "Laura Hernández Gómez",
+    "password": "emp123",
+    "availabilityStatus": "OFFLINE",
+    "assignedStation": null,
+    "attendedTickets": []
+  },
+  {
+    "type": "Employee",
+    "id": "emp3",
+    "name": "Miguel Ángel Sánchez Rivera",
+    "password": "emp123",
+    "availabilityStatus": "OFFLINE",
+    "assignedStation": null,
+    "attendedTickets": []
+  },
+  {
+    "type": "Employee",
+    "id": "emp4",
+    "name": "Patricia Escobar Lemus",
+    "password": "emp123",
+    "availabilityStatus": "OFFLINE",
+    "assignedStation": null,
+    "attendedTickets": []
+  },
+  {
+    "type": "Employee",
+    "id": "emp5",
+    "name": "Juan Carlos Moreno Zelaya",
+    "password": "emp123",
+    "availabilityStatus": "OFFLINE",
+    "assignedStation": null,
+    "attendedTickets": []
+  },
+  {
+    "type": "Administrator",
+    "id": "admin",
+    "name": "Alejandra Ramírez Portillo",
+    "password": "admin123",
+    "accessLevel": 3
+  }
+]

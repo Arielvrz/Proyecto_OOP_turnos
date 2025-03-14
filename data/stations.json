@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "number": 1,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategories": [1, 2]
+  },
+  {
+    "id": 2,
+    "number": 2,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategories": [2, 5]
+  },
+  {
+    "id": 3,
+    "number": 3,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategories": [3]
+  },
+  {
+    "id": 4,
+    "number": 4,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategories": [4]
+  },
+  {
+    "id": 5,
+    "number": 5,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategories": [1, 5]
+  }
+]

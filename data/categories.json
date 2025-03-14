@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Consulta General",
+    "description": "Consultas generales e información para clientes",
+    "prefix": "GEN",
+    "active": true,
+    "ticketQueue": [],
+    "assignedEmployees": []
+  },
+  {
+    "id": 2,
+    "name": "Servicios Bancarios",
+    "description": "Apertura de cuentas, transferencias y consultas bancarias",
+    "prefix": "BAN",
+    "active": true,
+    "ticketQueue": [],
+    "assignedEmployees": []
+  },
+  {
+    "id": 3,
+    "name": "Soporte Técnico",
+    "description": "Problemas técnicos y soporte informático",
+    "prefix": "TEC",
+    "active": true,
+    "ticketQueue": [],
+    "assignedEmployees": []
+  },
+  {
+    "id": 4,
+    "name": "Reclamos",
+    "description": "Quejas de clientes y resolución de problemas",
+    "prefix": "REC",
+    "active": true,
+    "ticketQueue": [],
+    "assignedEmployees": []
+  },
+  {
+    "id": 5,
+    "name": "Pagos",
+    "description": "Pago de facturas y tarifas de servicio",
+    "prefix": "PAG",
+    "active": true,
+    "ticketQueue": [],
+    "assignedEmployees": []
+  }
+]
