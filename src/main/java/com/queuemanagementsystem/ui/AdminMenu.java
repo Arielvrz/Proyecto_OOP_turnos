@@ -8,6 +8,7 @@ import com.queuemanagementsystem.service.CategoryService;
 import com.queuemanagementsystem.service.StationService;
 import com.queuemanagementsystem.service.StatisticsService;
 import com.queuemanagementsystem.service.UserService;
+import com.queuemanagementsystem.model.Ticket;
 
 import java.util.List;
 import java.util.Map;
@@ -28,10 +29,10 @@ public class AdminMenu implements Menu {
     /**
      * Constructor with dependencies
      *
-     * @param scanner Scanner for reading user input
-     * @param userService Service for user operations
-     * @param categoryService Service for category operations
-     * @param stationService Service for station operations
+     * @param scanner           Scanner for reading user input
+     * @param userService       Service for user operations
+     * @param categoryService   Service for category operations
+     * @param stationService    Service for station operations
      * @param statisticsService Service for statistics operations
      */
     public AdminMenu(Scanner scanner, UserService userService, CategoryService categoryService,
@@ -1286,3 +1287,4 @@ public class AdminMenu implements Menu {
             start(scanner);
         }
     }
+}
