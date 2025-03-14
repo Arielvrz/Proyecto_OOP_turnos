@@ -50,7 +50,7 @@ public class JsonFileHandler {
      * @param filePath The path to the JSON file
      * @return true if the operation was successful, false otherwise
      */
-    public <T> boolean saveToFile(List<T> list, String filePath) {
+    public static <T> boolean saveToFile(List<T> list, String filePath) {
         try {
             // Create parent directories if they don't exist
             File file = new File(filePath);
@@ -74,7 +74,7 @@ public class JsonFileHandler {
      * @param type The type of the list (e.g., new TypeToken<List<User>>(){}.getType())
      * @return The list of objects loaded from the file, or an empty list if the file doesn't exist
      */
-    public <T> List<T> loadFromFile(String filePath, Type type) {
+    public static <T> List<T> loadFromFile(String filePath, Type type) {
         File file = new File(filePath);
 
         if (!file.exists() || file.length() == 0) {

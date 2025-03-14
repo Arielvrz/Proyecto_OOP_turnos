@@ -119,7 +119,7 @@ public class JsonTicketRepository implements TicketRepository {
     @Override
     public boolean loadAll() {
         TypeToken<List<Ticket>> typeToken = new TypeToken<List<Ticket>>() {};
-        this.tickets = JsonFileHandler.loadFromFile(FILE_PATH, typeToken);
+        this.tickets = JsonFileHandler.loadFromFile(FILE_PATH, typeToken.getType());
         return true;
     }
 }
