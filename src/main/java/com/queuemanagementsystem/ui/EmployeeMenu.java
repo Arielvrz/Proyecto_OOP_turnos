@@ -59,25 +59,22 @@ public class EmployeeMenu implements Menu {
 
             // Check if employee has an assigned station
             if (currentEmployee.getAssignedStation() == null) {
-                System.out.println("You don't have an assigned station. Please contact an administrator.");
-                return;
-            }
-
-            // Try to get the next ticket
-            Ticket nextTicket = ticketService.assignNextTicket(currentEmployee);
-
-            if (nextTicket != null) {
-                currentTicket = nextTicket;
-                System.out.println("New client assigned:");
-                System.out.println("Ticket: " + currentTicket.getCode());
-                System.out.println("Category: " + (currentTicket.getCategory() != null ?
-                        currentTicket.getCategory().getName() : "N/A"));
-                System.out.println("Waiting time: " + currentTicket.calculateWaitingTime() + " minutes");
+                System.out.println("Warning: You don't have an assigned station. Please contact an administrator.");
             } else {
-                System.out.println("There are no clients waiting in your assigned categories.");
+                // Make sure the employee is available
+                if (!"AVAILABLE".equals(currentEmployee.getAvailabilityStatus())) {
+                    System.out.println("Setting your status to AVAILABLE...");
+                    currentEmployee.setAvailabilityStatus("AVAILABLE");
+                    userService.updateUser(currentEmployee);
+                }
             }
-        }
 
+            return true;
+        } else {
+            System.out.println("Invalid credentials. Please try again.");
+            return false;
+        }
+    }
         /**
          * Handles completing the current service ticket
          */
