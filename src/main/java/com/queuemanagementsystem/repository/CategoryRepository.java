@@ -1,98 +1,78 @@
 package com.queuemanagementsystem.repository;
 
-import com.google.gson.reflect.TypeToken;
 import com.queuemanagementsystem.model.Category;
-import com.queuemanagementsystem.util.JsonFileHandler;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
- * Implementation of CategoryRepository using JSON file for persistence.
+ * Repository interface for Category data access operations.
  */
-public class JsonCategoryRepository implements CategoryRepository {
-    private static final String FILE_PATH = "data/categories.json";
-    private List<Category> categories;
+public interface CategoryRepository {
+    /**
+     * Saves a category to the repository
+     *
+     * @param category The category to save
+     * @return The saved category
+     */
+    Category save(Category category);
 
     /**
-     * Default constructor. Loads categories from file.
+     * Finds a category by its ID
+     *
+     * @param id The category ID to search for
+     * @return Optional containing the category if found, empty otherwise
      */
-    public JsonCategoryRepository() {
-        this.categories = new ArrayList<>();
-        loadAll();
-    }
+    Optional<Category> findById(int id);
 
-    @Override
-    public Category save(Category category) {
-        if (category == null) {
-            throw new IllegalArgumentException("Category cannot be null");
-        }
+    /**
+     * Gets all categories in the repository
+     *
+     * @return List of all categories
+     */
+    List<Category> findAll();
 
-        // Check if the category already exists
-        Optional<Category> existingCategory = findById(category.getId());
-        if (existingCategory.isPresent()) {
-            // Update existing category
-            categories.remove(existingCategory.get());
-        }
+    /**
+     * Gets all active categories in the repository
+     *
+     * @return List of active categories
+     */
+    List<Category> findAllActive();
 
-        categories.add(category);
-        saveAll();
-        return category;
-    }
+    /**
+     * Deletes a category by its ID
+     *
+     * @param id The ID of the category to delete
+     * @return true if deletion was successful, false otherwise
+     */
+    boolean deleteById(int id);
 
-    @Override
-    public Optional<Category> findById(int id) {
-        return categories.stream()
-                .filter(category -> category.getId() == id)
-                .findFirst();
-    }
+    /**
+     * Finds a category by its prefix
+     *
+     * @param prefix The category prefix to search for
+     * @return Optional containing the category if found, empty otherwise
+     */
+    Optional<Category> findByPrefix(String prefix);
 
-    @Override
-    public List<Category> findAll() {
-        return new ArrayList<>(categories);
-    }
+    /**
+     * Updates an existing category
+     *
+     * @param category The category with updated information
+     * @return true if update was successful, false otherwise
+     */
+    boolean update(Category category);
 
-    @Override
-    public List<Category> findAllActive() {
-        return categories.stream()
-                .filter(Category::isActive)
-                .collect(Collectors.toList());
-    }
+    /**
+     * Saves all categories to persistent storage
+     *
+     * @return true if save was successful, false otherwise
+     */
+    boolean saveAll();
 
-    @Override
-    public boolean deleteById(int id) {
-        Optional<Category> category = findById(id);
-        if (category.isPresent()) {
-            boolean removed = categories.remove(category.get());
-            if (removed) {
-                saveAll();
-            }
-            return removed;
-        }
-        return false;
-    }
-
-    @Override
-    public Optional<Category> findByPrefix(String prefix) {
-        if (prefix == null) {
-            return Optional.empty();
-        }
-        return categories.stream()
-                .filter(category -> prefix.equals(category.getPrefix()))
-                .findFirst();
-    }
-
-    @Override
-    public boolean saveAll() {
-        return JsonFileHandler.saveToFile(categories, FILE_PATH);
-    }
-
-    @Override
-    public boolean loadAll() {
-        TypeToken<List<Category>> typeToken = new TypeToken<List<Category>>() {};
-        this.categories = JsonFileHandler.loadFromFile(FILE_PATH, typeToken);
-        return true;
-    }
+    /**
+     * Loads all categories from persistent storage
+     *
+     * @return true if load was successful, false otherwise
+     */
+    boolean loadAll();
 }

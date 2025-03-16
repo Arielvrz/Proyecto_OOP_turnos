@@ -1,125 +1,97 @@
 package com.queuemanagementsystem.repository;
 
-import com.google.gson.reflect.TypeToken;
 import com.queuemanagementsystem.model.Ticket;
-import com.queuemanagementsystem.util.JsonFileHandler;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
- * Implementation of TicketRepository using JSON file for persistence.
+ * Repository interface for Ticket data access operations.
  */
-public class JsonTicketRepository implements TicketRepository {
-    private static final String FILE_PATH = "data/tickets.json";
-    private List<Ticket> tickets;
+public interface TicketRepository {
+    /**
+     * Saves a ticket to the repository
+     *
+     * @param ticket The ticket to save
+     * @return true if save was successful, false otherwise
+     */
+    boolean save(Ticket ticket);
 
     /**
-     * Default constructor. Loads tickets from file.
+     * Finds a ticket by its code
+     *
+     * @param code The ticket code to search for
+     * @return Optional containing the ticket if found, empty otherwise
      */
-    public JsonTicketRepository() {
-        this.tickets = new ArrayList<>();
-        loadAll();
-    }
+    Optional<Ticket> findByCode(String code);
 
-    @Override
-    public Ticket save(Ticket ticket) {
-        if (ticket == null) {
-            throw new IllegalArgumentException("Ticket cannot be null");
-        }
+    /**
+     * Gets all tickets in the repository
+     *
+     * @return List of all tickets
+     */
+    List<Ticket> findAll();
 
-        // Check if the ticket already exists
-        Optional<Ticket> existingTicket = findByCode(ticket.getCode());
-        if (existingTicket.isPresent()) {
-            // Update existing ticket
-            tickets.remove(existingTicket.get());
-        }
+    /**
+     * Finds tickets by client ID
+     *
+     * @param clientId The client ID to search for
+     * @return List of tickets for the specified client
+     */
+    List<Ticket> findByClientId(String clientId);
 
-        tickets.add(ticket);
-        saveAll();
-        return ticket;
-    }
+    /**
+     * Finds tickets by category ID
+     *
+     * @param categoryId The category ID to search for
+     * @return List of tickets for the specified category
+     */
+    List<Ticket> findByCategoryId(int categoryId);
 
-    @Override
-    public Optional<Ticket> findByCode(String code) {
-        if (code == null) {
-            return Optional.empty();
-        }
-        return tickets.stream()
-                .filter(ticket -> code.equals(ticket.getCode()))
-                .findFirst();
-    }
+    /**
+     * Finds tickets by status
+     *
+     * @param status The status to search for
+     * @return List of tickets with the specified status
+     */
+    List<Ticket> findByStatus(String status);
 
-    @Override
-    public List<Ticket> findAll() {
-        return new ArrayList<>(tickets);
-    }
+    /**
+     * Finds tickets generated between specified times
+     *
+     * @param start The start time
+     * @param end The end time
+     * @return List of tickets generated between start and end times
+     */
+    List<Ticket> findByGenerationTimeBetween(LocalDateTime start, LocalDateTime end);
 
-    @Override
-    public List<Ticket> findByClientId(String clientId) {
-        if (clientId == null) {
-            return new ArrayList<>();
-        }
-        return tickets.stream()
-                .filter(ticket -> clientId.equals(ticket.getClientId()))
-                .collect(Collectors.toList());
-    }
+    /**
+     * Deletes a ticket by its code
+     *
+     * @param code The code of the ticket to delete
+     * @return true if deletion was successful, false otherwise
+     */
+    boolean deleteByCode(String code);
 
-    @Override
-    public List<Ticket> findByCategoryId(int categoryId) {
-        return tickets.stream()
-                .filter(ticket -> ticket.getCategory() != null && ticket.getCategory().getId() == categoryId)
-                .collect(Collectors.toList());
-    }
+    /**
+     * Updates an existing ticket
+     *
+     * @param ticket The ticket with updated information
+     * @return true if update was successful, false otherwise
+     */
+    boolean update(Ticket ticket);
 
-    @Override
-    public List<Ticket> findByStatus(String status) {
-        if (status == null) {
-            return new ArrayList<>();
-        }
-        return tickets.stream()
-                .filter(ticket -> status.equals(ticket.getStatus()))
-                .collect(Collectors.toList());
-    }
+    /**
+     * Saves all tickets to persistent storage
+     *
+     * @return true if save was successful, false otherwise
+     */
+    boolean saveAll();
 
-    @Override
-    public List<Ticket> findByGenerationTimeBetween(LocalDateTime start, LocalDateTime end) {
-        if (start == null || end == null) {
-            return new ArrayList<>();
-        }
-        return tickets.stream()
-                .filter(ticket -> {
-                    LocalDateTime genTime = ticket.getGenerationTime();
-                    return genTime != null && !genTime.isBefore(start) && !genTime.isAfter(end);
-                })
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean deleteByCode(String code) {
-        Optional<Ticket> ticket = findByCode(code);
-        if (ticket.isPresent()) {
-            boolean removed = tickets.remove(ticket.get());
-            if (removed) {
-                saveAll();
-            }
-            return removed;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean saveAll() {
-        return JsonFileHandler.saveToFile(tickets, FILE_PATH);
-    }
-
-    @Override
-    public boolean loadAll() {
-        TypeToken<List<Ticket>> typeToken = new TypeToken<List<Ticket>>() {};
-        this.tickets = JsonFileHandler.loadFromFile(FILE_PATH, typeToken.getType());
-        return true;
-    }
+    /**
+     * Loads all tickets from persistent storage
+     *
+     * @return true if load was successful, false otherwise
+     */
+    boolean loadAll();
 }

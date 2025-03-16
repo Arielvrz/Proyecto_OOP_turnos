@@ -1,95 +1,78 @@
 package com.queuemanagementsystem.repository;
 
-import com.google.gson.reflect.TypeToken;
 import com.queuemanagementsystem.model.Station;
-import com.queuemanagementsystem.util.JsonFileHandler;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
- * Implementation of StationRepository using JSON file for persistence.
+ * Repository interface for Station data access operations.
  */
-public class JsonStationRepository implements StationRepository {
-    private static final String FILE_PATH = "data/stations.json";
-    private List<Station> stations;
+public interface StationRepository {
+    /**
+     * Saves a station to the repository
+     *
+     * @param station The station to save
+     * @return true if save was successful, false otherwise
+     */
+    boolean save(Station station);
 
     /**
-     * Default constructor. Loads stations from file.
+     * Finds a station by its ID
+     *
+     * @param id The station ID to search for
+     * @return Optional containing the station if found, empty otherwise
      */
-    public JsonStationRepository() {
-        this.stations = new ArrayList<>();
-        loadAll();
-    }
+    Optional<Station> findById(int id);
 
-    @Override
-    public Station save(Station station) {
-        if (station == null) {
-            throw new IllegalArgumentException("Station cannot be null");
-        }
+    /**
+     * Finds a station by its number
+     *
+     * @param number The station number to search for
+     * @return Optional containing the station if found, empty otherwise
+     */
+    Optional<Station> findByNumber(int number);
 
-        // Check if the station already exists
-        Optional<Station> existingStation = findById(station.getId());
-        if (existingStation.isPresent()) {
-            // Update existing station
-            stations.remove(existingStation.get());
-        }
+    /**
+     * Gets all stations in the repository
+     *
+     * @return List of all stations
+     */
+    List<Station> findAll();
 
-        stations.add(station);
-        saveAll();
-        return station;
-    }
+    /**
+     * Gets all open stations in the repository
+     *
+     * @return List of all open stations
+     */
+    List<Station> findAllOpen();
 
-    @Override
-    public Optional<Station> findById(int id) {
-        return stations.stream()
-                .filter(station -> station.getId() == id)
-                .findFirst();
-    }
+    /**
+     * Deletes a station by its ID
+     *
+     * @param id The ID of the station to delete
+     * @return true if deletion was successful, false otherwise
+     */
+    boolean deleteById(int id);
 
-    @Override
-    public Optional<Station> findByNumber(int number) {
-        return stations.stream()
-                .filter(station -> station.getNumber() == number)
-                .findFirst();
-    }
+    /**
+     * Updates an existing station
+     *
+     * @param station The station with updated information
+     * @return true if update was successful, false otherwise
+     */
+    boolean update(Station station);
 
-    @Override
-    public List<Station> findAll() {
-        return new ArrayList<>(stations);
-    }
+    /**
+     * Saves all stations to persistent storage
+     *
+     * @return true if save was successful, false otherwise
+     */
+    boolean saveAll();
 
-    @Override
-    public List<Station> findAllOpen() {
-        return stations.stream()
-                .filter(station -> "OPEN".equals(station.getStatus()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean deleteById(int id) {
-        Optional<Station> station = findById(id);
-        if (station.isPresent()) {
-            boolean removed = stations.remove(station.get());
-            if (removed) {
-                saveAll();
-            }
-            return removed;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean saveAll() {
-        return JsonFileHandler.saveToFile(stations, FILE_PATH);
-    }
-
-    @Override
-    public boolean loadAll() {
-        TypeToken<List<Station>> typeToken = new TypeToken<List<Station>>() {};
-        this.stations = JsonFileHandler.loadFromFile(FILE_PATH, typeToken);
-        return true;
-    }
+    /**
+     * Loads all stations from persistent storage
+     *
+     * @return true if load was successful, false otherwise
+     */
+    boolean loadAll();
 }

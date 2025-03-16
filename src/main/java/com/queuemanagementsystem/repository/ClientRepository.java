@@ -1,83 +1,55 @@
 package com.queuemanagementsystem.repository;
 
-import com.google.gson.reflect.TypeToken;
 import com.queuemanagementsystem.model.Client;
-import com.queuemanagementsystem.util.JsonFileHandler;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of ClientRepository using JSON file for persistence.
+ * Repository interface for Client data access operations.
  */
-public class JsonClientRepository implements ClientRepository {
-    private static final String FILE_PATH = "data/clients.json";
-    private List<Client> clients;
+public interface ClientRepository {
+    /**
+     * Saves a client to the repository
+     *
+     * @param client The client to save
+     * @return The saved client
+     */
+    Client save(Client client);
 
     /**
-     * Default constructor. Loads clients from file.
+     * Finds a client by their ID
+     *
+     * @param id The client ID to search for
+     * @return Optional containing the client if found, empty otherwise
      */
-    public JsonClientRepository() {
-        this.clients = new ArrayList<>();
-        loadAll();
-    }
+    Optional<Client> findById(String id);
 
-    @Override
-    public Client save(Client client) {
-        if (client == null) {
-            throw new IllegalArgumentException("Client cannot be null");
-        }
+    /**
+     * Gets all clients in the repository
+     *
+     * @return List of all clients
+     */
+    List<Client> findAll();
 
-        // Check if the client already exists
-        Optional<Client> existingClient = findById(client.getId());
-        if (existingClient.isPresent()) {
-            // Update existing client
-            clients.remove(existingClient.get());
-        }
+    /**
+     * Deletes a client by their ID
+     *
+     * @param id The ID of the client to delete
+     * @return true if deletion was successful, false otherwise
+     */
+    boolean deleteById(String id);
 
-        clients.add(client);
-        saveAll();
-        return client;
-    }
+    /**
+     * Saves all clients to persistent storage
+     *
+     * @return true if save was successful, false otherwise
+     */
+    boolean saveAll();
 
-    @Override
-    public Optional<Client> findById(String id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return clients.stream()
-                .filter(client -> client.getId().equals(id))
-                .findFirst();
-    }
-
-    @Override
-    public List<Client> findAll() {
-        return new ArrayList<>(clients);
-    }
-
-    @Override
-    public boolean deleteById(String id) {
-        Optional<Client> client = findById(id);
-        if (client.isPresent()) {
-            boolean removed = clients.remove(client.get());
-            if (removed) {
-                saveAll();
-            }
-            return removed;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean saveAll() {
-        return JsonFileHandler.saveToFile(clients, FILE_PATH);
-    }
-
-    @Override
-    public boolean loadAll() {
-        TypeToken<List<Client>> typeToken = new TypeToken<List<Client>>() {};
-        this.clients = JsonFileHandler.loadFromFile(FILE_PATH, typeToken);
-        return true;
-    }
+    /**
+     * Loads all clients from persistent storage
+     *
+     * @return true if load was successful, false otherwise
+     */
+    boolean loadAll();
 }
