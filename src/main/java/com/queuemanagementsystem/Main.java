@@ -52,7 +52,7 @@ public class Main {
         initializeSampleData(userRepository, clientRepository, categoryRepository, stationRepository);
 
         // Start the application
-        mainMenu.start();
+        mainMenu.start(scanner);
 
         // Close resources
         scanner.close();
@@ -105,9 +105,9 @@ public class Main {
             station3.addCategory(complaintsCategory);
             station3.addCategory(generalCategory);
 
-            stationRepository.save(station1);
-            stationRepository.save(station2);
-            stationRepository.save(station3);
+            stationRepository.update(station1);
+            stationRepository.update(station2);
+            stationRepository.update(station3);
 
             // Create sample employees
             Employee employee1 = new Employee("emp1", "John Smith", "pass123", "OFFLINE", station1);
@@ -125,10 +125,10 @@ public class Main {
             complaintsCategory.assignEmployee(employee3);
             generalCategory.assignEmployee(employee3);
 
-            categoryRepository.save(generalCategory);
-            categoryRepository.save(billingCategory);
-            categoryRepository.save(technicalCategory);
-            categoryRepository.save(complaintsCategory);
+            categoryRepository.update(generalCategory);
+            categoryRepository.update(billingCategory);
+            categoryRepository.update(technicalCategory);
+            categoryRepository.update(complaintsCategory);
 
             // Create sample clients
             Client client1 = new Client("C001", "Ana Martinez", "ana@example.com");

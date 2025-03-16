@@ -25,7 +25,7 @@ public class StatisticsService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final DateTimeUtil dateTimeUtil;
-    private ServiceStatistics currentDayStatistics;
+    private  ServiceStatistics currentDayStatistics;
 
     /**
      * Constructor with repository dependencies

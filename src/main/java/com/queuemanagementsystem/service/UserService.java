@@ -62,7 +62,7 @@ public class UserService {
             return false;
         }
 
-        return userRepository.save(employee);
+        return userRepository.save(employee).logout();
     }
 
     /**
@@ -77,7 +77,7 @@ public class UserService {
             return false;
         }
 
-        return userRepository.save(administrator);
+        return userRepository.save(administrator).logout();
     }
 
     /**
