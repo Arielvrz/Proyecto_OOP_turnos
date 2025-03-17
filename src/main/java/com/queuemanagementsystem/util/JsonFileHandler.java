@@ -92,15 +92,18 @@ public class JsonFileHandler {
         public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                 throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
-            String type = jsonObject.get("type").getAsString();
 
-            if ("Employee".equals(type)) {
-                return context.deserialize(jsonObject, Employee.class);
-            } else if ("Administrator".equals(type)) {
+            // Determine the type based on the presence of specific fields
+            if (jsonObject.has("accessLevel")) {
+                // This is an Administrator (only administrators have accessLevel)
                 return context.deserialize(jsonObject, Administrator.class);
+            } else if (jsonObject.has("availabilityStatus") || jsonObject.has("attendedTickets")) {
+                // This is an Employee
+                return context.deserialize(jsonObject, Employee.class);
+            } else {
+                // This is a base User
+                return context.deserialize(jsonObject, User.class);
             }
-
-            throw new JsonParseException("Unknown user type: " + type);
         }
     }
 

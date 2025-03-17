@@ -252,4 +252,23 @@ public class StationService {
                 .max()
                 .orElse(0) + 1;
     }
+
+    public void resolveReferences() {
+        List<Station> stations = stationRepository.findAll();
+
+        for (Station station : stations) {
+            String employeeId = station.getAssignedEmployeeId();
+            if (employeeId != null && !employeeId.isEmpty()) {
+                userRepository.findById(employeeId).ifPresent(user -> {
+                    if (user instanceof Employee) {
+                        Employee employee = (Employee) user;
+                        // Set references without triggering recursive updates
+                        station.setAssignedEmployee(employee);
+                        employee.setAssignedStationInternal(station);
+                    }
+                });
+            }
+        }
+    }
 }
+
