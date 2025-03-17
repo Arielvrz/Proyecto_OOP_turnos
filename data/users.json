@@ -8,20 +8,6 @@
   {
     "availabilityStatus": "OFFLINE",
     "attendedTickets": [],
-    "id": "emp3",
-    "name": "Carlos Rodríguez",
-    "password": "pass123"
-  },
-  {
-    "availabilityStatus": "OFFLINE",
-    "attendedTickets": [],
-    "id": "emp2",
-    "name": "Maria García",
-    "password": "pass123"
-  },
-  {
-    "availabilityStatus": "OFFLINE",
-    "attendedTickets": [],
     "id": "emp1",
     "name": "John Smith",
     "password": "pass123"

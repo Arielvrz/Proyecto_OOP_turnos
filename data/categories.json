@@ -1,37 +1,5 @@
 [
   {
-    "id": 3,
-    "name": "Soporte Técnico",
-    "description": "Problemas técnicos y soporte informático",
-    "prefix": "TEC",
-    "active": true,
-    "assignedEmployees": []
-  },
-  {
-    "id": 4,
-    "name": "Reclamos",
-    "description": "Quejas de clientes y resolución de problemas",
-    "prefix": "REC",
-    "active": true,
-    "assignedEmployees": []
-  },
-  {
-    "id": 5,
-    "name": "Pagos",
-    "description": "Pago de facturas y tarifas de servicio",
-    "prefix": "PAG",
-    "active": true,
-    "assignedEmployees": []
-  },
-  {
-    "id": 2,
-    "name": "Servicios Bancarios",
-    "description": "Apertura de cuentas, transferencias y consultas bancarias",
-    "prefix": "BAN",
-    "active": true,
-    "assignedEmployees": []
-  },
-  {
     "id": 1,
     "name": "Consulta General",
     "description": "Consultas generales e información para clientes",
@@ -39,7 +7,14 @@
     "active": true,
     "assignedEmployees": [
       {
-        "availabilityStatus": "OFFLINE",
+        "availabilityStatus": "AVAILABLE",
+        "attendedTickets": [],
+        "id": "emp1",
+        "name": "John Smith",
+        "password": "pass123"
+      },
+      {
+        "availabilityStatus": "AVAILABLE",
         "attendedTickets": [],
         "id": "emp2",
         "name": "Maria García",
