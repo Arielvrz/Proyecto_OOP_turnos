@@ -11,9 +11,7 @@
       "assignedEmployees": []
     },
     "clientId": "063548279",
-    "generationTime": "2025-03-16T17:48:23.767382",
-    "attentionTime": null,
-    "completionTime": null
+    "generationTime": "2025-03-16T17:48:23.767382"
   },
   {
     "code": "GEN-107",
@@ -27,8 +25,28 @@
       "assignedEmployees": []
     },
     "clientId": "063548279",
-    "generationTime": "2025-03-16T17:54:30.10708",
-    "attentionTime": null,
-    "completionTime": null
+    "generationTime": "2025-03-16T17:54:30.10708"
+  },
+  {
+    "code": "GEN-70",
+    "status": "WAITING",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "OFFLINE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "063548279",
+    "generationTime": "2025-03-17T16:29:03.070489"
   }
 ]

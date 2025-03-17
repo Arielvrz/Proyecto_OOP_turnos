@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Employee extends User {
     private String availabilityStatus; // "AVAILABLE", "BUSY", "PAUSED", "OFFLINE"
-    private Station assignedStation;
+    private transient Station assignedStation; // Add transient here
     private List<Ticket> attendedTickets;
 
     /**

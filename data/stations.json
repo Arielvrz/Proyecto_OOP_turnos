@@ -1,37 +1,63 @@
 [
   {
-    "id": 1,
-    "number": 1,
-    "status": "CLOSED",
-    "assignedEmployee": null,
-    "supportedCategories": [1, 2]
-  },
-  {
-    "id": 2,
-    "number": 2,
-    "status": "CLOSED",
-    "assignedEmployee": null,
-    "supportedCategories": [2, 5]
-  },
-  {
-    "id": 3,
-    "number": 3,
-    "status": "CLOSED",
-    "assignedEmployee": null,
-    "supportedCategories": [3]
-  },
-  {
     "id": 4,
     "number": 4,
     "status": "CLOSED",
     "assignedEmployee": null,
-    "supportedCategories": [4]
+    "supportedCategoryIds": [
+      4
+    ]
   },
   {
     "id": 5,
     "number": 5,
     "status": "CLOSED",
     "assignedEmployee": null,
-    "supportedCategories": [1, 5]
+    "supportedCategoryIds": [
+      1,
+      5
+    ]
+  },
+  {
+    "id": 2,
+    "number": 2,
+    "status": "CLOSED",
+    "assignedEmployee": {
+      "availabilityStatus": "OFFLINE",
+      "attendedTickets": [],
+      "id": "emp2",
+      "name": "Maria García",
+      "password": "pass123"
+    },
+    "supportedCategoryIds": [
+      2,
+      5
+    ]
+  },
+  {
+    "id": 1,
+    "number": 1,
+    "status": "CLOSED",
+    "assignedEmployee": {
+      "availabilityStatus": "OFFLINE",
+      "attendedTickets": [],
+      "id": "emp1",
+      "name": "John Smith",
+      "password": "pass123"
+    },
+    "supportedCategoryIds": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": 3,
+    "number": 3,
+    "status": "CLOSED",
+    "assignedEmployee": null,
+    "supportedCategoryIds": [
+      3,
+      1
+    ]
   }
 ]

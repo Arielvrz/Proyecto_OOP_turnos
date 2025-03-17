@@ -138,7 +138,15 @@ public class StationService {
 
         // Assign to the new station
         station.setAssignedEmployee(employee);
-        return stationRepository.update(station);
+
+        // This is important - we need to update the station first
+        boolean stationUpdated = stationRepository.update(station);
+
+        // Then update the employee separately
+        employee.setAssignedStation(station);
+        boolean employeeUpdated = userRepository.update(employee);
+
+        return stationUpdated && employeeUpdated;
     }
 
     /**
@@ -257,16 +265,20 @@ public class StationService {
         List<Station> stations = stationRepository.findAll();
 
         for (Station station : stations) {
-            String employeeId = station.getAssignedEmployeeId();
-            if (employeeId != null && !employeeId.isEmpty()) {
-                userRepository.findById(employeeId).ifPresent(user -> {
-                    if (user instanceof Employee) {
-                        Employee employee = (Employee) user;
-                        // Set references without triggering recursive updates
-                        station.setAssignedEmployee(employee);
-                        employee.setAssignedStationInternal(station);
-                    }
-                });
+            // Instead of using getAssignedEmployeeId(), check if the assigned employee is null
+            Employee assignedEmployee = station.getAssignedEmployee();
+            if (assignedEmployee != null) {
+                // Use the existing employee ID
+                String employeeId = assignedEmployee.getId();
+                if (employeeId != null && !employeeId.isEmpty()) {
+                    userRepository.findById(employeeId).ifPresent(user -> {
+                        if (user instanceof Employee) {
+                            Employee employee = (Employee) user;
+                            // Use existing setter without recursive updates
+                            station.setAssignedEmployee(employee);
+                        }
+                    });
+                }
             }
         }
     }

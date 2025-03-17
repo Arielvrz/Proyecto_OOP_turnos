@@ -30,6 +30,8 @@ public class JsonFileHandler {
     private static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
+        gsonBuilder.serializeNulls(); // Optional, but helpful
+        gsonBuilder.disableHtmlEscaping(); // Optional, but helps with readability
 
         // Register type adapter for LocalDateTime
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter());
