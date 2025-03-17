@@ -38,7 +38,11 @@ public class User {
      * @return true if authentication is successful, false otherwise
      */
     public boolean login(String providedId, String providedPassword) {
-        return this.id.equals(providedId) && this.password.equals(providedPassword);
+        boolean matches = this.id.equals(providedId) && this.password.equals(providedPassword);
+        System.out.println("Debug - Login attempt: " + providedId);
+        System.out.println("Debug - ID match: " + this.id.equals(providedId));
+        System.out.println("Debug - Password match: " + this.password.equals(providedPassword));
+        return matches;
     }
 
     /**

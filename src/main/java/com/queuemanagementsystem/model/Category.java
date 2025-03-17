@@ -15,7 +15,8 @@ public class Category {
     private String description;
     private String prefix;
     private boolean active;
-    private Queue<Ticket> ticketQueue;
+    // Make ticketQueue transient to exclude it from serialization
+    private transient Queue<Ticket> ticketQueue;
     private List<Employee> assignedEmployees;
 
     /**
@@ -70,6 +71,10 @@ public class Category {
      */
     public boolean addTicketToQueue(Ticket ticket) {
         if (ticket != null && active) {
+            // Make sure the ticketQueue is initialized
+            if (ticketQueue == null) {
+                ticketQueue = new LinkedList<>();
+            }
             return ticketQueue.offer(ticket);
         }
         return false;
@@ -81,6 +86,10 @@ public class Category {
      * @return The next ticket or null if the queue is empty
      */
     public Ticket getNextTicket() {
+        // Make sure the ticketQueue is initialized
+        if (ticketQueue == null) {
+            ticketQueue = new LinkedList<>();
+        }
         return ticketQueue.poll();
     }
 
@@ -90,6 +99,10 @@ public class Category {
      * @return The number of pending tickets
      */
     public int countPendingTickets() {
+        // Make sure the ticketQueue is initialized
+        if (ticketQueue == null) {
+            ticketQueue = new LinkedList<>();
+        }
         return ticketQueue.size();
     }
 
@@ -188,6 +201,10 @@ public class Category {
      * @return A list of tickets in the queue
      */
     public List<Ticket> peekTicketQueue() {
+        // Make sure the ticketQueue is initialized
+        if (ticketQueue == null) {
+            ticketQueue = new LinkedList<>();
+        }
         return new ArrayList<>(ticketQueue);  // Return a copy to maintain encapsulation
     }
 
@@ -227,7 +244,7 @@ public class Category {
                 ", name='" + name + '\'' +
                 ", prefix='" + prefix + '\'' +
                 ", active=" + active +
-                ", pendingTickets=" + ticketQueue.size() +
+                ", pendingTickets=" + (ticketQueue != null ? ticketQueue.size() : 0) +
                 ", assignedEmployees=" + assignedEmployees.size() +
                 '}';
     }

@@ -1,29 +1,10 @@
 [
   {
-    "id": 1,
-    "name": "Consulta General",
-    "description": "Consultas generales e información para clientes",
-    "prefix": "GEN",
-    "active": true,
-    "ticketQueue": [],
-    "assignedEmployees": []
-  },
-  {
-    "id": 2,
-    "name": "Servicios Bancarios",
-    "description": "Apertura de cuentas, transferencias y consultas bancarias",
-    "prefix": "BAN",
-    "active": true,
-    "ticketQueue": [],
-    "assignedEmployees": []
-  },
-  {
     "id": 3,
     "name": "Soporte Técnico",
     "description": "Problemas técnicos y soporte informático",
     "prefix": "TEC",
     "active": true,
-    "ticketQueue": [],
     "assignedEmployees": []
   },
   {
@@ -32,7 +13,6 @@
     "description": "Quejas de clientes y resolución de problemas",
     "prefix": "REC",
     "active": true,
-    "ticketQueue": [],
     "assignedEmployees": []
   },
   {
@@ -41,7 +21,30 @@
     "description": "Pago de facturas y tarifas de servicio",
     "prefix": "PAG",
     "active": true,
-    "ticketQueue": [],
     "assignedEmployees": []
+  },
+  {
+    "id": 2,
+    "name": "Servicios Bancarios",
+    "description": "Apertura de cuentas, transferencias y consultas bancarias",
+    "prefix": "BAN",
+    "active": true,
+    "assignedEmployees": []
+  },
+  {
+    "id": 1,
+    "name": "Consulta General",
+    "description": "Consultas generales e información para clientes",
+    "prefix": "GEN",
+    "active": true,
+    "assignedEmployees": [
+      {
+        "availabilityStatus": "OFFLINE",
+        "attendedTickets": [],
+        "id": "emp2",
+        "name": "Maria García",
+        "password": "pass123"
+      }
+    ]
   }
 ]

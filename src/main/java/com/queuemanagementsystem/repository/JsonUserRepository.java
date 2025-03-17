@@ -93,6 +93,13 @@ public class JsonUserRepository implements UserRepository {
     public boolean loadAll() {
         TypeToken<List<User>> typeToken = new TypeToken<List<User>>() {};
         this.users = JsonFileHandler.loadFromFile(FILE_PATH, typeToken.getType());
+
+        // Debug logging
+        System.out.println("Debug - Loaded " + users.size() + " users from " + FILE_PATH);
+        for (User user : users) {
+            System.out.println("Debug - Loaded user: " + user.getId() + " - " + user.getClass().getSimpleName());
+        }
+
         return true;
     }
 

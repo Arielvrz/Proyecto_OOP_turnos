@@ -8,15 +8,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
+import com.queuemanagementsystem.model.Administrator;
+import com.queuemanagementsystem.model.Employee;
+import com.queuemanagementsystem.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +34,9 @@ public class JsonFileHandler {
         // Register type adapter for LocalDateTime
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter());
 
+        // Register custom user adapter
+        gsonBuilder.registerTypeAdapter(User.class, new UserAdapter());
+
         return gsonBuilder.create();
     }
 
@@ -52,7 +50,7 @@ public class JsonFileHandler {
      */
     public static <T> boolean saveToFile(List<T> list, String filePath) {
         try {
-            // Create parent directories if they don't exist
+            // crear directorios principales si no existen
             File file = new File(filePath);
             file.getParentFile().mkdirs();
 
@@ -89,8 +87,25 @@ public class JsonFileHandler {
         }
     }
 
+    public static class UserAdapter implements JsonDeserializer<User> {
+        @Override
+        public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+            String type = jsonObject.get("type").getAsString();
+
+            if ("Employee".equals(type)) {
+                return context.deserialize(jsonObject, Employee.class);
+            } else if ("Administrator".equals(type)) {
+                return context.deserialize(jsonObject, Administrator.class);
+            }
+
+            throw new JsonParseException("Unknown user type: " + type);
+        }
+    }
+
     /**
-     * Custom type adapter for LocalDateTime
+     * adaptador personalizado para LocalDateTimeAdapter
      */
     private static class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
         private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;

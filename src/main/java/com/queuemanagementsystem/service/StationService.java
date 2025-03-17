@@ -202,6 +202,8 @@ public class StationService {
                 .collect(Collectors.toList());
     }
 
+
+
     /**
      * Gets all stations
      *
@@ -227,6 +229,7 @@ public class StationService {
      * @param categoryId The category ID
      * @return List of stations supporting the category
      */
+
     public List<Station> getStationsBySupportedCategory(int categoryId) {
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
 
@@ -234,13 +237,10 @@ public class StationService {
             return List.of();
         }
 
-        Category category = categoryOpt.get();
-
         return stationRepository.findAll().stream()
-                .filter(station -> station.supportsCategory(category))
+                .filter(station -> station.getSupportedCategoryIds().contains(categoryId))
                 .collect(Collectors.toList());
     }
-
     /**
      * Generates the next available station ID
      *

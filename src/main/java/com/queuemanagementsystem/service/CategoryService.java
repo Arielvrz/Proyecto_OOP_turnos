@@ -45,8 +45,15 @@ public class CategoryService {
 
         Category category = new Category(newId, name, description, prefix, true);
 
-        if (categoryRepository.save(category)) {
-            return category;
+        // Replace this line:
+        // if (categoryRepository.save(category)) {
+        //     return category;
+        // }
+
+        // With this:
+        Category savedCategory = categoryRepository.save(category);
+        if (savedCategory != null) {
+            return savedCategory;
         }
 
         return null;

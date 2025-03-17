@@ -51,29 +51,42 @@ public class EmployeeMenu implements Menu {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine().trim();
 
+        // Add debugging
+        System.out.println("Looking for employee with ID: " + id);
+
         Optional<Employee> employeeOpt = userService.getEmployeeById(id);
 
-        if (employeeOpt.isPresent() && employeeOpt.get().login(id, password)) {
-            currentEmployee = employeeOpt.get();
-            System.out.println("Login successful! Welcome, " + currentEmployee.getName() + "!");
-
-            // Check if employee has an assigned station
-            if (currentEmployee.getAssignedStation() == null) {
-                System.out.println("Warning: You don't have an assigned station. Please contact an administrator.");
-            } else {
-                // Make sure the employee is available
-                if (!"AVAILABLE".equals(currentEmployee.getAvailabilityStatus())) {
-                    System.out.println("Setting your status to AVAILABLE...");
-                    currentEmployee.setAvailabilityStatus("AVAILABLE");
-                    userService.updateUser(currentEmployee);
-                }
-            }
-
-            return true;
-        } else {
+        if (!employeeOpt.isPresent()) {
+            System.out.println("Debug: No employee found with ID: " + id);
             System.out.println("Invalid credentials. Please try again.");
             return false;
         }
+
+        Employee employee = employeeOpt.get();
+        boolean loginSuccess = employee.login(id, password);
+
+        if (!loginSuccess) {
+            System.out.println("Debug: Found employee but password doesn't match");
+            System.out.println("Invalid credentials. Please try again.");
+            return false;
+        }
+
+        currentEmployee = employee;
+        System.out.println("Login successful! Welcome, " + currentEmployee.getName() + "!");
+
+        // Check if employee has an assigned station
+        if (currentEmployee.getAssignedStation() == null) {
+            System.out.println("Warning: You don't have an assigned station. Please contact an administrator.");
+        } else {
+            // Make sure the employee is available
+            if (!"AVAILABLE".equals(currentEmployee.getAvailabilityStatus())) {
+                System.out.println("Setting your status to AVAILABLE...");
+                currentEmployee.setAvailabilityStatus("AVAILABLE");
+                userService.updateUser(currentEmployee);
+            }
+        }
+
+        return true;
     }
 
     @Override
