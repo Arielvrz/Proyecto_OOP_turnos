@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 /**
- * Menu for employee interactions with the system.
+ * Menú para las interacciones del empleado con el sistema.
  */
 public class EmployeeMenu implements Menu {
     private final Scanner scanner;
@@ -22,12 +22,12 @@ public class EmployeeMenu implements Menu {
     private Ticket currentTicket;
 
     /**
-     * Constructor with dependencies
+     * Constructor con dependencias
      *
-     * @param scanner Scanner for reading user input
-     * @param userService Service for user operations
-     * @param ticketService Service for ticket operations
-     * @param stationService Service for station operations
+     * @param scanner Scanner para leer la entrada del usuario
+     * @param userService Servicio para operaciones de usuario
+     * @param ticketService Servicio para operaciones de turno
+     * @param stationService Servicio para operaciones de estación
      */
     public EmployeeMenu(Scanner scanner, UserService userService,
                         TicketService ticketService, StationService stationService) {
@@ -38,27 +38,27 @@ public class EmployeeMenu implements Menu {
     }
 
     /**
-     * Prompts the user to enter their employee credentials
+     * Solicita al usuario que ingrese sus credenciales de empleado
      *
-     * @return true if authentication was successful, false otherwise
+     * @return true si la autenticación fue exitosa, false en caso contrario
      */
     public boolean authenticate() {
-        System.out.println("\n=== Employee Login ===");
+        System.out.println("\n=== Inicio de Sesión de Empleado ===");
 
-        System.out.print("Enter your ID: ");
+        System.out.print("Ingrese su ID: ");
         String id = scanner.nextLine().trim();
 
-        System.out.print("Enter your password: ");
+        System.out.print("Ingrese su contraseña: ");
         String password = scanner.nextLine().trim();
 
-        // Add debugging
-        System.out.println("Looking for employee with ID: " + id);
+        // Agregar depuración
+        System.out.println("Buscando empleado con ID: " + id);
 
         Optional<Employee> employeeOpt = userService.getEmployeeById(id);
 
         if (!employeeOpt.isPresent()) {
-            System.out.println("Debug: No employee found with ID: " + id);
-            System.out.println("Invalid credentials. Please try again.");
+            System.out.println("Debug: No se encontró empleado con ID: " + id);
+            System.out.println("Credenciales inválidas. Por favor, intente nuevamente.");
             return false;
         }
 
@@ -66,21 +66,21 @@ public class EmployeeMenu implements Menu {
         boolean loginSuccess = employee.login(id, password);
 
         if (!loginSuccess) {
-            System.out.println("Debug: Found employee but password doesn't match");
-            System.out.println("Invalid credentials. Please try again.");
+            System.out.println("Debug: Se encontró empleado pero la contraseña no coincide");
+            System.out.println("Credenciales inválidas. Por favor, intente nuevamente.");
             return false;
         }
 
         currentEmployee = employee;
-        System.out.println("Login successful! Welcome, " + currentEmployee.getName() + "!");
+        System.out.println("¡Inicio de sesión exitoso! Bienvenido, " + currentEmployee.getName() + "!");
 
-        // Check if employee has an assigned station
+        // Verificar si el empleado tiene una estación asignada
         if (currentEmployee.getAssignedStation() == null) {
-            System.out.println("Warning: You don't have an assigned station. Please contact an administrator.");
+            System.out.println("Advertencia: No tiene una estación asignada. Por favor contacte a un administrador.");
         } else {
-            // Make sure the employee is available
+            // Asegurarse de que el empleado esté disponible
             if (!"AVAILABLE".equals(currentEmployee.getAvailabilityStatus())) {
-                System.out.println("Setting your status to AVAILABLE...");
+                System.out.println("Configurando su estado a DISPONIBLE...");
                 currentEmployee.setAvailabilityStatus("AVAILABLE");
                 userService.updateUser(currentEmployee);
             }
@@ -91,19 +91,35 @@ public class EmployeeMenu implements Menu {
 
     @Override
     public void displayMenu() {
-        System.out.println("\n=== Employee Menu ===");
-        System.out.println("Current status: " + currentEmployee.getAvailabilityStatus());
+        System.out.println("\n=== Menú de Empleado ===");
+        System.out.println("Estado actual: " + translateEmployeeStatus(currentEmployee.getAvailabilityStatus()));
 
         if (currentTicket != null) {
-            System.out.println("Currently serving: " + currentTicket.getCode());
+            System.out.println("Atendiendo actualmente: " + currentTicket.getCode());
         }
 
-        System.out.println("1. Get next client");
-        System.out.println("2. Complete current service");
-        System.out.println("3. View client information");
-        System.out.println("4. Pause/Resume ticket assignment");
-        System.out.println("5. View daily summary");
-        System.out.println("0. Logout");
+        System.out.println("1. Obtener siguiente cliente");
+        System.out.println("2. Completar servicio actual");
+        System.out.println("3. Ver información del cliente");
+        System.out.println("4. Pausar/Reanudar asignación de turnos");
+        System.out.println("5. Ver resumen diario");
+        System.out.println("0. Cerrar sesión");
+    }
+
+    /**
+     * Traduce los estados del empleado a español
+     *
+     * @param status El estado del empleado en inglés
+     * @return El estado del empleado traducido al español
+     */
+    private String translateEmployeeStatus(String status) {
+        switch (status) {
+            case "AVAILABLE": return "Disponible";
+            case "BUSY": return "Ocupado";
+            case "PAUSED": return "Pausado";
+            case "OFFLINE": return "Desconectado";
+            default: return status;
+        }
     }
 
     @Override
@@ -128,141 +144,141 @@ public class EmployeeMenu implements Menu {
                 logout();
                 return false;
             default:
-                System.out.println("Invalid option. Please try again.");
+                System.out.println("Opción inválida. Por favor, intente nuevamente.");
                 return true;
         }
     }
 
     /**
-     * Handles getting the next client from the queue
+     * Maneja la obtención del siguiente cliente de la cola
      */
     private void getNextClient() {
-        // Check if employee already has a ticket in progress
+        // Verificar si el empleado ya tiene un turno en progreso
         if (currentTicket != null && "IN_PROGRESS".equals(currentTicket.getStatus())) {
-            System.out.println("You are already serving a client (Ticket: " + currentTicket.getCode() + ").");
-            System.out.println("Please complete the current service before getting a new client.");
+            System.out.println("Ya está atendiendo a un cliente (Turno: " + currentTicket.getCode() + ").");
+            System.out.println("Por favor complete el servicio actual antes de obtener un nuevo cliente.");
             return;
         }
 
-        // Check if employee is available
+        // Verificar si el empleado está disponible
         if (!"AVAILABLE".equals(currentEmployee.getAvailabilityStatus())) {
-            System.out.println("You are currently " + currentEmployee.getAvailabilityStatus() + ".");
-            System.out.println("Please resume ticket assignment before getting a new client.");
+            System.out.println("Actualmente está " + translateEmployeeStatus(currentEmployee.getAvailabilityStatus()) + ".");
+            System.out.println("Por favor reanude la asignación de turnos antes de obtener un nuevo cliente.");
             return;
         }
 
-        // Check if employee has an assigned station
+        // Verificar si el empleado tiene una estación asignada
         if (currentEmployee.getAssignedStation() == null) {
-            System.out.println("You don't have an assigned station. Please contact an administrator.");
+            System.out.println("No tiene una estación asignada. Por favor contacte a un administrador.");
             return;
         }
 
-        // Try to get the next ticket
+        // Intentar obtener el siguiente turno
         Ticket nextTicket = ticketService.assignNextTicket(currentEmployee);
 
         if (nextTicket != null) {
             currentTicket = nextTicket;
-            System.out.println("New client assigned:");
-            System.out.println("Ticket: " + currentTicket.getCode());
-            System.out.println("Category: " + (currentTicket.getCategory() != null ?
+            System.out.println("Nuevo cliente asignado:");
+            System.out.println("Turno: " + currentTicket.getCode());
+            System.out.println("Categoría: " + (currentTicket.getCategory() != null ?
                     currentTicket.getCategory().getName() : "N/A"));
-            System.out.println("Waiting time: " + currentTicket.calculateWaitingTime() + " minutes");
+            System.out.println("Tiempo de espera: " + currentTicket.calculateWaitingTime() + " minutos");
         } else {
-            System.out.println("There are no clients waiting in your assigned categories.");
+            System.out.println("No hay clientes esperando en sus categorías asignadas.");
         }
     }
 
     /**
-     * Handles completing the current service ticket
+     * Maneja la finalización del turno de servicio actual
      */
     private void completeCurrentService() {
         if (currentTicket == null || !"IN_PROGRESS".equals(currentTicket.getStatus())) {
-            System.out.println("You don't have an active client to complete.");
+            System.out.println("No tiene un cliente activo para completar.");
             return;
         }
 
-        System.out.println("Completing service for ticket: " + currentTicket.getCode());
+        System.out.println("Completando servicio para turno: " + currentTicket.getCode());
 
         if (ticketService.completeTicket(currentTicket, currentEmployee)) {
-            System.out.println("Service completed successfully.");
-            System.out.println("Service time: " + currentTicket.calculateServiceTime() + " minutes");
-            currentTicket = null; // Clear the current ticket
+            System.out.println("Servicio completado exitosamente.");
+            System.out.println("Tiempo de servicio: " + currentTicket.calculateServiceTime() + " minutos");
+            currentTicket = null; // Limpiar el turno actual
         } else {
-            System.out.println("Failed to complete the service. Please try again.");
+            System.out.println("Error al completar el servicio. Por favor, intente nuevamente.");
         }
     }
 
     /**
-     * Displays information about the current client
+     * Muestra información sobre el cliente actual
      */
     private void viewClientInformation() {
         if (currentTicket == null) {
-            System.out.println("You don't have an assigned client.");
+            System.out.println("No tiene un cliente asignado.");
             return;
         }
 
-        System.out.println("\n=== Client Information ===");
+        System.out.println("\n=== Información del Cliente ===");
         System.out.println(currentEmployee.getClientInformation(currentTicket));
 
-        // Get more detailed information if needed
+        // Obtener información más detallada si es necesario
         Optional<Ticket> ticketDetails = ticketService.getTicketByCode(currentTicket.getCode());
 
         if (ticketDetails.isPresent()) {
             Ticket ticket = ticketDetails.get();
 
             if ("IN_PROGRESS".equals(ticket.getStatus())) {
-                System.out.println("Current service time: " + ticket.calculateServiceTime() + " minutes");
+                System.out.println("Tiempo de servicio actual: " + ticket.calculateServiceTime() + " minutos");
             }
         }
     }
 
     /**
-     * Toggles the ticket assignment status (pause/resume)
+     * Alterna el estado de asignación de turnos (pausar/reanudar)
      */
     private void toggleAssignmentStatus() {
         if ("AVAILABLE".equals(currentEmployee.getAvailabilityStatus()) ||
                 "OFFLINE".equals(currentEmployee.getAvailabilityStatus())) {
 
-            // Pause assignment
+            // Pausar asignación
             if (currentEmployee.pauseAssignment()) {
-                System.out.println("Ticket assignment paused. You will not receive new clients.");
+                System.out.println("Asignación de turnos pausada. No recibirá nuevos clientes.");
                 userService.updateUser(currentEmployee);
             } else {
-                System.out.println("Cannot pause assignment right now.");
+                System.out.println("No se puede pausar la asignación en este momento.");
             }
 
         } else if ("PAUSED".equals(currentEmployee.getAvailabilityStatus())) {
 
-            // Resume assignment
+            // Reanudar asignación
             if (currentEmployee.resumeAttention()) {
-                System.out.println("Ticket assignment resumed. You can now receive new clients.");
+                System.out.println("Asignación de turnos reanudada. Ahora puede recibir nuevos clientes.");
                 userService.updateUser(currentEmployee);
             } else {
-                System.out.println("Cannot resume assignment right now.");
+                System.out.println("No se puede reanudar la asignación en este momento.");
             }
 
         } else {
-            System.out.println("You cannot change your status while serving a client.");
+            System.out.println("No puede cambiar su estado mientras atiende a un cliente.");
         }
     }
 
     /**
-     * Displays a summary of tickets attended during the day
+     * Muestra un resumen de los turnos atendidos durante el día
      */
     private void viewDailySummary() {
-        System.out.println("\n=== Daily Summary ===");
+        System.out.println("\n=== Resumen Diario ===");
         System.out.println(currentEmployee.getAttentionSummary());
 
         List<Ticket> attendedTickets = currentEmployee.getAttendedTickets();
 
         if (attendedTickets.isEmpty()) {
-            System.out.println("You haven't attended any clients today.");
+            System.out.println("No ha atendido a ningún cliente hoy.");
             return;
         }
 
-        System.out.println("Tickets attended today: " + attendedTickets.size());
+        System.out.println("Turnos atendidos hoy: " + attendedTickets.size());
 
-        // Calculate average service time
+        // Calcular tiempo promedio de servicio
         double totalServiceTime = 0;
         int completedTickets = 0;
 
@@ -275,36 +291,36 @@ public class EmployeeMenu implements Menu {
 
         if (completedTickets > 0) {
             double averageServiceTime = totalServiceTime / completedTickets;
-            System.out.println("Average service time: " + String.format("%.2f", averageServiceTime) + " minutes");
+            System.out.println("Tiempo promedio de servicio: " + String.format("%.2f", averageServiceTime) + " minutos");
         }
     }
 
     /**
-     * Handles employee logout
+     * Maneja el cierre de sesión del empleado
      */
     private void logout() {
-        // Check if there's a ticket in progress
+        // Verificar si hay un turno en progreso
         if (currentTicket != null && "IN_PROGRESS".equals(currentTicket.getStatus())) {
-            System.out.println("Warning: You have an active client. Please complete the service before logging out.");
-            System.out.println("Do you really want to logout? (y/n)");
+            System.out.println("Advertencia: Tiene un cliente activo. Por favor complete el servicio antes de cerrar sesión.");
+            System.out.println("¿Realmente desea cerrar sesión? (s/n)");
 
             String confirmation = scanner.nextLine().trim().toLowerCase();
 
-            if (!confirmation.equals("y") && !confirmation.equals("yes")) {
-                System.out.println("Logout canceled.");
+            if (!confirmation.equals("s") && !confirmation.equals("si")) {
+                System.out.println("Cierre de sesión cancelado.");
                 return;
             }
         }
 
-        // Set employee status to offline
+        // Establecer el estado del empleado como desconectado
         currentEmployee.setAvailabilityStatus("OFFLINE");
         userService.updateUser(currentEmployee);
 
-        System.out.println("You have been logged out. Goodbye, " + currentEmployee.getName() + "!");
+        System.out.println("Ha cerrado sesión. ¡Hasta pronto, " + currentEmployee.getName() + "!");
     }
 
     /**
-     * Starts the employee menu after authentication
+     * Inicia el menú del empleado después de la autenticación
      */
     public void start() {
         if (authenticate()) {

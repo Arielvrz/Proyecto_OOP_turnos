@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 /**
- * Menu for client interactions with the system.
+ * Menú para las interacciones del cliente con el sistema.
  */
 public class ClientMenu implements Menu {
     private final Scanner scanner;
@@ -22,12 +22,12 @@ public class ClientMenu implements Menu {
     private Client currentClient;
 
     /**
-     * Constructor with dependencies
+     * Constructor con dependencias
      *
-     * @param scanner Scanner for reading user input
-     * @param clientService Service for client operations
-     * @param categoryService Service for category operations
-     * @param ticketService Service for ticket operations
+     * @param scanner Scanner para leer la entrada del usuario
+     * @param clientService Servicio para operaciones de cliente
+     * @param categoryService Servicio para operaciones de categoría
+     * @param ticketService Servicio para operaciones de turno
      */
     public ClientMenu(Scanner scanner, ClientService clientService,
                       CategoryService categoryService, TicketService ticketService) {
@@ -38,17 +38,17 @@ public class ClientMenu implements Menu {
     }
 
     /**
-     * Prompts the user to enter their client ID or create a new client profile
+     * Solicita al usuario que ingrese su ID de cliente o cree un nuevo perfil de cliente
      *
-     * @return true if a client was identified or created, false otherwise
+     * @return true si se identificó o creó un cliente, false en caso contrario
      */
     public boolean identifyClient() {
-        System.out.println("\n=== Client Identification ===");
-        System.out.println("1. Enter existing client ID");
-        System.out.println("2. Register as a new client");
-        System.out.println("0. Return to main menu");
+        System.out.println("\n=== Identificación de Cliente ===");
+        System.out.println("1. Ingresar ID de cliente existente");
+        System.out.println("2. Registrarse como nuevo cliente");
+        System.out.println("0. Volver al menú principal");
 
-        System.out.print("Select an option: ");
+        System.out.print("Seleccione una opción: ");
         String option = scanner.nextLine().trim();
 
         switch (option) {
@@ -59,31 +59,31 @@ public class ClientMenu implements Menu {
             case "0":
                 return false;
             default:
-                System.out.println("Invalid option. Please try again.");
+                System.out.println("Opción inválida. Por favor intente nuevamente.");
                 return identifyClient();
         }
     }
 
     /**
-     * Handles the login of an existing client
+     * Maneja el inicio de sesión de un cliente existente
      *
-     * @return true if login was successful, false otherwise
+     * @return true si el inicio de sesión fue exitoso, false en caso contrario
      */
     private boolean loginExistingClient() {
-        System.out.print("Enter your client ID: ");
+        System.out.print("Ingrese su ID de cliente: ");
         String clientId = scanner.nextLine().trim();
 
         Optional<Client> clientOpt = clientService.getClientById(clientId);
 
         if (clientOpt.isPresent()) {
             this.currentClient = clientOpt.get();
-            System.out.println("Welcome back, " + currentClient.getName() + "!");
+            System.out.println("¡Bienvenido de nuevo, " + currentClient.getName() + "!");
             return true;
         } else {
-            System.out.println("Client not found. Would you like to register as a new client? (y/n)");
+            System.out.println("Cliente no encontrado. ¿Desea registrarse como nuevo cliente? (s/n)");
             String response = scanner.nextLine().trim().toLowerCase();
 
-            if (response.equals("y") || response.equals("yes")) {
+            if (response.equals("s") || response.equals("si")) {
                 return registerNewClient();
             } else {
                 return false;
@@ -92,48 +92,48 @@ public class ClientMenu implements Menu {
     }
 
     /**
-     * Handles the registration of a new client
+     * Maneja el registro de un nuevo cliente
      *
-     * @return true if registration was successful, false otherwise
+     * @return true si el registro fue exitoso, false en caso contrario
      */
     private boolean registerNewClient() {
-        System.out.println("\n=== New Client Registration ===");
+        System.out.println("\n=== Registro de Nuevo Cliente ===");
 
-        System.out.print("Enter your ID (e.g., national ID, passport): ");
+        System.out.print("Ingrese su ID (ej. DUI, pasaporte): ");
         String id = scanner.nextLine().trim();
 
-        // Check if client already exists
+        // Verificar si el cliente ya existe
         if (clientService.getClientById(id).isPresent()) {
-            System.out.println("A client with this ID already exists. Please login instead.");
+            System.out.println("Ya existe un cliente con este ID. Por favor inicie sesión en su lugar.");
             return loginExistingClient();
         }
 
-        System.out.print("Enter your full name: ");
+        System.out.print("Ingrese su nombre completo: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Enter contact information (phone or email): ");
+        System.out.print("Ingrese información de contacto (teléfono o correo): ");
         String contactInfo = scanner.nextLine().trim();
 
         Client newClient = new Client(id, name, contactInfo);
 
         if (clientService.registerClient(newClient)) {
             this.currentClient = newClient;
-            System.out.println("Registration successful! Welcome, " + name + "!");
+            System.out.println("¡Registro exitoso! Bienvenido, " + name + "!");
             return true;
         } else {
-            System.out.println("Registration failed. Please try again later.");
+            System.out.println("Error en el registro. Por favor intente más tarde.");
             return false;
         }
     }
 
     @Override
     public void displayMenu() {
-        System.out.println("\n=== Client Menu ===");
-        System.out.println("1. Request a new ticket");
-        System.out.println("2. Check queue status");
-        System.out.println("3. View my tickets");
-        System.out.println("4. Cancel a ticket");
-        System.out.println("0. Exit");
+        System.out.println("\n=== Menú de Cliente ===");
+        System.out.println("1. Solicitar un nuevo turno");
+        System.out.println("2. Verificar estado de la cola");
+        System.out.println("3. Ver mis turnos");
+        System.out.println("4. Cancelar un turno");
+        System.out.println("0. Salir");
     }
 
     @Override
@@ -152,127 +152,127 @@ public class ClientMenu implements Menu {
                 cancelTicket();
                 return true;
             case "0":
-                System.out.println("Thank you for using our service. Goodbye!");
+                System.out.println("Gracias por usar nuestro servicio. ¡Hasta pronto!");
                 return false;
             default:
-                System.out.println("Invalid option. Please try again.");
+                System.out.println("Opción inválida. Por favor, intente nuevamente.");
                 return true;
         }
     }
 
     /**
-     * Handles the process of requesting a new ticket
+     * Maneja el proceso de solicitar un nuevo turno
      */
     private void requestTicket() {
-        System.out.println("\n=== Request a Ticket ===");
+        System.out.println("\n=== Solicitar un Turno ===");
 
-        // Get active categories
+        // Obtener categorías activas
         List<Category> activeCategories = categoryService.getAllActiveCategories();
 
         if (activeCategories.isEmpty()) {
-            System.out.println("Sorry, there are no active service categories at the moment.");
+            System.out.println("Lo sentimos, no hay categorías de servicio activas en este momento.");
             return;
         }
 
-        // Display categories
-        System.out.println("Available service categories:");
+        // Mostrar categorías
+        System.out.println("Categorías de servicio disponibles:");
         for (int i = 0; i < activeCategories.size(); i++) {
             Category category = activeCategories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " - " + category.getDescription());
         }
 
-        // Get user selection
-        System.out.print("Select a category (1-" + activeCategories.size() + "): ");
+        // Obtener selección del usuario
+        System.out.print("Seleccione una categoría (1-" + activeCategories.size() + "): ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
 
             if (selection < 1 || selection > activeCategories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = activeCategories.get(selection - 1);
 
-            // Create the ticket
+            // Crear el turno
             Ticket ticket = ticketService.createTicket(currentClient.getId(), selectedCategory.getId());
 
             if (ticket != null) {
-                System.out.println("Ticket created successfully!");
-                System.out.println("Your ticket code is: " + ticket.getCode());
-                System.out.println("Category: " + selectedCategory.getName());
-                System.out.println("Current position in queue: " + ticketService.getTicketQueuePosition(ticket.getCode()));
+                System.out.println("¡Turno creado exitosamente!");
+                System.out.println("Su código de turno es: " + ticket.getCode());
+                System.out.println("Categoría: " + selectedCategory.getName());
+                System.out.println("Posición actual en cola: " + ticketService.getTicketQueuePosition(ticket.getCode()));
             } else {
-                System.out.println("Failed to create a ticket. Please try again later.");
+                System.out.println("Error al crear el turno. Por favor intente más tarde.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles the process of checking the status of a queue
+     * Maneja el proceso de verificar el estado de una cola
      */
     private void checkQueueStatus() {
-        System.out.println("\n=== Queue Status ===");
+        System.out.println("\n=== Estado de la Cola ===");
 
-        // Get active categories
+        // Obtener categorías activas
         List<Category> categories = categoryService.getAllActiveCategories();
 
         if (categories.isEmpty()) {
-            System.out.println("There are no active service categories at the moment.");
+            System.out.println("No hay categorías de servicio activas en este momento.");
             return;
         }
 
-        // Display each category's queue status
+        // Mostrar estado de cola para cada categoría
         for (Category category : categories) {
             int pendingTickets = category.countPendingTickets();
-            System.out.println(category.getName() + ": " + pendingTickets + " tickets waiting");
+            System.out.println(category.getName() + ": " + pendingTickets + " turnos en espera");
 
-            // Option to see more details
+            // Opción para ver más detalles
             if (pendingTickets > 0) {
-                System.out.println("  * Estimated waiting time: ~" + (pendingTickets * 10) + " minutes");
+                System.out.println("  * Tiempo estimado de espera: ~" + (pendingTickets * 10) + " minutos");
             }
         }
     }
 
     /**
-     * Displays the client's tickets and their status
+     * Muestra los turnos del cliente y su estado
      */
     private void viewMyTickets() {
-        System.out.println("\n=== My Tickets ===");
+        System.out.println("\n=== Mis Turnos ===");
 
         List<Ticket> clientTickets = ticketService.getTicketsByClient(currentClient.getId());
 
         if (clientTickets.isEmpty()) {
-            System.out.println("You have no tickets.");
+            System.out.println("No tiene turnos.");
             return;
         }
 
         for (Ticket ticket : clientTickets) {
-            System.out.println("Code: " + ticket.getCode());
-            System.out.println("  Category: " + (ticket.getCategory() != null ? ticket.getCategory().getName() : "N/A"));
-            System.out.println("  Status: " + ticket.getStatus());
-            System.out.println("  Generated: " + ticket.getGenerationTime());
+            System.out.println("Código: " + ticket.getCode());
+            System.out.println("  Categoría: " + (ticket.getCategory() != null ? ticket.getCategory().getName() : "N/A"));
+            System.out.println("  Estado: " + translateStatus(ticket.getStatus()));
+            System.out.println("  Generado: " + ticket.getGenerationTime());
 
             if ("WAITING".equals(ticket.getStatus())) {
                 int position = ticketService.getTicketQueuePosition(ticket.getCode());
-                System.out.println("  Queue position: " + (position > 0 ? position : "Unknown"));
+                System.out.println("  Posición en cola: " + (position > 0 ? position : "Desconocida"));
             }
 
             if (ticket.getAttentionTime() != null) {
-                System.out.println("  Started service: " + ticket.getAttentionTime());
+                System.out.println("  Inicio de atención: " + ticket.getAttentionTime());
             }
 
             if (ticket.getCompletionTime() != null) {
-                System.out.println("  Completed: " + ticket.getCompletionTime());
+                System.out.println("  Completado: " + ticket.getCompletionTime());
             }
 
-            System.out.println("  Waiting time: " + ticket.calculateWaitingTime() + " minutes");
+            System.out.println("  Tiempo de espera: " + ticket.calculateWaitingTime() + " minutos");
 
             if ("IN_PROGRESS".equals(ticket.getStatus()) || "COMPLETED".equals(ticket.getStatus())) {
-                System.out.println("  Service time: " + ticket.calculateServiceTime() + " minutes");
+                System.out.println("  Tiempo de servicio: " + ticket.calculateServiceTime() + " minutos");
             }
 
             System.out.println("-----");
@@ -280,28 +280,44 @@ public class ClientMenu implements Menu {
     }
 
     /**
-     * Handles the process of canceling a ticket
+     * Traduce los estados del turno a español
+     *
+     * @param status El estado del turno en inglés
+     * @return El estado del turno traducido al español
+     */
+    private String translateStatus(String status) {
+        switch (status) {
+            case "WAITING": return "En espera";
+            case "IN_PROGRESS": return "En atención";
+            case "COMPLETED": return "Completado";
+            case "CANCELLED": return "Cancelado";
+            default: return status;
+        }
+    }
+
+    /**
+     * Maneja el proceso de cancelar un turno
      */
     private void cancelTicket() {
-        System.out.println("\n=== Cancel a Ticket ===");
+        System.out.println("\n=== Cancelar un Turno ===");
 
         List<Ticket> waitingTickets = ticketService.getTicketsByClient(currentClient.getId()).stream()
                 .filter(ticket -> "WAITING".equals(ticket.getStatus()))
                 .toList();
 
         if (waitingTickets.isEmpty()) {
-            System.out.println("You have no waiting tickets that can be canceled.");
+            System.out.println("No tiene turnos en espera que puedan ser cancelados.");
             return;
         }
 
-        System.out.println("Your waiting tickets:");
+        System.out.println("Sus turnos en espera:");
         for (int i = 0; i < waitingTickets.size(); i++) {
             Ticket ticket = waitingTickets.get(i);
             System.out.println((i + 1) + ". " + ticket.getCode() + " - " +
                     (ticket.getCategory() != null ? ticket.getCategory().getName() : "N/A"));
         }
 
-        System.out.print("Select a ticket to cancel (1-" + waitingTickets.size() + ") or 0 to go back: ");
+        System.out.print("Seleccione un turno para cancelar (1-" + waitingTickets.size() + ") o 0 para volver: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -311,32 +327,32 @@ public class ClientMenu implements Menu {
             }
 
             if (selection < 1 || selection > waitingTickets.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Ticket selectedTicket = waitingTickets.get(selection - 1);
 
-            System.out.println("Are you sure you want to cancel ticket " + selectedTicket.getCode() + "? (y/n)");
+            System.out.println("¿Está seguro que desea cancelar el turno " + selectedTicket.getCode() + "? (s/n)");
             String confirmation = scanner.nextLine().trim().toLowerCase();
 
-            if (confirmation.equals("y") || confirmation.equals("yes")) {
+            if (confirmation.equals("s") || confirmation.equals("si")) {
                 if (ticketService.cancelTicket(selectedTicket.getCode())) {
-                    System.out.println("Ticket successfully canceled.");
+                    System.out.println("Turno cancelado exitosamente.");
                 } else {
-                    System.out.println("Failed to cancel the ticket. Please try again later.");
+                    System.out.println("Error al cancelar el turno. Por favor intente más tarde.");
                 }
             } else {
-                System.out.println("Cancellation aborted.");
+                System.out.println("Cancelación abortada.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Starts the client menu after identifying the client
+     * Inicia el menú del cliente después de identificar al cliente
      */
     public void start() {
         if (identifyClient()) {

@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 /**
- * Menu for administrator interactions with the system.
+ * Menú para las interacciones del administrador con el sistema.
  */
 public class AdminMenu implements Menu {
     private final Scanner scanner;
@@ -27,13 +27,13 @@ public class AdminMenu implements Menu {
     private Administrator currentAdmin;
 
     /**
-     * Constructor with dependencies
+     * Constructor con dependencias
      *
-     * @param scanner           Scanner for reading user input
-     * @param userService       Service for user operations
-     * @param categoryService   Service for category operations
-     * @param stationService    Service for station operations
-     * @param statisticsService Service for statistics operations
+     * @param scanner           Scanner para leer la entrada del usuario
+     * @param userService       Servicio para operaciones de usuario
+     * @param categoryService   Servicio para operaciones de categoría
+     * @param stationService    Servicio para operaciones de estación
+     * @param statisticsService Servicio para operaciones de estadísticas
      */
     public AdminMenu(Scanner scanner, UserService userService, CategoryService categoryService,
                      StationService stationService, StatisticsService statisticsService) {
@@ -45,40 +45,40 @@ public class AdminMenu implements Menu {
     }
 
     /**
-     * Prompts the user to enter their administrator credentials
+     * Solicita al usuario que ingrese sus credenciales de administrador
      *
-     * @return true if authentication was successful, false otherwise
+     * @return true si la autenticación fue exitosa, false en caso contrario
      */
     public boolean authenticate() {
-        System.out.println("\n=== Administrator Login ===");
+        System.out.println("\n=== Inicio de Sesión de Administrador ===");
 
-        System.out.print("Enter your ID: ");
+        System.out.print("Ingrese su ID: ");
         String id = scanner.nextLine().trim();
 
-        System.out.print("Enter your password: ");
+        System.out.print("Ingrese su contraseña: ");
         String password = scanner.nextLine().trim();
 
         Optional<Administrator> adminOpt = userService.getAdministratorById(id);
 
         if (adminOpt.isPresent() && adminOpt.get().login(id, password)) {
             currentAdmin = adminOpt.get();
-            System.out.println("Login successful! Welcome, Administrator " + currentAdmin.getName() + "!");
+            System.out.println("¡Inicio de sesión exitoso! Bienvenido, Administrador " + currentAdmin.getName() + "!");
             return true;
         } else {
-            System.out.println("Invalid credentials. Please try again.");
+            System.out.println("Credenciales inválidas. Por favor, intente nuevamente.");
             return false;
         }
     }
 
     @Override
     public void displayMenu() {
-        System.out.println("\n=== Administrator Menu ===");
-        System.out.println("1. Manage Categories");
-        System.out.println("2. Manage Stations");
-        System.out.println("3. Manage Employees");
-        System.out.println("4. View Statistics");
-        System.out.println("5. Generate Reports");
-        System.out.println("0. Logout");
+        System.out.println("\n=== Menú de Administrador ===");
+        System.out.println("1. Gestionar Categorías");
+        System.out.println("2. Gestionar Estaciones");
+        System.out.println("3. Gestionar Empleados");
+        System.out.println("4. Ver Estadísticas");
+        System.out.println("5. Generar Informes");
+        System.out.println("0. Cerrar Sesión");
     }
 
     @Override
@@ -100,29 +100,29 @@ public class AdminMenu implements Menu {
                 generateReports();
                 return true;
             case "0":
-                System.out.println("Logging out. Goodbye, Administrator " + currentAdmin.getName() + "!");
+                System.out.println("Cerrando sesión. ¡Hasta pronto, Administrador " + currentAdmin.getName() + "!");
                 return false;
             default:
-                System.out.println("Invalid option. Please try again.");
+                System.out.println("Opción inválida. Por favor, intente nuevamente.");
                 return true;
         }
     }
 
     /**
-     * Displays and handles the categories management submenu
+     * Muestra y maneja el submenú de gestión de categorías
      */
     private void manageCategoriesMenu() {
         boolean continueMenu = true;
 
         while (continueMenu) {
-            System.out.println("\n=== Manage Categories ===");
-            System.out.println("1. View all categories");
-            System.out.println("2. Create new category");
-            System.out.println("3. Activate/Deactivate category");
-            System.out.println("4. Update category details");
-            System.out.println("0. Back to main menu");
+            System.out.println("\n=== Gestionar Categorías ===");
+            System.out.println("1. Ver todas las categorías");
+            System.out.println("2. Crear nueva categoría");
+            System.out.println("3. Activar/Desactivar categoría");
+            System.out.println("4. Actualizar detalles de categoría");
+            System.out.println("0. Volver al menú principal");
 
-            System.out.print("Select an option: ");
+            System.out.print("Seleccione una opción: ");
             String option = scanner.nextLine().trim();
 
             switch (option) {
@@ -142,96 +142,96 @@ public class AdminMenu implements Menu {
                     continueMenu = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
             }
         }
     }
 
     /**
-     * Displays all categories
+     * Muestra todas las categorías
      */
     private void viewAllCategories() {
-        System.out.println("\n=== All Categories ===");
+        System.out.println("\n=== Todas las Categorías ===");
 
         List<Category> categories = categoryService.getAllCategories();
 
         if (categories.isEmpty()) {
-            System.out.println("No categories found.");
+            System.out.println("No se encontraron categorías.");
             return;
         }
 
         for (Category category : categories) {
             System.out.println("ID: " + category.getId());
-            System.out.println("Name: " + category.getName());
-            System.out.println("Description: " + category.getDescription());
-            System.out.println("Prefix: " + category.getPrefix());
-            System.out.println("Status: " + (category.isActive() ? "Active" : "Inactive"));
-            System.out.println("Pending tickets: " + category.countPendingTickets());
-            System.out.println("Assigned employees: " + category.getAssignedEmployees().size());
+            System.out.println("Nombre: " + category.getName());
+            System.out.println("Descripción: " + category.getDescription());
+            System.out.println("Prefijo: " + category.getPrefix());
+            System.out.println("Estado: " + (category.isActive() ? "Activo" : "Inactivo"));
+            System.out.println("Turnos pendientes: " + category.countPendingTickets());
+            System.out.println("Empleados asignados: " + category.getAssignedEmployees().size());
             System.out.println("-----");
         }
     }
 
     /**
-     * Handles creating a new category
+     * Maneja la creación de una nueva categoría
      */
     private void createCategory() {
-        System.out.println("\n=== Create New Category ===");
+        System.out.println("\n=== Crear Nueva Categoría ===");
 
-        System.out.print("Enter category name: ");
+        System.out.print("Ingrese nombre de la categoría: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Enter category description: ");
+        System.out.print("Ingrese descripción de la categoría: ");
         String description = scanner.nextLine().trim();
 
-        System.out.print("Enter category prefix (e.g., GEN, FIN): ");
+        System.out.print("Ingrese prefijo de la categoría (ej. GEN, FIN): ");
         String prefix = scanner.nextLine().trim().toUpperCase();
 
         if (name.isEmpty() || prefix.isEmpty()) {
-            System.out.println("Name and prefix are required. Operation cancelled.");
+            System.out.println("Nombre y prefijo son obligatorios. Operación cancelada.");
             return;
         }
 
-        // Check if a category with this prefix already exists
+        // Verificar si ya existe una categoría con este prefijo
         if (categoryService.getCategoryByPrefix(prefix).isPresent()) {
-            System.out.println("A category with this prefix already exists. Please use a different prefix.");
+            System.out.println("Ya existe una categoría con este prefijo. Por favor use un prefijo diferente.");
             return;
         }
 
         Category newCategory = categoryService.createCategory(name, description, prefix);
 
         if (newCategory != null) {
-            System.out.println("Category created successfully!");
+            System.out.println("¡Categoría creada exitosamente!");
             System.out.println("ID: " + newCategory.getId());
-            System.out.println("Name: " + newCategory.getName());
-            System.out.println("Prefix: " + newCategory.getPrefix());
+            System.out.println("Nombre: " + newCategory.getName());
+            System.out.println("Prefijo: " + newCategory.getPrefix());
         } else {
-            System.out.println("Failed to create category. Please try again.");
+            System.out.println("Error al crear la categoría. Por favor, intente nuevamente.");
         }
     }
 
     /**
-     * Handles activating or deactivating a category
+     * Maneja la activación o desactivación de una categoría
      */
     private void toggleCategoryStatus() {
-        System.out.println("\n=== Activate/Deactivate Category ===");
+        System.out.println("\n=== Activar/Desactivar Categoría ===");
 
-        // Display categories
+        // Mostrar categorías
         List<Category> categories = categoryService.getAllCategories();
 
         if (categories.isEmpty()) {
-            System.out.println("No categories found.");
+            System.out.println("No se encontraron categorías.");
             return;
         }
 
         for (int i = 0; i < categories.size(); i++) {
             Category category = categories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " [" +
-                    (category.isActive() ? "Active" : "Inactive") + "]");
+                    (category.isActive() ? "Activo" : "Inactivo") + "]");
         }
 
-        // Get user selection
-        System.out.print("Select a category to toggle (1-" + categories.size() + ") or 0 to cancel: ");
+        // Obtener selección del usuario
+        System.out.print("Seleccione una categoría para cambiar su estado (1-" + categories.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -241,57 +241,57 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > categories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = categories.get(selection - 1);
 
-            // Toggle status
+            // Cambiar estado
             boolean success;
             if (selectedCategory.isActive()) {
                 success = categoryService.deactivateCategory(selectedCategory.getId());
                 if (success) {
-                    System.out.println("Category '" + selectedCategory.getName() + "' has been deactivated.");
+                    System.out.println("La categoría '" + selectedCategory.getName() + "' ha sido desactivada.");
                 }
             } else {
                 success = categoryService.activateCategory(selectedCategory.getId());
                 if (success) {
-                    System.out.println("Category '" + selectedCategory.getName() + "' has been activated.");
+                    System.out.println("La categoría '" + selectedCategory.getName() + "' ha sido activada.");
                 }
             }
 
             if (!success) {
-                System.out.println("Failed to update category status. Please try again.");
+                System.out.println("Error al actualizar el estado de la categoría. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles updating category details
+     * Maneja la actualización de detalles de una categoría
      */
     private void updateCategory() {
-        System.out.println("\n=== Update Category ===");
+        System.out.println("\n=== Actualizar Categoría ===");
 
-        // Display categories
+        // Mostrar categorías
         List<Category> categories = categoryService.getAllCategories();
 
         if (categories.isEmpty()) {
-            System.out.println("No categories found.");
+            System.out.println("No se encontraron categorías.");
             return;
         }
 
         for (int i = 0; i < categories.size(); i++) {
             Category category = categories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " [" +
-                    (category.isActive() ? "Active" : "Inactive") + "]");
+                    (category.isActive() ? "Activo" : "Inactivo") + "]");
         }
 
-        // Get user selection
-        System.out.print("Select a category to update (1-" + categories.size() + ") or 0 to cancel: ");
+        // Obtener selección del usuario
+        System.out.print("Seleccione una categoría para actualizar (1-" + categories.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -301,75 +301,75 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > categories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = categories.get(selection - 1);
 
-            // Update fields
-            System.out.println("Updating category: " + selectedCategory.getName());
-            System.out.println("Leave field empty to keep current value");
+            // Actualizar campos
+            System.out.println("Actualizando categoría: " + selectedCategory.getName());
+            System.out.println("Deje el campo vacío para mantener el valor actual");
 
-            System.out.print("New name [" + selectedCategory.getName() + "]: ");
+            System.out.print("Nuevo nombre [" + selectedCategory.getName() + "]: ");
             String name = scanner.nextLine().trim();
             if (!name.isEmpty()) {
                 selectedCategory.setName(name);
             }
 
-            System.out.print("New description [" + selectedCategory.getDescription() + "]: ");
+            System.out.print("Nueva descripción [" + selectedCategory.getDescription() + "]: ");
             String description = scanner.nextLine().trim();
             if (!description.isEmpty()) {
                 selectedCategory.setDescription(description);
             }
 
-            // Prefix is more critical, so confirm changes
-            System.out.print("New prefix [" + selectedCategory.getPrefix() + "]: ");
+            // El prefijo es más crítico, así que confirmar cambios
+            System.out.print("Nuevo prefijo [" + selectedCategory.getPrefix() + "]: ");
             String prefix = scanner.nextLine().trim().toUpperCase();
             if (!prefix.isEmpty() && !prefix.equals(selectedCategory.getPrefix())) {
-                // Check if prefix is already in use
+                // Verificar si el prefijo ya está en uso
                 Optional<Category> existingCategory = categoryService.getCategoryByPrefix(prefix);
                 if (existingCategory.isPresent() && existingCategory.get().getId() != selectedCategory.getId()) {
-                    System.out.println("This prefix is already in use by another category. Prefix not updated.");
+                    System.out.println("Este prefijo ya está en uso por otra categoría. Prefijo no actualizado.");
                 } else {
-                    System.out.println("Warning: Changing the prefix may affect existing tickets.");
-                    System.out.println("Are you sure you want to change it? (y/n)");
+                    System.out.println("Advertencia: Cambiar el prefijo puede afectar a los turnos existentes.");
+                    System.out.println("¿Está seguro de que desea cambiarlo? (s/n)");
                     String confirmation = scanner.nextLine().trim().toLowerCase();
 
-                    if (confirmation.equals("y") || confirmation.equals("yes")) {
+                    if (confirmation.equals("s") || confirmation.equals("si")) {
                         selectedCategory.setPrefix(prefix);
                     }
                 }
             }
 
-            // Save changes
+            // Guardar cambios
             if (categoryService.updateCategory(selectedCategory)) {
-                System.out.println("Category updated successfully!");
+                System.out.println("¡Categoría actualizada exitosamente!");
             } else {
-                System.out.println("Failed to update category. Please try again.");
+                System.out.println("Error al actualizar la categoría. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Displays and handles the stations management submenu
+     * Muestra y maneja el submenú de gestión de estaciones
      */
     private void manageStationsMenu() {
         boolean continueMenu = true;
 
         while (continueMenu) {
-            System.out.println("\n=== Manage Stations ===");
-            System.out.println("1. View all stations");
-            System.out.println("2. Create new station");
-            System.out.println("3. Open/Close station");
-            System.out.println("4. Assign employee to station");
-            System.out.println("5. Configure station categories");
-            System.out.println("0. Back to main menu");
+            System.out.println("\n=== Gestionar Estaciones ===");
+            System.out.println("1. Ver todas las estaciones");
+            System.out.println("2. Crear nueva estación");
+            System.out.println("3. Abrir/Cerrar estación");
+            System.out.println("4. Asignar empleado a estación");
+            System.out.println("5. Configurar categorías de estación");
+            System.out.println("0. Volver al menú principal");
 
-            System.out.print("Select an option: ");
+            System.out.print("Seleccione una opción: ");
             String option = scanner.nextLine().trim();
 
             switch (option) {
@@ -392,39 +392,39 @@ public class AdminMenu implements Menu {
                     continueMenu = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
             }
         }
     }
 
     /**
-     * Displays all stations
+     * Muestra todas las estaciones
      */
     private void viewAllStations() {
-        System.out.println("\n=== All Stations ===");
+        System.out.println("\n=== Todas las Estaciones ===");
 
         List<Station> stations = stationService.getAllStations();
 
         if (stations.isEmpty()) {
-            System.out.println("No stations found.");
+            System.out.println("No se encontraron estaciones.");
             return;
         }
 
         for (Station station : stations) {
             System.out.println("ID: " + station.getId());
-            System.out.println("Number: " + station.getNumber());
-            System.out.println("Status: " + station.getStatus());
+            System.out.println("Número: " + station.getNumber());
+            System.out.println("Estado: " + translateStationStatus(station.getStatus()));
 
             Employee assignedEmployee = station.getAssignedEmployee();
-            System.out.println("Assigned employee: " +
-                    (assignedEmployee != null ? assignedEmployee.getName() : "None"));
+            System.out.println("Empleado asignado: " +
+                    (assignedEmployee != null ? assignedEmployee.getName() : "Ninguno"));
 
             List<Category> categories = station.getSupportedCategories();
-            System.out.println("Supported categories: " +
-                    (categories.isEmpty() ? "None" : categories.size() + " categories"));
+            System.out.println("Categorías soportadas: " +
+                    (categories.isEmpty() ? "Ninguna" : categories.size() + " categorías"));
 
             if (!categories.isEmpty()) {
-                System.out.println("Categories:");
+                System.out.println("Categorías:");
                 for (Category category : categories) {
                     System.out.println("  - " + category.getName() + " [" + category.getPrefix() + "]");
                 }
@@ -435,65 +435,79 @@ public class AdminMenu implements Menu {
     }
 
     /**
-     * Handles creating a new station
+     * Traduce los estados de estación a español
+     *
+     * @param status El estado de la estación en inglés
+     * @return El estado de la estación traducido al español
+     */
+    private String translateStationStatus(String status) {
+        switch (status) {
+            case "OPEN": return "Abierta";
+            case "CLOSED": return "Cerrada";
+            default: return status;
+        }
+    }
+
+    /**
+     * Maneja la creación de una nueva estación
      */
     private void createStation() {
-        System.out.println("\n=== Create New Station ===");
+        System.out.println("\n=== Crear Nueva Estación ===");
 
-        System.out.print("Enter station number: ");
+        System.out.print("Ingrese número de estación: ");
 
         try {
             int stationNumber = Integer.parseInt(scanner.nextLine().trim());
 
             if (stationNumber <= 0) {
-                System.out.println("Station number must be positive. Operation cancelled.");
+                System.out.println("El número de estación debe ser positivo. Operación cancelada.");
                 return;
             }
 
-            // Check if a station with this number already exists
+            // Verificar si ya existe una estación con este número
             if (stationService.getAllStations().stream()
                     .anyMatch(s -> s.getNumber() == stationNumber)) {
-                System.out.println("A station with this number already exists. Please use a different number.");
+                System.out.println("Ya existe una estación con este número. Por favor utilice un número diferente.");
                 return;
             }
 
             Station newStation = stationService.createStation(stationNumber);
 
             if (newStation != null) {
-                System.out.println("Station created successfully!");
+                System.out.println("¡Estación creada exitosamente!");
                 System.out.println("ID: " + newStation.getId());
-                System.out.println("Number: " + newStation.getNumber());
-                System.out.println("Status: " + newStation.getStatus());
+                System.out.println("Número: " + newStation.getNumber());
+                System.out.println("Estado: " + translateStationStatus(newStation.getStatus()));
             } else {
-                System.out.println("Failed to create station. Please try again.");
+                System.out.println("Error al crear la estación. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles opening or closing a station
+     * Maneja la apertura o cierre de una estación
      */
     private void toggleStationStatus() {
-        System.out.println("\n=== Open/Close Station ===");
+        System.out.println("\n=== Abrir/Cerrar Estación ===");
 
-        // Display stations
+        // Mostrar estaciones
         List<Station> stations = stationService.getAllStations();
 
         if (stations.isEmpty()) {
-            System.out.println("No stations found.");
+            System.out.println("No se encontraron estaciones.");
             return;
         }
 
         for (int i = 0; i < stations.size(); i++) {
             Station station = stations.get(i);
-            System.out.println((i + 1) + ". Station " + station.getNumber() + " [" + station.getStatus() + "]");
+            System.out.println((i + 1) + ". Estación " + station.getNumber() + " [" + translateStationStatus(station.getStatus()) + "]");
         }
 
-        // Get user selection
-        System.out.print("Select a station to toggle (1-" + stations.size() + ") or 0 to cancel: ");
+        // Obtener selección del usuario
+        System.out.print("Seleccione una estación para cambiar su estado (1-" + stations.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -503,66 +517,66 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > stations.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Station selectedStation = stations.get(selection - 1);
 
-            // Toggle status
+            // Cambiar estado
             boolean success;
             if ("OPEN".equals(selectedStation.getStatus())) {
                 success = stationService.closeStation(selectedStation.getId());
                 if (success) {
-                    System.out.println("Station " + selectedStation.getNumber() + " has been closed.");
+                    System.out.println("La estación " + selectedStation.getNumber() + " ha sido cerrada.");
                 }
             } else {
-                // Check if station has an employee assigned
+                // Verificar si la estación tiene un empleado asignado
                 if (selectedStation.getAssignedEmployee() == null) {
-                    System.out.println("Cannot open station without an assigned employee.");
+                    System.out.println("No se puede abrir la estación sin un empleado asignado.");
                     return;
                 }
 
                 success = stationService.openStation(selectedStation.getId());
                 if (success) {
-                    System.out.println("Station " + selectedStation.getNumber() + " has been opened.");
+                    System.out.println("La estación " + selectedStation.getNumber() + " ha sido abierta.");
                 }
             }
 
             if (!success) {
-                System.out.println("Failed to update station status. Please try again.");
+                System.out.println("Error al actualizar el estado de la estación. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles assigning an employee to a station
+     * Maneja la asignación de un empleado a una estación
      */
     private void assignEmployeeToStation() {
-        System.out.println("\n=== Assign Employee to Station ===");
+        System.out.println("\n=== Asignar Empleado a Estación ===");
 
-        // Display stations
+        // Mostrar estaciones
         List<Station> stations = stationService.getAllStations();
 
         if (stations.isEmpty()) {
-            System.out.println("No stations found.");
+            System.out.println("No se encontraron estaciones.");
             return;
         }
 
-        System.out.println("Select station:");
+        System.out.println("Seleccione estación:");
         for (int i = 0; i < stations.size(); i++) {
             Station station = stations.get(i);
             Employee currentEmployee = station.getAssignedEmployee();
 
-            System.out.println((i + 1) + ". Station " + station.getNumber() + " - Employee: " +
-                    (currentEmployee != null ? currentEmployee.getName() : "None"));
+            System.out.println((i + 1) + ". Estación " + station.getNumber() + " - Empleado: " +
+                    (currentEmployee != null ? currentEmployee.getName() : "Ninguno"));
         }
 
-        // Get station selection
-        System.out.print("Select a station (1-" + stations.size() + ") or 0 to cancel: ");
+        // Obtener selección de estación
+        System.out.print("Seleccione una estación (1-" + stations.size() + ") o 0 para cancelar: ");
 
         try {
             int stationSelection = Integer.parseInt(scanner.nextLine().trim());
@@ -572,46 +586,46 @@ public class AdminMenu implements Menu {
             }
 
             if (stationSelection < 1 || stationSelection > stations.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Station selectedStation = stations.get(stationSelection - 1);
 
-            // Get available employees
+            // Obtener empleados disponibles
             List<Employee> employees = userService.getAllEmployees();
 
             if (employees.isEmpty()) {
-                System.out.println("No employees found.");
+                System.out.println("No se encontraron empleados.");
                 return;
             }
 
-            System.out.println("\nSelect employee to assign:");
-            System.out.println("0. Remove current assignment");
+            System.out.println("\nSeleccione empleado para asignar:");
+            System.out.println("0. Eliminar asignación actual");
 
             for (int i = 0; i < employees.size(); i++) {
                 Employee employee = employees.get(i);
                 Station currentStation = employee.getAssignedStation();
 
-                System.out.println((i + 1) + ". " + employee.getName() + " - Current station: " +
-                        (currentStation != null ? currentStation.getNumber() : "None"));
+                System.out.println((i + 1) + ". " + employee.getName() + " - Estación actual: " +
+                        (currentStation != null ? currentStation.getNumber() : "Ninguna"));
             }
 
-            // Get employee selection
-            System.out.print("Select an employee (0-" + employees.size() + "): ");
+            // Obtener selección de empleado
+            System.out.print("Seleccione un empleado (0-" + employees.size() + "): ");
 
             int employeeSelection = Integer.parseInt(scanner.nextLine().trim());
 
             if (employeeSelection < 0 || employeeSelection > employees.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
-            // Process the assignment
+            // Procesar la asignación
             boolean success;
 
             if (employeeSelection == 0) {
-                // Remove assignment
+                // Eliminar asignación
                 if (selectedStation.getAssignedEmployee() != null) {
                     Employee currentEmployee = selectedStation.getAssignedEmployee();
                     currentEmployee.setAssignedStation(null);
@@ -623,56 +637,56 @@ public class AdminMenu implements Menu {
                             .orElse(false);
 
                     if (success) {
-                        System.out.println("Employee removed from station " + selectedStation.getNumber() + ".");
+                        System.out.println("Empleado removido de la estación " + selectedStation.getNumber() + ".");
                     }
                 } else {
-                    System.out.println("Station already has no assigned employee.");
+                    System.out.println("La estación ya no tiene ningún empleado asignado.");
                     return;
                 }
             } else {
-                // Assign employee
+                // Asignar empleado
                 Employee selectedEmployee = employees.get(employeeSelection - 1);
 
                 success = stationService.assignEmployeeToStation(selectedStation.getId(), selectedEmployee.getId());
 
                 if (success) {
-                    System.out.println(selectedEmployee.getName() + " assigned to station " +
+                    System.out.println(selectedEmployee.getName() + " asignado a la estación " +
                             selectedStation.getNumber() + ".");
                 }
             }
 
             if (!success) {
-                System.out.println("Failed to update station assignment. Please try again.");
+                System.out.println("Error al actualizar la asignación de la estación. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles configuring categories supported by a station
+     * Maneja la configuración de categorías soportadas por una estación
      */
     private void configureStationCategories() {
-        System.out.println("\n=== Configure Station Categories ===");
+        System.out.println("\n=== Configurar Categorías de Estación ===");
 
-        // Display stations
+        // Mostrar estaciones
         List<Station> stations = stationService.getAllStations();
 
         if (stations.isEmpty()) {
-            System.out.println("No stations found.");
+            System.out.println("No se encontraron estaciones.");
             return;
         }
 
-        System.out.println("Select station:");
+        System.out.println("Seleccione estación:");
         for (int i = 0; i < stations.size(); i++) {
             Station station = stations.get(i);
-            System.out.println((i + 1) + ". Station " + station.getNumber() + " - Categories: " +
+            System.out.println((i + 1) + ". Estación " + station.getNumber() + " - Categorías: " +
                     station.getSupportedCategories().size());
         }
 
-        // Get station selection
-        System.out.print("Select a station (1-" + stations.size() + ") or 0 to cancel: ");
+        // Obtener selección de estación
+        System.out.print("Seleccione una estación (1-" + stations.size() + ") o 0 para cancelar: ");
 
         try {
             int stationSelection = Integer.parseInt(scanner.nextLine().trim());
@@ -682,23 +696,23 @@ public class AdminMenu implements Menu {
             }
 
             if (stationSelection < 1 || stationSelection > stations.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Station selectedStation = stations.get(stationSelection - 1);
 
-            // Display category management options
+            // Mostrar opciones de gestión de categorías
             boolean continueConfig = true;
 
             while (continueConfig) {
-                System.out.println("\nStation " + selectedStation.getNumber() + " - Category Configuration");
-                System.out.println("1. View supported categories");
-                System.out.println("2. Add category");
-                System.out.println("3. Remove category");
-                System.out.println("0. Back");
+                System.out.println("\nEstación " + selectedStation.getNumber() + " - Configuración de Categorías");
+                System.out.println("1. Ver categorías soportadas");
+                System.out.println("2. Agregar categoría");
+                System.out.println("3. Eliminar categoría");
+                System.out.println("0. Volver");
 
-                System.out.print("Select an option: ");
+                System.out.print("Seleccione una opción: ");
                 String option = scanner.nextLine().trim();
 
                 switch (option) {
@@ -715,46 +729,46 @@ public class AdminMenu implements Menu {
                         continueConfig = false;
                         break;
                     default:
-                        System.out.println("Invalid option. Please try again.");
+                        System.out.println("Opción inválida. Por favor, intente nuevamente.");
                 }
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Displays categories supported by a station
+     * Muestra las categorías soportadas por una estación
      *
-     * @param station The station to display categories for
+     * @param station La estación para la que mostrar categorías
      */
     private void viewStationCategories(Station station) {
-        System.out.println("\n=== Station " + station.getNumber() + " - Supported Categories ===");
+        System.out.println("\n=== Estación " + station.getNumber() + " - Categorías Soportadas ===");
 
         List<Category> categories = station.getSupportedCategories();
 
         if (categories.isEmpty()) {
-            System.out.println("This station doesn't support any categories yet.");
+            System.out.println("Esta estación aún no soporta ninguna categoría.");
             return;
         }
 
         for (int i = 0; i < categories.size(); i++) {
             Category category = categories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " [" + category.getPrefix() + "]" +
-                    (category.isActive() ? "" : " (Inactive)"));
+                    (category.isActive() ? "" : " (Inactiva)"));
         }
     }
 
     /**
-     * Handles adding a category to a station
+     * Maneja la adición de una categoría a una estación
      *
-     * @param station The station to add a category to
+     * @param station La estación a la que agregar una categoría
      */
     private void addCategoryToStation(Station station) {
-        System.out.println("\n=== Add Category to Station " + station.getNumber() + " ===");
+        System.out.println("\n=== Agregar Categoría a Estación " + station.getNumber() + " ===");
 
-        // Get categories not already supported by this station
+        // Obtener categorías que aún no son soportadas por esta estación
         List<Category> allCategories = categoryService.getAllCategories();
         List<Category> supportedCategories = station.getSupportedCategories();
 
@@ -763,19 +777,19 @@ public class AdminMenu implements Menu {
                 .toList();
 
         if (availableCategories.isEmpty()) {
-            System.out.println("There are no more categories available to add.");
+            System.out.println("No hay más categorías disponibles para agregar.");
             return;
         }
 
-        System.out.println("Select a category to add:");
+        System.out.println("Seleccione una categoría para agregar:");
         for (int i = 0; i < availableCategories.size(); i++) {
             Category category = availableCategories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " [" + category.getPrefix() + "]" +
-                    (category.isActive() ? "" : " (Inactive)"));
+                    (category.isActive() ? "" : " (Inactiva)"));
         }
 
-        // Get category selection
-        System.out.print("Select a category (1-" + availableCategories.size() + ") or 0 to cancel: ");
+        // Obtener selección de categoría
+        System.out.print("Seleccione una categoría (1-" + availableCategories.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -785,47 +799,47 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > availableCategories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = availableCategories.get(selection - 1);
 
             if (stationService.addCategoryToStation(station.getId(), selectedCategory.getId())) {
-                System.out.println("Category '" + selectedCategory.getName() +
-                        "' has been added to Station " + station.getNumber() + ".");
+                System.out.println("Categoría '" + selectedCategory.getName() +
+                        "' ha sido agregada a la Estación " + station.getNumber() + ".");
             } else {
-                System.out.println("Failed to add category to station. Please try again.");
+                System.out.println("Error al agregar la categoría a la estación. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles removing a category from a station
+     * Maneja la eliminación de una categoría de una estación
      *
-     * @param station The station to remove a category from
+     * @param station La estación de la que eliminar una categoría
      */
     private void removeCategoryFromStation(Station station) {
-        System.out.println("\n=== Remove Category from Station " + station.getNumber() + " ===");
+        System.out.println("\n=== Eliminar Categoría de Estación " + station.getNumber() + " ===");
 
         List<Category> supportedCategories = station.getSupportedCategories();
 
         if (supportedCategories.isEmpty()) {
-            System.out.println("This station doesn't support any categories yet.");
+            System.out.println("Esta estación aún no soporta ninguna categoría.");
             return;
         }
 
-        System.out.println("Select a category to remove:");
+        System.out.println("Seleccione una categoría para eliminar:");
         for (int i = 0; i < supportedCategories.size(); i++) {
             Category category = supportedCategories.get(i);
             System.out.println((i + 1) + ". " + category.getName() + " [" + category.getPrefix() + "]");
         }
 
-        // Get category selection
-        System.out.print("Select a category (1-" + supportedCategories.size() + ") or 0 to cancel: ");
+        // Obtener selección de categoría
+        System.out.print("Seleccione una categoría (1-" + supportedCategories.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -835,47 +849,47 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > supportedCategories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = supportedCategories.get(selection - 1);
 
-            System.out.println("Are you sure you want to remove the category '" +
-                    selectedCategory.getName() + "' from this station? (y/n)");
+            System.out.println("¿Está seguro de que desea eliminar la categoría '" +
+                    selectedCategory.getName() + "' de esta estación? (s/n)");
             String confirmation = scanner.nextLine().trim().toLowerCase();
 
-            if (confirmation.equals("y") || confirmation.equals("yes")) {
+            if (confirmation.equals("s") || confirmation.equals("si")) {
                 if (stationService.removeCategoryFromStation(station.getId(), selectedCategory.getId())) {
-                    System.out.println("Category '" + selectedCategory.getName() +
-                            "' has been removed from Station " + station.getNumber() + ".");
+                    System.out.println("Categoría '" + selectedCategory.getName() +
+                            "' ha sido eliminada de la Estación " + station.getNumber() + ".");
                 } else {
-                    System.out.println("Failed to remove category from station. Please try again.");
+                    System.out.println("Error al eliminar la categoría de la estación. Por favor, intente nuevamente.");
                 }
             } else {
-                System.out.println("Operation cancelled.");
+                System.out.println("Operación cancelada.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Displays and handles the employees management submenu
+     * Muestra y maneja el submenú de gestión de empleados
      */
     private void manageEmployeesMenu() {
         boolean continueMenu = true;
 
         while (continueMenu) {
-            System.out.println("\n=== Manage Employees ===");
-            System.out.println("1. View all employees");
-            System.out.println("2. Register new employee");
-            System.out.println("3. Assign employee to category");
-            System.out.println("4. Edit employee details");
-            System.out.println("0. Back to main menu");
+            System.out.println("\n=== Gestionar Empleados ===");
+            System.out.println("1. Ver todos los empleados");
+            System.out.println("2. Registrar nuevo empleado");
+            System.out.println("3. Asignar empleado a categoría");
+            System.out.println("4. Editar detalles de empleado");
+            System.out.println("0. Volver al menú principal");
 
-            System.out.print("Select an option: ");
+            System.out.print("Seleccione una opción: ");
             String option = scanner.nextLine().trim();
 
             switch (option) {
@@ -895,97 +909,113 @@ public class AdminMenu implements Menu {
                     continueMenu = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
             }
         }
     }
 
     /**
-     * Displays all employees
+     * Muestra todos los empleados
      */
     private void viewAllEmployees() {
-        System.out.println("\n=== All Employees ===");
+        System.out.println("\n=== Todos los Empleados ===");
 
         List<Employee> employees = userService.getAllEmployees();
 
         if (employees.isEmpty()) {
-            System.out.println("No employees found.");
+            System.out.println("No se encontraron empleados.");
             return;
         }
 
         for (Employee employee : employees) {
             System.out.println("ID: " + employee.getId());
-            System.out.println("Name: " + employee.getName());
-            System.out.println("Status: " + employee.getAvailabilityStatus());
+            System.out.println("Nombre: " + employee.getName());
+            System.out.println("Estado: " + translateEmployeeStatus(employee.getAvailabilityStatus()));
 
             Station station = employee.getAssignedStation();
-            System.out.println("Assigned station: " +
-                    (station != null ? station.getNumber() : "None"));
+            System.out.println("Estación asignada: " +
+                    (station != null ? station.getNumber() : "Ninguna"));
 
-            System.out.println("Tickets attended today: " + employee.getAttendedTickets().size());
+            System.out.println("Turnos atendidos hoy: " + employee.getAttendedTickets().size());
             System.out.println("-----");
         }
     }
 
     /**
-     * Handles registering a new employee
+     * Traduce los estados del empleado a español
+     *
+     * @param status El estado del empleado en inglés
+     * @return El estado del empleado traducido al español
+     */
+    private String translateEmployeeStatus(String status) {
+        switch (status) {
+            case "AVAILABLE": return "Disponible";
+            case "BUSY": return "Ocupado";
+            case "PAUSED": return "Pausado";
+            case "OFFLINE": return "Desconectado";
+            default: return status;
+        }
+    }
+
+    /**
+     * Maneja el registro de un nuevo empleado
      */
     private void registerEmployee() {
-        System.out.println("\n=== Register New Employee ===");
+        System.out.println("\n=== Registrar Nuevo Empleado ===");
 
-        System.out.print("Enter employee ID: ");
+        System.out.print("Ingrese ID de empleado: ");
         String id = scanner.nextLine().trim();
 
-        // Check if ID already exists
+        // Verificar si el ID ya existe
         if (userService.findUserById(id).isPresent()) {
-            System.out.println("A user with this ID already exists. Please use a different ID.");
+            System.out.println("Ya existe un usuario con este ID. Por favor use un ID diferente.");
             return;
         }
 
-        System.out.print("Enter employee name: ");
+        System.out.print("Ingrese nombre del empleado: ");
         String name = scanner.nextLine().trim();
 
-        System.out.print("Enter employee password: ");
+        System.out.print("Ingrese contraseña del empleado: ");
         String password = scanner.nextLine().trim();
 
         if (id.isEmpty() || name.isEmpty() || password.isEmpty()) {
-            System.out.println("ID, name, and password are required. Registration cancelled.");
+            System.out.println("ID, nombre y contraseña son obligatorios. Registro cancelado.");
             return;
         }
 
         Employee newEmployee = new Employee(id, name, password);
 
         if (userService.registerEmployee(newEmployee)) {
-            System.out.println("Employee registered successfully!");
+            System.out.println("¡Empleado registrado exitosamente!");
             System.out.println("ID: " + newEmployee.getId());
-            System.out.println("Name: " + newEmployee.getName());
+            System.out.println("Nombre: " + newEmployee.getName());
         } else {
-            System.out.println("Failed to register employee. Please try again.");
+            System.out.println("Error al registrar el empleado. Por favor, intente nuevamente.");
         }
     }
 
     /**
-     * Handles assigning an employee to a category
+     * Maneja la asignación de un empleado a una categoría
      */
     private void assignEmployeeToCategory() {
-        System.out.println("\n=== Assign Employee to Category ===");
+        System.out.println("\n=== Asignar Empleado a Categoría ===");
 
-        // Display employees
+        // Mostrar empleados
         List<Employee> employees = userService.getAllEmployees();
 
         if (employees.isEmpty()) {
-            System.out.println("No employees found.");
+            System.out.println("No se encontraron empleados.");
             return;
         }
 
-        System.out.println("Select employee:");
+        System.out.println("Seleccione empleado:");
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
             System.out.println((i + 1) + ". " + employee.getName());
         }
 
-        // Get employee selection
-        System.out.print("Select an employee (1-" + employees.size() + ") or 0 to cancel: ");
+        // Obtener selección de empleado
+        System.out.print("Seleccione un empleado (1-" + employees.size() + ") o 0 para cancelar: ");
 
         try {
             int employeeSelection = Integer.parseInt(scanner.nextLine().trim());
@@ -995,31 +1025,31 @@ public class AdminMenu implements Menu {
             }
 
             if (employeeSelection < 1 || employeeSelection > employees.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Employee selectedEmployee = employees.get(employeeSelection - 1);
 
-            // Display categories
+            // Mostrar categorías
             List<Category> categories = categoryService.getAllCategories();
 
             if (categories.isEmpty()) {
-                System.out.println("No categories found.");
+                System.out.println("No se encontraron categorías.");
                 return;
             }
 
-            System.out.println("\nSelect category to assign " + selectedEmployee.getName() + " to:");
+            System.out.println("\nSeleccione categoría para asignar a " + selectedEmployee.getName() + ":");
             for (int i = 0; i < categories.size(); i++) {
                 Category category = categories.get(i);
                 boolean isAssigned = category.getAssignedEmployees().contains(selectedEmployee);
 
                 System.out.println((i + 1) + ". " + category.getName() +
-                        (isAssigned ? " [Already assigned]" : ""));
+                        (isAssigned ? " [Ya asignado]" : ""));
             }
 
-            // Get category selection
-            System.out.print("Select a category (1-" + categories.size() + ") or 0 to cancel: ");
+            // Obtener selección de categoría
+            System.out.print("Seleccione una categoría (1-" + categories.size() + ") o 0 para cancelar: ");
 
             int categorySelection = Integer.parseInt(scanner.nextLine().trim());
 
@@ -1028,66 +1058,66 @@ public class AdminMenu implements Menu {
             }
 
             if (categorySelection < 1 || categorySelection > categories.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Category selectedCategory = categories.get(categorySelection - 1);
 
-            // Check if already assigned
+            // Verificar si ya está asignado
             if (selectedCategory.getAssignedEmployees().contains(selectedEmployee)) {
-                System.out.println("This employee is already assigned to this category.");
-                System.out.println("Do you want to remove the assignment instead? (y/n)");
+                System.out.println("Este empleado ya está asignado a esta categoría.");
+                System.out.println("¿Desea eliminar la asignación en su lugar? (s/n)");
 
                 String confirmation = scanner.nextLine().trim().toLowerCase();
 
-                if (confirmation.equals("y") || confirmation.equals("yes")) {
+                if (confirmation.equals("s") || confirmation.equals("si")) {
                     if (categoryService.removeEmployeeFromCategory(selectedCategory.getId(), selectedEmployee)) {
-                        System.out.println(selectedEmployee.getName() + " has been removed from category '" +
+                        System.out.println(selectedEmployee.getName() + " ha sido removido de la categoría '" +
                                 selectedCategory.getName() + "'.");
                     } else {
-                        System.out.println("Failed to remove employee from category. Please try again.");
+                        System.out.println("Error al remover el empleado de la categoría. Por favor, intente nuevamente.");
                     }
                 } else {
-                    System.out.println("Operation cancelled.");
+                    System.out.println("Operación cancelada.");
                 }
             } else {
-                // Assign employee to category
+                // Asignar empleado a categoría
                 if (categoryService.assignEmployeeToCategory(selectedCategory.getId(), selectedEmployee)) {
-                    System.out.println(selectedEmployee.getName() + " has been assigned to category '" +
+                    System.out.println(selectedEmployee.getName() + " ha sido asignado a la categoría '" +
                             selectedCategory.getName() + "'.");
                 } else {
-                    System.out.println("Failed to assign employee to category. Please try again.");
+                    System.out.println("Error al asignar el empleado a la categoría. Por favor, intente nuevamente.");
                 }
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Handles editing employee details
+     * Maneja la edición de detalles de un empleado
      */
     private void editEmployeeDetails() {
-        System.out.println("\n=== Edit Employee Details ===");
+        System.out.println("\n=== Editar Detalles de Empleado ===");
 
-        // Display employees
+        // Mostrar empleados
         List<Employee> employees = userService.getAllEmployees();
 
         if (employees.isEmpty()) {
-            System.out.println("No employees found.");
+            System.out.println("No se encontraron empleados.");
             return;
         }
 
-        System.out.println("Select employee:");
+        System.out.println("Seleccione empleado:");
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
             System.out.println((i + 1) + ". " + employee.getName() + " (ID: " + employee.getId() + ")");
         }
 
-        // Get employee selection
-        System.out.print("Select an employee (1-" + employees.size() + ") or 0 to cancel: ");
+        // Obtener selección de empleado
+        System.out.print("Seleccione un empleado (1-" + employees.size() + ") o 0 para cancelar: ");
 
         try {
             int selection = Integer.parseInt(scanner.nextLine().trim());
@@ -1097,117 +1127,117 @@ public class AdminMenu implements Menu {
             }
 
             if (selection < 1 || selection > employees.size()) {
-                System.out.println("Invalid selection. Please try again.");
+                System.out.println("Selección inválida. Por favor, intente nuevamente.");
                 return;
             }
 
             Employee selectedEmployee = employees.get(selection - 1);
 
-            // Update fields
-            System.out.println("Editing employee: " + selectedEmployee.getName());
-            System.out.println("Leave field empty to keep current value");
+            // Actualizar campos
+            System.out.println("Editando empleado: " + selectedEmployee.getName());
+            System.out.println("Deje el campo vacío para mantener el valor actual");
 
-            System.out.print("New name [" + selectedEmployee.getName() + "]: ");
+            System.out.print("Nuevo nombre [" + selectedEmployee.getName() + "]: ");
             String name = scanner.nextLine().trim();
             if (!name.isEmpty()) {
                 selectedEmployee.setName(name);
             }
 
-            System.out.print("New password (enter to skip): ");
+            System.out.print("Nueva contraseña (presione Enter para omitir): ");
             String password = scanner.nextLine().trim();
             if (!password.isEmpty()) {
                 selectedEmployee.setPassword(password);
             }
 
-            // Save changes
+            // Guardar cambios
             if (userService.updateUser(selectedEmployee)) {
-                System.out.println("Employee updated successfully!");
+                System.out.println("¡Empleado actualizado exitosamente!");
             } else {
-                System.out.println("Failed to update employee. Please try again.");
+                System.out.println("Error al actualizar el empleado. Por favor, intente nuevamente.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number.");
+            System.out.println("Entrada inválida. Por favor ingrese un número.");
         }
     }
 
     /**
-     * Displays system statistics
+     * Muestra estadísticas del sistema
      */
     private void viewStatistics() {
-        System.out.println("\n=== System Statistics ===");
+        System.out.println("\n=== Estadísticas del Sistema ===");
         System.out.println(statisticsService.getCurrentStatistics().generateDailyStatistics());
 
-        // Get additional statistics
+        // Obtener estadísticas adicionales
         Map<String, Double> employeeProductivity = statisticsService.getEmployeeProductivityStatistics();
 
         if (!employeeProductivity.isEmpty()) {
-            System.out.println("\nEmployee Productivity (tickets per hour):");
+            System.out.println("\nProductividad de Empleados (turnos por hora):");
 
             for (Map.Entry<String, Double> entry : employeeProductivity.entrySet()) {
                 Optional<Employee> employeeOpt = userService.getEmployeeById(entry.getKey());
 
                 if (employeeOpt.isPresent()) {
                     System.out.println(employeeOpt.get().getName() + ": " +
-                            String.format("%.2f", entry.getValue()) + " tickets/hour");
+                            String.format("%.2f", entry.getValue()) + " turnos/hora");
                 }
             }
         }
 
-        // Display category statistics
+        // Mostrar estadísticas por categoría
         List<Category> categories = categoryService.getAllCategories();
 
         if (!categories.isEmpty()) {
-            System.out.println("\nCategory Statistics:");
+            System.out.println("\nEstadísticas por Categoría:");
 
             for (Category category : categories) {
                 System.out.println(category.getName() + ":");
-                System.out.println("  Active: " + (category.isActive() ? "Yes" : "No"));
-                System.out.println("  Pending tickets: " + category.countPendingTickets());
+                System.out.println("  Activa: " + (category.isActive() ? "Sí" : "No"));
+                System.out.println("  Turnos pendientes: " + category.countPendingTickets());
 
                 double avgWaitTime = statisticsService.getAverageWaitingTimeByCategory(category.getId());
-                System.out.println("  Average waiting time: " + String.format("%.2f", avgWaitTime) + " minutes");
+                System.out.println("  Tiempo promedio de espera: " + String.format("%.2f", avgWaitTime) + " minutos");
             }
         }
 
-        System.out.println("\nPress Enter to continue...");
+        System.out.println("\nPresione Enter para continuar...");
         scanner.nextLine();
     }
 
     /**
-     * Generates system reports
+     * Genera informes del sistema
      */
     private void generateReports() {
         boolean continueMenu = true;
 
         while (continueMenu) {
-            System.out.println("\n=== Generate Reports ===");
-            System.out.println("1. Daily productivity report");
-            System.out.println("2. Weekly productivity report");
-            System.out.println("3. Monthly productivity report");
-            System.out.println("4. Employee performance report");
-            System.out.println("0. Back to main menu");
+            System.out.println("\n=== Generar Informes ===");
+            System.out.println("1. Informe de productividad diaria");
+            System.out.println("2. Informe de productividad semanal");
+            System.out.println("3. Informe de productividad mensual");
+            System.out.println("4. Informe de rendimiento de empleados");
+            System.out.println("0. Volver al menú principal");
 
-            System.out.print("Select an option: ");
+            System.out.print("Seleccione una opción: ");
             String option = scanner.nextLine().trim();
 
             switch (option) {
                 case "1":
-                    System.out.println("\n=== Daily Productivity Report ===");
+                    System.out.println("\n=== Informe de Productividad Diaria ===");
                     System.out.println(statisticsService.generateDailyStatistics());
-                    System.out.println("\nPress Enter to continue...");
+                    System.out.println("\nPresione Enter para continuar...");
                     scanner.nextLine();
                     break;
                 case "2":
-                    System.out.println("\n=== Weekly Productivity Report ===");
+                    System.out.println("\n=== Informe de Productividad Semanal ===");
                     System.out.println(statisticsService.generateWeeklyStatistics());
-                    System.out.println("\nPress Enter to continue...");
+                    System.out.println("\nPresione Enter para continuar...");
                     scanner.nextLine();
                     break;
                 case "3":
-                    System.out.println("\n=== Monthly Productivity Report ===");
+                    System.out.println("\n=== Informe de Productividad Mensual ===");
                     System.out.println(statisticsService.generateMonthlyStatistics());
-                    System.out.println("\nPress Enter to continue...");
+                    System.out.println("\nPresione Enter para continuar...");
                     scanner.nextLine();
                     break;
                 case "4":
@@ -1217,38 +1247,38 @@ public class AdminMenu implements Menu {
                     continueMenu = false;
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
             }
         }
     }
 
     /**
-     * Generates a report on employee performance
+     * Genera un informe de rendimiento de empleados
      */
     private void generateEmployeePerformanceReport() {
-        System.out.println("\n=== Employee Performance Report ===");
+        System.out.println("\n=== Informe de Rendimiento de Empleados ===");
 
         List<Employee> employees = userService.getAllEmployees();
 
         if (employees.isEmpty()) {
-            System.out.println("No employees found.");
+            System.out.println("No se encontraron empleados.");
             return;
         }
 
-        System.out.println("Performance metrics for today:");
+        System.out.println("Métricas de rendimiento para hoy:");
 
         for (Employee employee : employees) {
-            System.out.println("\nEmployee: " + employee.getName() + " (ID: " + employee.getId() + ")");
-            System.out.println("Status: " + employee.getAvailabilityStatus());
+            System.out.println("\nEmpleado: " + employee.getName() + " (ID: " + employee.getId() + ")");
+            System.out.println("Estado: " + translateEmployeeStatus(employee.getAvailabilityStatus()));
 
             Station station = employee.getAssignedStation();
-            System.out.println("Assigned station: " + (station != null ? station.getNumber() : "None"));
+            System.out.println("Estación asignada: " + (station != null ? station.getNumber() : "Ninguna"));
 
             List<Ticket> tickets = employee.getAttendedTickets();
-            System.out.println("Tickets attended: " + tickets.size());
+            System.out.println("Turnos atendidos: " + tickets.size());
 
             if (!tickets.isEmpty()) {
-                // Calculate metrics
+                // Calcular métricas
                 double totalServiceTime = 0;
                 int completedTickets = 0;
 
@@ -1261,26 +1291,26 @@ public class AdminMenu implements Menu {
 
                 if (completedTickets > 0) {
                     double averageServiceTime = totalServiceTime / completedTickets;
-                    System.out.println("Average service time: " +
-                            String.format("%.2f", averageServiceTime) + " minutes");
+                    System.out.println("Tiempo promedio de servicio: " +
+                            String.format("%.2f", averageServiceTime) + " minutos");
 
-                    // Get productivity from statistics service
+                    // Obtener productividad del servicio de estadísticas
                     double productivity = statisticsService.getEmployeeProductivityStatistics()
                             .getOrDefault(employee.getId(), 0.0);
 
-                    System.out.println("Productivity: " + String.format("%.2f", productivity) + " tickets per hour");
+                    System.out.println("Productividad: " + String.format("%.2f", productivity) + " turnos por hora");
                 } else {
-                    System.out.println("No completed tickets to calculate metrics.");
+                    System.out.println("No hay turnos completados para calcular métricas.");
                 }
             }
         }
 
-        System.out.println("\nPress Enter to continue...");
+        System.out.println("\nPresione Enter para continuar...");
         scanner.nextLine();
     }
 
     /**
-     * Starts the admin menu after authentication
+     * Inicia el menú de administrador después de la autenticación
      */
     public void start() {
         if (authenticate()) {
