@@ -11,7 +11,9 @@
       "assignedEmployees": []
     },
     "clientId": "063548279",
-    "generationTime": "2025-03-16T17:48:23.767382"
+    "generationTime": "2025-03-16T17:48:23.767382",
+    "attentionTime": null,
+    "completionTime": null
   },
   {
     "code": "GEN-107",
@@ -25,7 +27,9 @@
       "assignedEmployees": []
     },
     "clientId": "063548279",
-    "generationTime": "2025-03-16T17:54:30.10708"
+    "generationTime": "2025-03-16T17:54:30.10708",
+    "attentionTime": null,
+    "completionTime": null
   },
   {
     "code": "GEN-70",
@@ -47,6 +51,163 @@
       ]
     },
     "clientId": "063548279",
-    "generationTime": "2025-03-17T16:29:03.070489"
+    "generationTime": "2025-03-17T16:29:03.070489",
+    "attentionTime": null,
+    "completionTime": null
+  },
+  {
+    "code": "GEN-67",
+    "status": "WAITING",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp1",
+          "name": "John Smith",
+          "password": "pass123"
+        },
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "063548279",
+    "generationTime": "2025-03-17T17:23:50.06775",
+    "attentionTime": null,
+    "completionTime": null
+  },
+  {
+    "code": "GEN-452",
+    "status": "WAITING",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp1",
+          "name": "John Smith",
+          "password": "pass123"
+        },
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "063548279",
+    "generationTime": "2025-03-19T18:22:14.452148",
+    "attentionTime": null,
+    "completionTime": null
+  },
+  {
+    "code": "GEN-870",
+    "status": "COMPLETED",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp1",
+          "name": "John Smith",
+          "password": "pass123"
+        },
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "063548279",
+    "generationTime": "2025-03-19T18:33:00.870636",
+    "attentionTime": "2025-03-19T18:34:02.019287",
+    "completionTime": "2025-03-19T18:34:24.748583"
+  },
+  {
+    "code": "GEN-184",
+    "status": "COMPLETED",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp1",
+          "name": "John Smith",
+          "password": "pass123"
+        },
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "043434435",
+    "generationTime": "2025-03-19T18:37:13.184205",
+    "attentionTime": "2025-03-19T18:37:24.573221",
+    "completionTime": "2025-03-19T18:39:44.005911"
+  },
+  {
+    "code": "GEN-414",
+    "status": "COMPLETED",
+    "category": {
+      "id": 1,
+      "name": "Consulta General",
+      "description": "Consultas generales e información para clientes",
+      "prefix": "GEN",
+      "active": true,
+      "assignedEmployees": [
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp1",
+          "name": "John Smith",
+          "password": "pass123"
+        },
+        {
+          "availabilityStatus": "AVAILABLE",
+          "attendedTickets": [],
+          "id": "emp2",
+          "name": "Maria García",
+          "password": "pass123"
+        }
+      ]
+    },
+    "clientId": "063548279",
+    "generationTime": "2025-03-19T18:44:18.414632",
+    "attentionTime": "2025-03-19T18:44:30.42997",
+    "completionTime": "2025-03-19T18:44:44.271481"
   }
 ]

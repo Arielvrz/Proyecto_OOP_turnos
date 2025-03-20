@@ -9,6 +9,7 @@ import com.queuemanagementsystem.repository.ClientRepository;
 import com.queuemanagementsystem.repository.TicketRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,7 +89,16 @@ public class TicketService {
             return null;
         }
 
-        List<Category> supportedCategories = employee.getAssignedStation().getSupportedCategories();
+        // Get category IDs from the station
+        List<Integer> categoryIds = employee.getAssignedStation().getSupportedCategoryIds();
+
+        // Create a list for the actual category objects
+        List<Category> supportedCategories = new ArrayList<>();
+
+        // Resolve each category ID to its actual object
+        for (Integer categoryId : categoryIds) {
+            categoryRepository.findById(categoryId).ifPresent(supportedCategories::add);
+        }
 
         // Find the next ticket from any supported category
         for (Category category : supportedCategories) {

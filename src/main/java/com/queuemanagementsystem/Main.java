@@ -51,6 +51,9 @@ public class Main {
         // Initialize sample data if repositories are empty
         initializeSampleData(userRepository, clientRepository, categoryRepository, stationRepository);
 
+        // resolver referencias
+        stationService.resolveReferences();
+
         // Start the application
         mainMenu.start(scanner);
 

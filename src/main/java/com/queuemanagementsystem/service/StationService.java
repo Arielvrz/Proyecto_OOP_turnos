@@ -156,6 +156,7 @@ public class StationService {
      * @param categoryId The category ID
      * @return true if the category was added successfully, false otherwise
      */
+    // In StationService.java
     public boolean addCategoryToStation(int stationId, int categoryId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
@@ -166,6 +167,12 @@ public class StationService {
 
         Station station = stationOpt.get();
         Category category = categoryOpt.get();
+
+        // Check if the category is already in the station (to avoid the error message)
+        if (station.getSupportedCategoryIds().contains(categoryId)) {
+            System.out.println("This category is already supported by this station.");
+            return true; // Return true to avoid the error message
+        }
 
         if (station.addCategory(category)) {
             return stationRepository.update(station);
