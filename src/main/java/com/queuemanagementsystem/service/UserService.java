@@ -10,26 +10,26 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Service class for managing users (employees and administrators).
+ * Clase de servicio para gestionar usuarios (empleados y administradores).
  */
 public class UserService {
     private final UserRepository userRepository;
 
     /**
-     * Constructor with repository dependency
+     * Constructor con dependencia del repositorio
      *
-     * @param userRepository The repository for user data
+     * @param userRepository El repositorio para datos de usuario
      */
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     /**
-     * Authenticates a user with the provided credentials
+     * Autentica a un usuario con las credenciales proporcionadas
      *
-     * @param id User ID
-     * @param password User password
-     * @return The authenticated User object if successful, null otherwise
+     * @param id ID del usuario
+     * @param password Contraseña del usuario
+     * @return El objeto User autenticado si tiene éxito, null en caso contrario
      */
     public User authenticate(String id, String password) {
         Optional<User> user = userRepository.findById(id);
@@ -42,20 +42,20 @@ public class UserService {
     }
 
     /**
-     * Finds a user by ID without authentication
+     * Busca un usuario por ID sin autenticación
      *
-     * @param id User ID
-     * @return Optional containing the user if found
+     * @param id ID del usuario
+     * @return Optional que contiene el usuario si se encuentra
      */
     public Optional<User> findUserById(String id) {
         return userRepository.findById(id);
     }
 
     /**
-     * Registers a new employee in the system
+     * Registra un nuevo empleado en el sistema
      *
-     * @param employee The employee to register
-     * @return true if registration was successful, false otherwise
+     * @param employee El empleado a registrar
+     * @return true si el registro fue exitoso, false en caso contrario
      */
     public boolean registerEmployee(Employee employee) {
         if (employee == null || employee.getId() == null || userRepository.findById(employee.getId()).isPresent()) {
@@ -66,10 +66,10 @@ public class UserService {
     }
 
     /**
-     * Registers a new administrator in the system
+     * Registra un nuevo administrador en el sistema
      *
-     * @param administrator The administrator to register
-     * @return true if registration was successful, false otherwise
+     * @param administrator El administrador a registrar
+     * @return true si el registro fue exitoso, false en caso contrario
      */
     public boolean registerAdministrator(Administrator administrator) {
         if (administrator == null || administrator.getId() == null ||
@@ -81,10 +81,10 @@ public class UserService {
     }
 
     /**
-     * Updates an existing user's information
+     * Actualiza la información de un usuario existente
      *
-     * @param user The user with updated information
-     * @return true if the update was successful, false otherwise
+     * @param user El usuario con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     public boolean updateUser(User user) {
         if (user == null || user.getId() == null || !userRepository.findById(user.getId()).isPresent()) {
@@ -95,19 +95,19 @@ public class UserService {
     }
 
     /**
-     * Deletes a user from the system
+     * Elimina un usuario del sistema
      *
-     * @param userId The ID of the user to delete
-     * @return true if the deletion was successful, false otherwise
+     * @param userId El ID del usuario a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     public boolean deleteUser(String userId) {
         return userRepository.delete(userId);
     }
 
     /**
-     * Gets all employees registered in the system
+     * Obtiene todos los empleados registrados en el sistema
      *
-     * @return List of all employees
+     * @return Lista de todos los empleados
      */
     public List<Employee> getAllEmployees() {
         return userRepository.findAll().stream()
@@ -117,9 +117,9 @@ public class UserService {
     }
 
     /**
-     * Gets all administrators registered in the system
+     * Obtiene todos los administradores registrados en el sistema
      *
-     * @return List of all administrators
+     * @return Lista de todos los administradores
      */
     public List<Administrator> getAllAdministrators() {
         return userRepository.findAll().stream()
@@ -129,10 +129,10 @@ public class UserService {
     }
 
     /**
-     * Gets an employee by ID
+     * Obtiene un empleado por ID
      *
-     * @param employeeId The employee's ID
-     * @return Optional containing the employee if found, empty otherwise
+     * @param employeeId El ID del empleado
+     * @return Optional que contiene el empleado si se encuentra, vacío en caso contrario
      */
     public Optional<Employee> getEmployeeById(String employeeId) {
         Optional<User> user = userRepository.findById(employeeId);
@@ -145,10 +145,10 @@ public class UserService {
     }
 
     /**
-     * Gets an administrator by ID
+     * Obtiene un administrador por ID
      *
-     * @param adminId The administrator's ID
-     * @return Optional containing the administrator if found, empty otherwise
+     * @param adminId El ID del administrador
+     * @return Optional que contiene el administrador si se encuentra, vacío en caso contrario
      */
     public Optional<Administrator> getAdministratorById(String adminId) {
         Optional<User> user = userRepository.findById(adminId);

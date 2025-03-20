@@ -10,14 +10,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of StationRepository using JSON file for persistence.
+ * Implementación de StationRepository usando archivo JSON para persistencia.
  */
 public class JsonStationRepository implements StationRepository {
     private static final String FILE_PATH = "data/stations.json";
     private List<Station> stations;
 
     /**
-     * Default constructor. Loads stations from file.
+     * Constructor por defecto. Carga estaciones desde el archivo.
      */
     public JsonStationRepository() {
         this.stations = new ArrayList<>();
@@ -27,13 +27,13 @@ public class JsonStationRepository implements StationRepository {
     @Override
     public boolean save(Station station) {
         if (station == null) {
-            throw new IllegalArgumentException("Station cannot be null");
+            throw new IllegalArgumentException("La estación no puede ser nula");
         }
 
-        // Check if the station already exists
+        // Verifica si la estación ya existe
         Optional<Station> existingStation = findById(station.getId());
         if (existingStation.isPresent()) {
-            // Update existing station
+            // Actualiza la estación existente
             stations.remove(existingStation.get());
         }
 

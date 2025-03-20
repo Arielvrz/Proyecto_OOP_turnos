@@ -17,38 +17,38 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Utility class for handling JSON file operations with proper type adapters.
+ * Clase de utilidad para manejar operaciones de archivos JSON con adaptadores de tipo adecuados.
  */
 public class JsonFileHandler {
     private static final Gson gson = createGson();
 
     /**
-     * Creates a configured Gson instance with custom type adapters
+     * Crea una instancia de Gson configurada con adaptadores de tipo personalizados
      *
-     * @return Configured Gson instance
+     * @return Instancia de Gson configurada
      */
     private static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
-        gsonBuilder.serializeNulls(); // Optional, but helpful
-        gsonBuilder.disableHtmlEscaping(); // Optional, but helps with readability
+        gsonBuilder.serializeNulls(); // Opcional, pero útil
+        gsonBuilder.disableHtmlEscaping(); // Opcional, pero ayuda con la legibilidad
 
-        // Register type adapter for LocalDateTime
+        // Registra adaptador de tipo para LocalDateTime
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter());
 
-        // Register custom user adapter
+        // Registra adaptador personalizado para User
         gsonBuilder.registerTypeAdapter(User.class, new UserAdapter());
 
         return gsonBuilder.create();
     }
 
     /**
-     * Saves a list of objects to a JSON file
+     * Guarda una lista de objetos en un archivo JSON
      *
-     * @param <T> The type of objects in the list
-     * @param list The list of objects to save
-     * @param filePath The path to the JSON file
-     * @return true if the operation was successful, false otherwise
+     * @param <T> El tipo de objetos en la lista
+     * @param list La lista de objetos a guardar
+     * @param filePath La ruta al archivo JSON
+     * @return true si la operación fue exitosa, false en caso contrario
      */
     public static <T> boolean saveToFile(List<T> list, String filePath) {
         try {
@@ -61,18 +61,18 @@ public class JsonFileHandler {
                 return true;
             }
         } catch (IOException e) {
-            System.err.println("Error saving to file: " + e.getMessage());
+            System.err.println("Error al guardar en archivo: " + e.getMessage());
             return false;
         }
     }
 
     /**
-     * Loads a list of objects from a JSON file
+     * Carga una lista de objetos desde un archivo JSON
      *
-     * @param <T> The type of objects in the list
-     * @param filePath The path to the JSON file
-     * @param type The type of the list (e.g., new TypeToken<List<User>>(){}.getType())
-     * @return The list of objects loaded from the file, or an empty list if the file doesn't exist
+     * @param <T> El tipo de objetos en la lista
+     * @param filePath La ruta al archivo JSON
+     * @param type El tipo de la lista (ej., new TypeToken<List<User>>(){}.getType())
+     * @return La lista de objetos cargada desde el archivo, o una lista vacía si el archivo no existe
      */
     public static <T> List<T> loadFromFile(String filePath, Type type) {
         File file = new File(filePath);
@@ -84,7 +84,7 @@ public class JsonFileHandler {
         try (FileReader reader = new FileReader(file)) {
             return gson.fromJson(reader, type);
         } catch (IOException | JsonParseException e) {
-            System.err.println("Error loading from file: " + e.getMessage());
+            System.err.println("Error al cargar desde archivo: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -95,22 +95,22 @@ public class JsonFileHandler {
                 throws JsonParseException {
             JsonObject jsonObject = json.getAsJsonObject();
 
-            // Determine the type based on the presence of specific fields
+            // Determina el tipo basado en la presencia de campos específicos
             if (jsonObject.has("accessLevel")) {
-                // This is an Administrator (only administrators have accessLevel)
+                // Esto es un Administrator (solo los administradores tienen accessLevel)
                 return context.deserialize(jsonObject, Administrator.class);
             } else if (jsonObject.has("availabilityStatus") || jsonObject.has("attendedTickets")) {
-                // This is an Employee
+                // Esto es un Employee
                 return context.deserialize(jsonObject, Employee.class);
             } else {
-                // This is a base User
+                // Esto es un User base
                 return context.deserialize(jsonObject, User.class);
             }
         }
     }
 
     /**
-     * adaptador personalizado para LocalDateTimeAdapter
+     * Adaptador personalizado para LocalDateTimeAdapter
      */
     private static class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
         private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;

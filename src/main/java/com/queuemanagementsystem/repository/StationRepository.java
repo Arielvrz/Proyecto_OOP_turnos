@@ -5,74 +5,74 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Station data access operations.
+ * Interfaz de repositorio para operaciones de acceso a datos de Estación.
  */
 public interface StationRepository {
     /**
-     * Saves a station to the repository
+     * Guarda una estación en el repositorio
      *
-     * @param station The station to save
-     * @return true if save was successful, false otherwise
+     * @param station La estación a guardar
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean save(Station station);
 
     /**
-     * Finds a station by its ID
+     * Busca una estación por su ID
      *
-     * @param id The station ID to search for
-     * @return Optional containing the station if found, empty otherwise
+     * @param id El ID de la estación a buscar
+     * @return Optional que contiene la estación si se encuentra, vacío en caso contrario
      */
     Optional<Station> findById(int id);
 
     /**
-     * Finds a station by its number
+     * Busca una estación por su número
      *
-     * @param number The station number to search for
-     * @return Optional containing the station if found, empty otherwise
+     * @param number El número de estación a buscar
+     * @return Optional que contiene la estación si se encuentra, vacío en caso contrario
      */
     Optional<Station> findByNumber(int number);
 
     /**
-     * Gets all stations in the repository
+     * Obtiene todas las estaciones en el repositorio
      *
-     * @return List of all stations
+     * @return Lista de todas las estaciones
      */
     List<Station> findAll();
 
     /**
-     * Gets all open stations in the repository
+     * Obtiene todas las estaciones abiertas en el repositorio
      *
-     * @return List of all open stations
+     * @return Lista de todas las estaciones abiertas
      */
     List<Station> findAllOpen();
 
     /**
-     * Deletes a station by its ID
+     * Elimina una estación por su ID
      *
-     * @param id The ID of the station to delete
-     * @return true if deletion was successful, false otherwise
+     * @param id El ID de la estación a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean deleteById(int id);
 
     /**
-     * Updates an existing station
+     * Actualiza una estación existente
      *
-     * @param station The station with updated information
-     * @return true if update was successful, false otherwise
+     * @param station La estación con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     boolean update(Station station);
 
     /**
-     * Saves all stations to persistent storage
+     * Guarda todas las estaciones en almacenamiento persistente
      *
-     * @return true if save was successful, false otherwise
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean saveAll();
 
     /**
-     * Loads all stations from persistent storage
+     * Carga todas las estaciones desde almacenamiento persistente
      *
-     * @return true if load was successful, false otherwise
+     * @return true si la carga fue exitosa, false en caso contrario
      */
     boolean loadAll();
 }

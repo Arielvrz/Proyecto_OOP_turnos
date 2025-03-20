@@ -5,74 +5,74 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Category data access operations.
+ * Interfaz de repositorio para operaciones de acceso a datos de Categoría.
  */
 public interface CategoryRepository {
     /**
-     * Saves a category to the repository
+     * Guarda una categoría en el repositorio
      *
-     * @param category The category to save
-     * @return The saved category
+     * @param category La categoría a guardar
+     * @return La categoría guardada
      */
     Category save(Category category);
 
     /**
-     * Finds a category by its ID
+     * Encuentra una categoría por su ID
      *
-     * @param id The category ID to search for
-     * @return Optional containing the category if found, empty otherwise
+     * @param id El ID de categoría a buscar
+     * @return Optional conteniendo la categoría si se encuentra, vacío en caso contrario
      */
     Optional<Category> findById(int id);
 
     /**
-     * Gets all categories in the repository
+     * Obtiene todas las categorías en el repositorio
      *
-     * @return List of all categories
+     * @return Lista de todas las categorías
      */
     List<Category> findAll();
 
     /**
-     * Gets all active categories in the repository
+     * Obtiene todas las categorías activas en el repositorio
      *
-     * @return List of active categories
+     * @return Lista de categorías activas
      */
     List<Category> findAllActive();
 
     /**
-     * Deletes a category by its ID
+     * Elimina una categoría por su ID
      *
-     * @param id The ID of the category to delete
-     * @return true if deletion was successful, false otherwise
+     * @param id El ID de la categoría a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean deleteById(int id);
 
     /**
-     * Finds a category by its prefix
+     * Encuentra una categoría por su prefijo
      *
-     * @param prefix The category prefix to search for
-     * @return Optional containing the category if found, empty otherwise
+     * @param prefix El prefijo de categoría a buscar
+     * @return Optional conteniendo la categoría si se encuentra, vacío en caso contrario
      */
     Optional<Category> findByPrefix(String prefix);
 
     /**
-     * Updates an existing category
+     * Actualiza una categoría existente
      *
-     * @param category The category with updated information
-     * @return true if update was successful, false otherwise
+     * @param category La categoría con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     boolean update(Category category);
 
     /**
-     * Saves all categories to persistent storage
+     * Guarda todas las categorías en almacenamiento persistente
      *
-     * @return true if save was successful, false otherwise
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean saveAll();
 
     /**
-     * Loads all categories from persistent storage
+     * Carga todas las categorías desde almacenamiento persistente
      *
-     * @return true if load was successful, false otherwise
+     * @return true si la carga fue exitosa, false en caso contrario
      */
     boolean loadAll();
 }

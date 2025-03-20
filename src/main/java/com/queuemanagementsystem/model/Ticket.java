@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
- * Represents a ticket for client service.
+ * Representa un ticket para el servicio del cliente.
  */
 public class Ticket {
     private String code;
@@ -17,7 +17,7 @@ public class Ticket {
     private LocalDateTime completionTime;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public Ticket() {
         this.generationTime = LocalDateTime.now();
@@ -25,10 +25,10 @@ public class Ticket {
     }
 
     /**
-     * Parameterized constructor with essential fields
+     * Constructor parametrizado con campos esenciales
      *
-     * @param category The service category
-     * @param clientId The client's ID
+     * @param category La categoría de servicio
+     * @param clientId El ID del cliente
      */
     public Ticket(Category category, String clientId) {
         this.category = category;
@@ -39,15 +39,15 @@ public class Ticket {
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param code Ticket's unique code
-     * @param status Current status of the ticket
-     * @param category Service category
-     * @param clientId Client's ID
-     * @param generationTime Time when the ticket was generated
-     * @param attentionTime Time when service began
-     * @param completionTime Time when service was completed
+     * @param code Código único del ticket
+     * @param status Estado actual del ticket
+     * @param category Categoría de servicio
+     * @param clientId ID del cliente
+     * @param generationTime Momento en que se generó el ticket
+     * @param attentionTime Momento en que comenzó el servicio
+     * @param completionTime Momento en que se completó el servicio
      */
     public Ticket(String code, String status, Category category, String clientId,
                   LocalDateTime generationTime, LocalDateTime attentionTime,
@@ -62,28 +62,28 @@ public class Ticket {
     }
 
     /**
-     * Generates a unique code for the ticket
+     * Genera un código único para el ticket
      *
-     * @return The generated code
+     * @return El código generado
      */
     private String generateCode() {
-        // Format: Category prefix + sequential number
-        // In a real system, this would use a more sophisticated approach
+        // Formato: Prefijo de categoría + número secuencial
+        // En un sistema real, esto utilizaría un enfoque más sofisticado
         return (category != null ? category.getPrefix() : "GEN") + "-" +
                 System.currentTimeMillis() % 1000;
     }
 
     /**
-     * Changes the status of the ticket
+     * Cambia el estado del ticket
      *
-     * @param newStatus The new status
-     * @return true if the status was changed successfully, false otherwise
+     * @param newStatus El nuevo estado
+     * @return true si el estado se cambió con éxito, false en caso contrario
      */
     public boolean changeStatus(String newStatus) {
         if (isValidStatusTransition(newStatus)) {
             this.status = newStatus;
 
-            // Update timestamps based on the new status
+            // Actualiza las marcas de tiempo según el nuevo estado
             if ("IN_PROGRESS".equals(newStatus)) {
                 this.attentionTime = LocalDateTime.now();
             } else if ("COMPLETED".equals(newStatus)) {
@@ -96,10 +96,10 @@ public class Ticket {
     }
 
     /**
-     * Checks if a status transition is valid
+     * Verifica si una transición de estado es válida
      *
-     * @param newStatus The new status
-     * @return true if the transition is valid, false otherwise
+     * @param newStatus El nuevo estado
+     * @return true si la transición es válida, false en caso contrario
      */
     private boolean isValidStatusTransition(String newStatus) {
         if (newStatus == null) {
@@ -112,16 +112,16 @@ public class Ticket {
             case "IN_PROGRESS":
                 return "COMPLETED".equals(newStatus);
             case "COMPLETED":
-                return false; // Terminal state
+                return false; // Estado terminal
             default:
                 return false;
         }
     }
 
     /**
-     * Calculates the waiting time in minutes
+     * Calcula el tiempo de espera en minutos
      *
-     * @return The waiting time in minutes
+     * @return El tiempo de espera en minutos
      */
     public long calculateWaitingTime() {
         if (attentionTime != null) {
@@ -133,9 +133,9 @@ public class Ticket {
     }
 
     /**
-     * Calculates the service time in minutes
+     * Calcula el tiempo de servicio en minutos
      *
-     * @return The service time in minutes
+     * @return El tiempo de servicio en minutos
      */
     public long calculateServiceTime() {
         if (attentionTime != null && completionTime != null) {
@@ -147,16 +147,16 @@ public class Ticket {
     }
 
     /**
-     * Generates a visual alert for the client
+     * Genera una alerta visual para el cliente
      *
-     * @return The alert message
+     * @return El mensaje de alerta
      */
     public String generateVisualAlert() {
-        return "ATTENTION: Ticket " + code + " is now being served at station " +
-                (category != null ? category.getName() : "general service");
+        return "ATENCIÓN: El ticket " + code + " está siendo atendido en la estación " +
+                (category != null ? category.getName() : "servicio general");
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public String getCode() {
         return code;
@@ -215,10 +215,10 @@ public class Ticket {
     }
 
     /**
-     * Compares this Ticket to another object for equality
+     * Compara este Ticket con otro objeto para determinar igualdad
      *
-     * @param o The object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @param o El objeto a comparar
+     * @return true si los objetos son iguales, false en caso contrario
      */
     @Override
     public boolean equals(Object o) {
@@ -229,9 +229,9 @@ public class Ticket {
     }
 
     /**
-     * Generates a hash code for this Ticket
+     * Genera un código hash para este Ticket
      *
-     * @return The hash code
+     * @return El código hash
      */
     @Override
     public int hashCode() {
@@ -239,9 +239,9 @@ public class Ticket {
     }
 
     /**
-     * Returns a string representation of this Ticket
+     * Devuelve una representación en string de este Ticket
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

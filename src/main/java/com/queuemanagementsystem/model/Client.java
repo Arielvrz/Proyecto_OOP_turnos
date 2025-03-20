@@ -3,7 +3,7 @@ package com.queuemanagementsystem.model;
 import java.util.Objects;
 
 /**
- * Represents a client who requests service and gets a ticket.
+ * Representa un cliente que solicita un servicio y obtiene un ticket.
  */
 public class Client {
     private String id;
@@ -11,16 +11,16 @@ public class Client {
     private String contactInfo;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public Client() {
     }
 
     /**
-     * Parameterized constructor
+     * Constructor parametrizado
      *
-     * @param id Client's unique identifier
-     * @param name Client's name
+     * @param id Identificador único del cliente
+     * @param name Nombre del cliente
      */
     public Client(String id, String name) {
         this.id = id;
@@ -28,11 +28,11 @@ public class Client {
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param id Client's unique identifier
-     * @param name Client's name
-     * @param contactInfo Client's contact information
+     * @param id Identificador único del cliente
+     * @param name Nombre del cliente
+     * @param contactInfo Información de contacto del cliente
      */
     public Client(String id, String name, String contactInfo) {
         this.id = id;
@@ -41,13 +41,13 @@ public class Client {
     }
 
     /**
-     * Requests a ticket for a specific service category
+     * Solicita un ticket para una categoría de servicio específica
      *
-     * @param category The service category
-     * @return A message indicating the result of the request
+     * @param category La categoría de servicio
+     * @return Un mensaje indicando el resultado de la solicitud
      */
     public String requestTicket(Category category) {
-        // Note: In the actual implementation, this would interact with a service
+        // Nota: En la implementación real, esto interactuaría con un servicio
         if (category == null) {
             return "Invalid category selected.";
         }
@@ -60,13 +60,13 @@ public class Client {
     }
 
     /**
-     * Checks the status of the queue for a specific category
+     * Verifica el estado de la cola para una categoría específica
      *
-     * @param category The service category to check
-     * @return A string describing the current queue status
+     * @param category La categoría de servicio a verificar
+     * @return Una cadena que describe el estado actual de la cola
      */
     public String checkQueueStatus(Category category) {
-        // Note: In the actual implementation, this would query the service
+        // Nota: En la implementación real, esto consultaría al servicio
         if (category == null) {
             return "Invalid category selected.";
         }
@@ -75,21 +75,21 @@ public class Client {
                 ":\nPending tickets: " + category.countPendingTickets();
     }
 
-    // The cancelTicket functionality has been removed as per requirements
+    // La funcionalidad cancelTicket ha sido eliminada según los requisitos
 
     /**
-     * Receives an alert notification
+     * Recibe una notificación de alerta
      *
-     * @param message The alert message
-     * @return true indicating the alert was received
+     * @param message El mensaje de alerta
+     * @return true indicando que la alerta fue recibida
      */
     public boolean receiveAlert(String message) {
-        // In a real system, this might send an SMS, push notification, etc.
+        // En un sistema real, esto podría enviar un SMS, notificación push, etc.
         System.out.println("ALERT for client " + name + ": " + message);
         return true;
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public String getId() {
         return id;
@@ -116,10 +116,10 @@ public class Client {
     }
 
     /**
-     * Compares this Client to another object for equality
+     * Compara este Cliente con otro objeto para determinar igualdad
      *
-     * @param o The object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @param o El objeto a comparar
+     * @return true si los objetos son iguales, false en caso contrario
      */
     @Override
     public boolean equals(Object o) {
@@ -130,9 +130,9 @@ public class Client {
     }
 
     /**
-     * Generates a hash code for this Client
+     * Genera un código hash para este Cliente
      *
-     * @return The hash code
+     * @return El código hash
      */
     @Override
     public int hashCode() {
@@ -140,9 +140,9 @@ public class Client {
     }
 
     /**
-     * Returns a string representation of this Client
+     * Devuelve una representación en string de este Cliente
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an employee who attends to clients according to their turns.
- * Extends the base User class.
+ * Representa un empleado que atiende a los clientes según sus turnos.
+ * Extiende la clase base User.
  */
 public class Employee extends User {
     private String availabilityStatus; // "AVAILABLE", "BUSY", "PAUSED", "OFFLINE"
-    private transient Station assignedStation; // Add transient here
+    private transient Station assignedStation; // Agregado transient aquí
     private List<Ticket> attendedTickets;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public Employee() {
         super();
@@ -23,11 +23,11 @@ public class Employee extends User {
     }
 
     /**
-     * Parameterized constructor
+     * Constructor parametrizado
      *
-     * @param id Employee's unique identifier
-     * @param name Employee's full name
-     * @param password Employee's authentication password
+     * @param id Identificador único del empleado
+     * @param name Nombre completo del empleado
+     * @param password Contraseña de autenticación del empleado
      */
     public Employee(String id, String name, String password) {
         super(id, name, password);
@@ -36,13 +36,13 @@ public class Employee extends User {
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param id Employee's unique identifier
-     * @param name Employee's full name
-     * @param password Employee's authentication password
-     * @param availabilityStatus Current availability status
-     * @param assignedStation Station where the employee works
+     * @param id Identificador único del empleado
+     * @param name Nombre completo del empleado
+     * @param password Contraseña de autenticación del empleado
+     * @param availabilityStatus Estado de disponibilidad actual
+     * @param assignedStation Estación donde trabaja el empleado
      */
     public Employee(String id, String name, String password, String availabilityStatus, Station assignedStation) {
         super(id, name, password);
@@ -52,10 +52,10 @@ public class Employee extends User {
     }
 
     /**
-     * Marks the current ticket as completed
+     * Marca el ticket actual como completado
      *
-     * @param ticket The ticket being attended
-     * @return true if successful, false otherwise
+     * @param ticket El ticket que está siendo atendido
+     * @return true si se realizó con éxito, false en caso contrario
      */
     public boolean markTicketAsCompleted(Ticket ticket) {
         if (ticket != null && "IN_PROGRESS".equals(ticket.getStatus())) {
@@ -69,10 +69,10 @@ public class Employee extends User {
     }
 
     /**
-     * Attends to the next client in the queue
+     * Atiende al siguiente cliente en la cola
      *
-     * @param ticket The next ticket to be attended
-     * @return true if the employee started attending the client, false otherwise
+     * @param ticket El siguiente ticket a ser atendido
+     * @return true si el empleado comenzó a atender al cliente, false en caso contrario
      */
     public boolean attendNextClient(Ticket ticket) {
         if (ticket != null && "WAITING".equals(ticket.getStatus()) && "AVAILABLE".equals(this.availabilityStatus)) {
@@ -85,9 +85,9 @@ public class Employee extends User {
     }
 
     /**
-     * Pauses the assignment of new tickets to this employee
+     * Pausa la asignación de nuevos tickets a este empleado
      *
-     * @return true if the status was changed to PAUSED, false otherwise
+     * @return true si el estado cambió a PAUSED, false en caso contrario
      */
     public boolean pauseAssignment() {
         if (!"BUSY".equals(this.availabilityStatus)) {
@@ -98,9 +98,9 @@ public class Employee extends User {
     }
 
     /**
-     * Resumes the assignment of tickets to this employee
+     * Reanuda la asignación de tickets a este empleado
      *
-     * @return true if the status was changed to AVAILABLE, false otherwise
+     * @return true si el estado cambió a AVAILABLE, false en caso contrario
      */
     public boolean resumeAttention() {
         if ("PAUSED".equals(this.availabilityStatus) || "OFFLINE".equals(this.availabilityStatus)) {
@@ -111,10 +111,10 @@ public class Employee extends User {
     }
 
     /**
-     * Retrieves information about a client's ticket
+     * Recupera información sobre el ticket de un cliente
      *
-     * @param ticket The ticket to get information about
-     * @return A string with client information or null if the ticket is invalid
+     * @param ticket El ticket sobre el cual obtener información
+     * @return Una cadena con información del cliente o null si el ticket es inválido
      */
     public String getClientInformation(Ticket ticket) {
         if (ticket != null) {
@@ -127,9 +127,9 @@ public class Employee extends User {
     }
 
     /**
-     * Generates a summary of tickets attended by this employee during the current session
+     * Genera un resumen de los tickets atendidos por este empleado durante la sesión actual
      *
-     * @return A string summarizing the attended tickets
+     * @return Una cadena que resume los tickets atendidos
      */
     public String getAttentionSummary() {
         StringBuilder summary = new StringBuilder("Attention Summary for " + getName() + ":\n");
@@ -153,7 +153,7 @@ public class Employee extends User {
         return summary.toString();
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public String getAvailabilityStatus() {
         return availabilityStatus;
@@ -172,13 +172,13 @@ public class Employee extends User {
     }
 
     public List<Ticket> getAttendedTickets() {
-        return new ArrayList<>(attendedTickets);  // Return a copy to maintain encapsulation
+        return new ArrayList<>(attendedTickets);  // Devuelve una copia para mantener la encapsulación
     }
 
     /**
-     * Returns a string representation of this Employee
+     * Devuelve una representación en string de este Empleado
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

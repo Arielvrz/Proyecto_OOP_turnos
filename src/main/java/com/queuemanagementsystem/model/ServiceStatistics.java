@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Collects and processes statistical data about the service operation.
+ * Recopila y procesa datos estadísticos sobre la operación del servicio.
  */
 public class ServiceStatistics {
     private LocalDateTime periodStart;
@@ -18,7 +18,7 @@ public class ServiceStatistics {
     private Map<String, Double> employeePerformance;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public ServiceStatistics() {
         this.periodStart = LocalDateTime.now();
@@ -27,10 +27,10 @@ public class ServiceStatistics {
     }
 
     /**
-     * Constructor with period dates
+     * Constructor con fechas de período
      *
-     * @param periodStart Start of the statistics period
-     * @param periodEnd End of the statistics period
+     * @param periodStart Inicio del período de estadísticas
+     * @param periodEnd Fin del período de estadísticas
      */
     public ServiceStatistics(LocalDateTime periodStart, LocalDateTime periodEnd) {
         this.periodStart = periodStart;
@@ -40,9 +40,9 @@ public class ServiceStatistics {
     }
 
     /**
-     * Generates daily statistics report
+     * Genera un informe de estadísticas diarias
      *
-     * @return A string containing the daily statistics report
+     * @return Una cadena que contiene el informe de estadísticas diarias
      */
     public String generateDailyStatistics() {
         StringBuilder report = new StringBuilder();
@@ -62,10 +62,10 @@ public class ServiceStatistics {
     }
 
     /**
-     * Calculates an employee's productivity
+     * Calcula la productividad de un empleado
      *
-     * @param employee The employee to calculate productivity for
-     * @return A productivity score (tickets per hour)
+     * @param employee El empleado para calcular la productividad
+     * @return Una puntuación de productividad (tickets por hora)
      */
     public double calculateEmployeeProductivity(Employee employee) {
         if (employee == null) {
@@ -77,31 +77,31 @@ public class ServiceStatistics {
     }
 
     /**
-     * Updates statistics with a new ticket
+     * Actualiza las estadísticas con un nuevo ticket
      *
-     * @param ticket The ticket to add to statistics
+     * @param ticket El ticket para añadir a las estadísticas
      */
     public void updateWithTicket(Ticket ticket) {
         if (ticket == null) {
             return;
         }
 
-        // Update ticket counts
+        // Actualiza conteo de tickets
         generatedTickets++;
 
         if ("COMPLETED".equals(ticket.getStatus())) {
             attendedTickets++;
 
-            // Update waiting and service times
+            // Actualiza tiempos de espera y servicio
             long waitingTime = ticket.calculateWaitingTime();
             long serviceTime = ticket.calculateServiceTime();
 
-            // Recalculate averages
+            // Recalcula promedios
             averageWaitingTime = ((averageWaitingTime * (attendedTickets - 1)) + waitingTime) / attendedTickets;
             averageServiceTime = ((averageServiceTime * (attendedTickets - 1)) + serviceTime) / attendedTickets;
         }
 
-        // Update category statistics
+        // Actualiza estadísticas por categoría
         if (ticket.getCategory() != null) {
             String categoryName = ticket.getCategory().getName();
             ticketsByCategory.put(categoryName, ticketsByCategory.getOrDefault(categoryName, 0) + 1);
@@ -109,16 +109,16 @@ public class ServiceStatistics {
     }
 
     /**
-     * Updates employee performance statistics
+     * Actualiza las estadísticas de rendimiento del empleado
      *
-     * @param employeeId The employee's ID
-     * @param ticketsPerHour Productivity measure
+     * @param employeeId El ID del empleado
+     * @param ticketsPerHour Medida de productividad
      */
     public void updateEmployeePerformance(String employeeId, double ticketsPerHour) {
         employeePerformance.put(employeeId, ticketsPerHour);
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public LocalDateTime getPeriodStart() {
         return periodStart;
@@ -169,17 +169,17 @@ public class ServiceStatistics {
     }
 
     public Map<String, Integer> getTicketsByCategory() {
-        return new HashMap<>(ticketsByCategory);  // Return a copy to maintain encapsulation
+        return new HashMap<>(ticketsByCategory);  // Devuelve una copia para mantener la encapsulación
     }
 
     public Map<String, Double> getEmployeePerformance() {
-        return new HashMap<>(employeePerformance);  // Return a copy to maintain encapsulation
+        return new HashMap<>(employeePerformance);  // Devuelve una copia para mantener la encapsulación
     }
 
     /**
-     * Returns a string representation of this ServiceStatistics
+     * Devuelve una representación en string de estas Estadísticas de Servicio
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

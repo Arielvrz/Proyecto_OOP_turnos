@@ -7,32 +7,32 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service class for managing clients.
+ * Clase de servicio para gestionar clientes.
  */
 public class ClientService {
     private final ClientRepository clientRepository;
 
     /**
-     * Constructor with repository dependency
+     * Constructor con dependencia del repositorio
      *
-     * @param clientRepository Repository for client data
+     * @param clientRepository Repositorio para datos de cliente
      */
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     /**
-     * Registers a new client
+     * Registra un nuevo cliente
      *
-     * @param client The client to register
-     * @return true if registration was successful, false otherwise
+     * @param client El cliente a registrar
+     * @return true si el registro fue exitoso, false en caso contrario
      */
     public boolean registerClient(Client client) {
         if (client == null || client.getId() == null || client.getId().isEmpty()) {
             return false;
         }
 
-        // Check if client already exists
+        // Verifica si el cliente ya existe
         if (clientRepository.findById(client.getId()).isPresent()) {
             return false;
         }
@@ -41,17 +41,17 @@ public class ClientService {
     }
 
     /**
-     * Updates an existing client
+     * Actualiza un cliente existente
      *
-     * @param client The client with updated information
-     * @return true if update was successful, false otherwise
+     * @param client El cliente con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     public boolean updateClient(Client client) {
         if (client == null || client.getId() == null || client.getId().isEmpty()) {
             return false;
         }
 
-        // Check if client exists
+        // Verifica si el cliente existe
         if (!clientRepository.findById(client.getId()).isPresent()) {
             return false;
         }
@@ -60,10 +60,10 @@ public class ClientService {
     }
 
     /**
-     * Gets a client by ID
+     * Obtiene un cliente por su ID
      *
-     * @param clientId The client ID
-     * @return Optional containing the client if found, empty otherwise
+     * @param clientId El ID del cliente
+     * @return Optional que contiene el cliente si se encuentra, vacío en caso contrario
      */
     public Optional<Client> getClientById(String clientId) {
         if (clientId == null || clientId.isEmpty()) {
@@ -74,19 +74,19 @@ public class ClientService {
     }
 
     /**
-     * Gets all clients
+     * Obtiene todos los clientes
      *
-     * @return List of all clients
+     * @return Lista de todos los clientes
      */
     public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
     /**
-     * Deletes a client
+     * Elimina un cliente
      *
-     * @param clientId The ID of the client to delete
-     * @return true if deletion was successful, false otherwise
+     * @param clientId El ID del cliente a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     public boolean deleteClient(String clientId) {
         if (clientId == null || clientId.isEmpty()) {

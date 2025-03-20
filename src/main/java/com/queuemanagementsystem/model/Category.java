@@ -1,4 +1,5 @@
 package com.queuemanagementsystem.model;
+package com.queuemanagementsystem.model;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -7,7 +8,7 @@ import java.util.Objects;
 import java.util.Queue;
 
 /**
- * Represents a service category that clients can request.
+ * Representa una categoría de servicio que los clientes pueden solicitar.
  */
 public class Category {
     private int id;
@@ -15,12 +16,12 @@ public class Category {
     private String description;
     private String prefix;
     private boolean active;
-    // Make ticketQueue transient to exclude it from serialization
+    // Hacer ticketQueue transitorio para excluirlo de la serialización
     private transient Queue<Ticket> ticketQueue;
     private List<Employee> assignedEmployees;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public Category() {
         this.ticketQueue = new LinkedList<>();
@@ -29,11 +30,11 @@ public class Category {
     }
 
     /**
-     * Parameterized constructor with essential fields
+     * Constructor parametrizado con campos esenciales
      *
-     * @param id Category's unique identifier
-     * @param name Category's name
-     * @param prefix Category's prefix for ticket codes
+     * @param id Identificador único de la categoría
+     * @param name Nombre de la categoría
+     * @param prefix Prefijo de la categoría para códigos de tickets
      */
     public Category(int id, String name, String prefix) {
         this.id = id;
@@ -45,13 +46,13 @@ public class Category {
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param id Category's unique identifier
-     * @param name Category's name
-     * @param description Category's description
-     * @param prefix Category's prefix for ticket codes
-     * @param active Whether the category is active
+     * @param id Identificador único de la categoría
+     * @param name Nombre de la categoría
+     * @param description Descripción de la categoría
+     * @param prefix Prefijo de la categoría para códigos de tickets
+     * @param active Si la categoría está activa
      */
     public Category(int id, String name, String description, String prefix, boolean active) {
         this.id = id;
@@ -64,14 +65,14 @@ public class Category {
     }
 
     /**
-     * Adds a ticket to the queue
+     * Añade un ticket a la cola
      *
-     * @param ticket The ticket to add
-     * @return true if the ticket was added successfully, false otherwise
+     * @param ticket El ticket a añadir
+     * @return true si el ticket fue añadido exitosamente, false en caso contrario
      */
     public boolean addTicketToQueue(Ticket ticket) {
         if (ticket != null && active) {
-            // Make sure the ticketQueue is initialized
+            // Asegurarse de que ticketQueue esté inicializado
             if (ticketQueue == null) {
                 ticketQueue = new LinkedList<>();
             }
@@ -81,12 +82,12 @@ public class Category {
     }
 
     /**
-     * Gets the next ticket in the queue
+     * Obtiene el siguiente ticket en la cola
      *
-     * @return The next ticket or null if the queue is empty
+     * @return El siguiente ticket o null si la cola está vacía
      */
     public Ticket getNextTicket() {
-        // Make sure the ticketQueue is initialized
+        // Asegurarse de que ticketQueue esté inicializado
         if (ticketQueue == null) {
             ticketQueue = new LinkedList<>();
         }
@@ -94,12 +95,12 @@ public class Category {
     }
 
     /**
-     * Counts the number of pending tickets in the queue
+     * Cuenta el número de tickets pendientes en la cola
      *
-     * @return The number of pending tickets
+     * @return El número de tickets pendientes
      */
     public int countPendingTickets() {
-        // Make sure the ticketQueue is initialized
+        // Asegurarse de que ticketQueue esté inicializado
         if (ticketQueue == null) {
             ticketQueue = new LinkedList<>();
         }
@@ -107,9 +108,9 @@ public class Category {
     }
 
     /**
-     * Activates the category, allowing new tickets to be added
+     * Activa la categoría, permitiendo que se añadan nuevos tickets
      *
-     * @return true indicating the category was activated
+     * @return true indicando que la categoría fue activada
      */
     public boolean activate() {
         this.active = true;
@@ -117,9 +118,9 @@ public class Category {
     }
 
     /**
-     * Deactivates the category, preventing new tickets from being added
+     * Desactiva la categoría, impidiendo que se añadan nuevos tickets
      *
-     * @return true indicating the category was deactivated
+     * @return true indicando que la categoría fue desactivada
      */
     public boolean deactivate() {
         this.active = false;
@@ -127,10 +128,10 @@ public class Category {
     }
 
     /**
-     * Assigns an employee to this category
+     * Asigna un empleado a esta categoría
      *
-     * @param employee The employee to assign
-     * @return true if the employee was assigned successfully, false otherwise
+     * @param employee El empleado a asignar
+     * @return true si el empleado fue asignado exitosamente, false en caso contrario
      */
     public boolean assignEmployee(Employee employee) {
         if (employee != null && !assignedEmployees.contains(employee)) {
@@ -140,16 +141,16 @@ public class Category {
     }
 
     /**
-     * Removes an employee from this category
+     * Elimina un empleado de esta categoría
      *
-     * @param employee The employee to remove
-     * @return true if the employee was removed successfully, false otherwise
+     * @param employee El empleado a eliminar
+     * @return true si el empleado fue eliminado exitosamente, false en caso contrario
      */
     public boolean removeEmployee(Employee employee) {
         return assignedEmployees.remove(employee);
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public int getId() {
         return id;
@@ -192,27 +193,27 @@ public class Category {
     }
 
     public List<Employee> getAssignedEmployees() {
-        return new ArrayList<>(assignedEmployees);  // Return a copy to maintain encapsulation
+        return new ArrayList<>(assignedEmployees);  // Devuelve una copia para mantener la encapsulación
     }
 
     /**
-     * Peek at the tickets in the queue without removing them
+     * Visualiza los tickets en la cola sin eliminarlos
      *
-     * @return A list of tickets in the queue
+     * @return Una lista de tickets en la cola
      */
     public List<Ticket> peekTicketQueue() {
-        // Make sure the ticketQueue is initialized
+        // Asegurarse de que ticketQueue esté inicializado
         if (ticketQueue == null) {
             ticketQueue = new LinkedList<>();
         }
-        return new ArrayList<>(ticketQueue);  // Return a copy to maintain encapsulation
+        return new ArrayList<>(ticketQueue);  // Devuelve una copia para mantener la encapsulación
     }
 
     /**
-     * Compares this Category to another object for equality
+     * Compara esta Categoría con otro objeto para determinar igualdad
      *
-     * @param o The object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @param o El objeto a comparar
+     * @return true si los objetos son iguales, false en caso contrario
      */
     @Override
     public boolean equals(Object o) {
@@ -223,9 +224,9 @@ public class Category {
     }
 
     /**
-     * Generates a hash code for this Category
+     * Genera un código hash para esta Categoría
      *
-     * @return The hash code
+     * @return El código hash
      */
     @Override
     public int hashCode() {
@@ -233,9 +234,9 @@ public class Category {
     }
 
     /**
-     * Returns a string representation of this Category
+     * Devuelve una representación en string de esta Categoría
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

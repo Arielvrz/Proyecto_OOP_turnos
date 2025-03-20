@@ -6,35 +6,35 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
 /**
- * Utility class for date and time operations.
+ * Clase de utilidad para operaciones de fecha y hora.
  */
 public class DateTimeUtil {
 
     /**
-     * Gets the start of the current day (midnight)
+     * Obtiene el inicio del día actual (medianoche)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the start of the day (00:00:00)
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el inicio del día (00:00:00)
      */
     public LocalDateTime getStartOfDay(LocalDateTime dateTime) {
         return dateTime.toLocalDate().atStartOfDay();
     }
 
     /**
-     * Gets the end of the current day (23:59:59.999999999)
+     * Obtiene el final del día actual (23:59:59.999999999)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the end of the day
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el final del día
      */
     public LocalDateTime getEndOfDay(LocalDateTime dateTime) {
         return dateTime.toLocalDate().atTime(LocalTime.MAX);
     }
 
     /**
-     * Gets the start of the current week (Monday at midnight)
+     * Obtiene el inicio de la semana actual (Lunes a medianoche)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the start of the week
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el inicio de la semana
      */
     public LocalDateTime getStartOfWeek(LocalDateTime dateTime) {
         return dateTime.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
@@ -42,10 +42,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Gets the end of the current week (Sunday at 23:59:59.999999999)
+     * Obtiene el final de la semana actual (Domingo a las 23:59:59.999999999)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the end of the week
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el final de la semana
      */
     public LocalDateTime getEndOfWeek(LocalDateTime dateTime) {
         return dateTime.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
@@ -53,10 +53,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Gets the start of the current month (1st day at midnight)
+     * Obtiene el inicio del mes actual (día 1 a medianoche)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the start of the month
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el inicio del mes
      */
     public LocalDateTime getStartOfMonth(LocalDateTime dateTime) {
         return dateTime.with(TemporalAdjusters.firstDayOfMonth())
@@ -64,10 +64,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Gets the end of the current month (last day at 23:59:59.999999999)
+     * Obtiene el final del mes actual (último día a las 23:59:59.999999999)
      *
-     * @param dateTime The reference date and time
-     * @return LocalDateTime representing the end of the month
+     * @param dateTime La fecha y hora de referencia
+     * @return LocalDateTime que representa el final del mes
      */
     public LocalDateTime getEndOfMonth(LocalDateTime dateTime) {
         return dateTime.with(TemporalAdjusters.lastDayOfMonth())
@@ -75,10 +75,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Formats a duration in minutes to a readable string (e.g., "2h 30m")
+     * Formatea una duración en minutos a una cadena legible (ej. "2h 30m")
      *
-     * @param minutes The duration in minutes
-     * @return A formatted string representation
+     * @param minutes La duración en minutos
+     * @return Una representación formateada en cadena
      */
     public String formatDuration(long minutes) {
         long hours = minutes / 60;
@@ -92,10 +92,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Formats a LocalDateTime to a readable date and time string
+     * Formatea un LocalDateTime a una cadena legible de fecha y hora
      *
-     * @param dateTime The LocalDateTime to format
-     * @return A formatted string representation
+     * @param dateTime El LocalDateTime a formatear
+     * @return Una representación formateada en cadena
      */
     public String formatDateTime(LocalDateTime dateTime) {
         if (dateTime == null) {

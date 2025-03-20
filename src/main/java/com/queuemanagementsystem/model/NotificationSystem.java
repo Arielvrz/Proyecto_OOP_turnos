@@ -1,7 +1,7 @@
 package com.queuemanagementsystem.model;
 
 /**
- * Manages visual notifications for clients.
+ * Gestiona las notificaciones visuales para los clientes.
  */
 public class NotificationSystem {
     private String displayMessage;
@@ -9,18 +9,18 @@ public class NotificationSystem {
     private int currentStation;
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public NotificationSystem() {
         this.displayMessage = "Welcome to the Queue Management System";
     }
 
     /**
-     * Displays a ticket on the notification screen
+     * Muestra un ticket en la pantalla de notificación
      *
-     * @param ticket The ticket to display
-     * @param stationNumber The station number where the ticket should be attended
-     * @return true if the display was updated successfully, false otherwise
+     * @param ticket El ticket a mostrar
+     * @param stationNumber El número de la estación donde el ticket debe ser atendido
+     * @return true si la pantalla se actualizó con éxito, false en caso contrario
      */
     public boolean displayTicket(Ticket ticket, int stationNumber) {
         if (ticket == null) {
@@ -31,43 +31,43 @@ public class NotificationSystem {
         this.currentStation = stationNumber;
         this.displayMessage = "Ticket " + currentTicket + " please proceed to station " + currentStation;
 
-        // In a real system, this would update a physical display or send notifications
+        // En un sistema real, esto actualizaría una pantalla física o enviaría notificaciones
         System.out.println("DISPLAY UPDATE: " + displayMessage);
 
         return true;
     }
 
     /**
-     * Generates a visual alert for a specific ticket
+     * Genera una alerta visual para un ticket específico
      *
-     * @param ticket The ticket to alert
-     * @return true if the alert was generated successfully, false otherwise
+     * @param ticket El ticket para alertar
+     * @return true si la alerta se generó con éxito, false en caso contrario
      */
     public boolean generateVisualAlert(Ticket ticket) {
         if (ticket == null) {
             return false;
         }
 
-        // Flash the display or use other visual cues
+        // Hacer parpadear la pantalla o usar otras señales visuales
         this.displayMessage = "**ALERT** Ticket " + ticket.getCode() + " is now being called!";
 
-        // In a real system, this would trigger special visual effects
+        // En un sistema real, esto activaría efectos visuales especiales
         System.out.println("VISUAL ALERT: " + displayMessage);
 
         return true;
     }
 
     /**
-     * Updates the display with a custom message
+     * Actualiza la pantalla con un mensaje personalizado
      *
-     * @param message The message to display
-     * @return true if the display was updated successfully
+     * @param message El mensaje a mostrar
+     * @return true si la pantalla se actualizó con éxito
      */
     public boolean updateDisplay(String message) {
         if (message != null && !message.isEmpty()) {
             this.displayMessage = message;
 
-            // In a real system, this would update a physical display
+            // En un sistema real, esto actualizaría una pantalla física
             System.out.println("DISPLAY UPDATE: " + displayMessage);
 
             return true;
@@ -76,22 +76,22 @@ public class NotificationSystem {
     }
 
     /**
-     * Clears the display
+     * Limpia la pantalla
      *
-     * @return true indicating the display was cleared
+     * @return true indicando que la pantalla fue limpiada
      */
     public boolean clearDisplay() {
         this.displayMessage = "";
         this.currentTicket = null;
         this.currentStation = 0;
 
-        // In a real system, this would clear a physical display
+        // En un sistema real, esto limpiaría una pantalla física
         System.out.println("DISPLAY CLEARED");
 
         return true;
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public String getDisplayMessage() {
         return displayMessage;
@@ -110,9 +110,9 @@ public class NotificationSystem {
     }
 
     /**
-     * Returns a string representation of this NotificationSystem
+     * Devuelve una representación en string de este Sistema de Notificación
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

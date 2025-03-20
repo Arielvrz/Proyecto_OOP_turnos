@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Service class for managing service stations.
+ * Clase de servicio para gestionar estaciones de servicio.
  */
 public class StationService {
     private final StationRepository stationRepository;
@@ -20,11 +20,11 @@ public class StationService {
     private final CategoryRepository categoryRepository;
 
     /**
-     * Constructor with repository dependencies
+     * Constructor con dependencias de repositorios
      *
-     * @param stationRepository Repository for station data
-     * @param userRepository Repository for user data (to access employees)
-     * @param categoryRepository Repository for category data
+     * @param stationRepository Repositorio para datos de estaciones
+     * @param userRepository Repositorio para datos de usuarios (para acceder a empleados)
+     * @param categoryRepository Repositorio para datos de categorías
      */
     public StationService(StationRepository stationRepository, UserRepository userRepository,
                           CategoryRepository categoryRepository) {
@@ -34,21 +34,21 @@ public class StationService {
     }
 
     /**
-     * Creates a new service station
+     * Crea una nueva estación de servicio
      *
-     * @param stationNumber The station's display number
-     * @return The created station if successful, null otherwise
+     * @param stationNumber El número de visualización de la estación
+     * @return La estación creada si fue exitoso, null en caso contrario
      */
     public Station createStation(int stationNumber) {
-        // Check if a station with the same number already exists
+        // Verifica si ya existe una estación con el mismo número
         boolean numberExists = stationRepository.findAll().stream()
                 .anyMatch(s -> s.getNumber() == stationNumber);
 
         if (numberExists) {
-            return null; // Station number must be unique
+            return null; // El número de estación debe ser único
         }
 
-        // Generate a new ID (in a real system, this might be handled differently)
+        // Genera un nuevo ID (en un sistema real, esto podría manejarse de manera diferente)
         int newId = getNextStationId();
 
         Station station = new Station(newId, stationNumber);
@@ -61,10 +61,10 @@ public class StationService {
     }
 
     /**
-     * Opens a station for service
+     * Abre una estación para servicio
      *
-     * @param stationId The station ID
-     * @return true if the station was opened successfully, false otherwise
+     * @param stationId El ID de la estación
+     * @return true si la estación se abrió correctamente, false en caso contrario
      */
     public boolean openStation(int stationId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
@@ -82,10 +82,10 @@ public class StationService {
     }
 
     /**
-     * Closes a station
+     * Cierra una estación
      *
-     * @param stationId The station ID
-     * @return true if the station was closed successfully, false otherwise
+     * @param stationId El ID de la estación
+     * @return true si la estación se cerró correctamente, false en caso contrario
      */
     public boolean closeStation(int stationId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
@@ -103,11 +103,11 @@ public class StationService {
     }
 
     /**
-     * Assigns an employee to a station
+     * Asigna un empleado a una estación
      *
-     * @param stationId The station ID
-     * @param employeeId The employee ID
-     * @return true if the assignment was successful, false otherwise
+     * @param stationId El ID de la estación
+     * @param employeeId El ID del empleado
+     * @return true si la asignación fue exitosa, false en caso contrario
      */
     public boolean assignEmployeeToStation(int stationId, String employeeId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
@@ -127,22 +127,22 @@ public class StationService {
         Station station = stationOpt.get();
         Employee employee = employeeOpt.get();
 
-        // Check if the employee is already assigned to another station
+        // Verifica si el empleado ya está asignado a otra estación
         if (employee.getAssignedStation() != null &&
                 employee.getAssignedStation().getId() != stationId) {
-            // Unassign from the current station
+            // Designa de la estación actual
             Station currentStation = employee.getAssignedStation();
             currentStation.setAssignedEmployee(null);
             stationRepository.update(currentStation);
         }
 
-        // Assign to the new station
+        // Asigna a la nueva estación
         station.setAssignedEmployee(employee);
 
-        // This is important - we need to update the station first
+        // Esto es importante - necesitamos actualizar la estación primero
         boolean stationUpdated = stationRepository.update(station);
 
-        // Then update the employee separately
+        // Luego actualizar el empleado por separado
         employee.setAssignedStation(station);
         boolean employeeUpdated = userRepository.update(employee);
 
@@ -150,13 +150,13 @@ public class StationService {
     }
 
     /**
-     * Adds a service category to a station
+     * Añade una categoría de servicio a una estación
      *
-     * @param stationId The station ID
-     * @param categoryId The category ID
-     * @return true if the category was added successfully, false otherwise
+     * @param stationId El ID de la estación
+     * @param categoryId El ID de la categoría
+     * @return true si la categoría se añadió correctamente, false en caso contrario
      */
-    // In StationService.java
+    // En StationService.java
     public boolean addCategoryToStation(int stationId, int categoryId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
@@ -168,10 +168,10 @@ public class StationService {
         Station station = stationOpt.get();
         Category category = categoryOpt.get();
 
-        // Check if the category is already in the station (to avoid the error message)
+        // Verifica si la categoría ya está en la estación (para evitar el mensaje de error)
         if (station.getSupportedCategoryIds().contains(categoryId)) {
-            System.out.println("This category is already supported by this station.");
-            return true; // Return true to avoid the error message
+            System.out.println("Esta categoría ya está soportada por esta estación.");
+            return true; // Devuelve true para evitar el mensaje de error
         }
 
         if (station.addCategory(category)) {
@@ -182,11 +182,11 @@ public class StationService {
     }
 
     /**
-     * Removes a service category from a station
+     * Elimina una categoría de servicio de una estación
      *
-     * @param stationId The station ID
-     * @param categoryId The category ID
-     * @return true if the category was removed successfully, false otherwise
+     * @param stationId El ID de la estación
+     * @param categoryId El ID de la categoría
+     * @return true si la categoría se eliminó correctamente, false en caso contrario
      */
     public boolean removeCategoryFromStation(int stationId, int categoryId) {
         Optional<Station> stationOpt = stationRepository.findById(stationId);
@@ -207,9 +207,9 @@ public class StationService {
     }
 
     /**
-     * Gets all open stations
+     * Obtiene todas las estaciones abiertas
      *
-     * @return List of open stations
+     * @return Lista de estaciones abiertas
      */
     public List<Station> getAllOpenStations() {
         return stationRepository.findAll().stream()
@@ -220,31 +220,30 @@ public class StationService {
 
 
     /**
-     * Gets all stations
+     * Obtiene todas las estaciones
      *
-     * @return List of all stations
+     * @return Lista de todas las estaciones
      */
     public List<Station> getAllStations() {
         return stationRepository.findAll();
     }
 
     /**
-     * Gets a station by ID
+     * Obtiene una estación por su ID
      *
-     * @param stationId The station ID
-     * @return Optional containing the station if found, empty otherwise
+     * @param stationId El ID de la estación
+     * @return Optional que contiene la estación si se encuentra, vacío en caso contrario
      */
     public Optional<Station> getStationById(int stationId) {
         return stationRepository.findById(stationId);
     }
 
     /**
-     * Gets stations that support a specific category
+     * Obtiene estaciones que soportan una categoría específica
      *
-     * @param categoryId The category ID
-     * @return List of stations supporting the category
+     * @param categoryId El ID de la categoría
+     * @return Lista de estaciones que soportan la categoría
      */
-
     public List<Station> getStationsBySupportedCategory(int categoryId) {
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
 
@@ -257,9 +256,9 @@ public class StationService {
                 .collect(Collectors.toList());
     }
     /**
-     * Generates the next available station ID
+     * Genera el siguiente ID de estación disponible
      *
-     * @return The next available ID
+     * @return El siguiente ID disponible
      */
     private int getNextStationId() {
         return stationRepository.findAll().stream()
@@ -268,20 +267,23 @@ public class StationService {
                 .orElse(0) + 1;
     }
 
+    /**
+     * Resuelve referencias entre objetos
+     */
     public void resolveReferences() {
         List<Station> stations = stationRepository.findAll();
 
         for (Station station : stations) {
-            // Instead of using getAssignedEmployeeId(), check if the assigned employee is null
+            // En lugar de usar getAssignedEmployeeId(), verifica si el empleado asignado es null
             Employee assignedEmployee = station.getAssignedEmployee();
             if (assignedEmployee != null) {
-                // Use the existing employee ID
+                // Usa el ID de empleado existente
                 String employeeId = assignedEmployee.getId();
                 if (employeeId != null && !employeeId.isEmpty()) {
                     userRepository.findById(employeeId).ifPresent(user -> {
                         if (user instanceof Employee) {
                             Employee employee = (Employee) user;
-                            // Use existing setter without recursive updates
+                            // Usa el setter existente sin actualizaciones recursivas
                             station.setAssignedEmployee(employee);
                         }
                     });
@@ -290,4 +292,3 @@ public class StationService {
         }
     }
 }
-

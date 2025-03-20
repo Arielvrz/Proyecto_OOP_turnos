@@ -9,48 +9,48 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Service class for managing service categories.
+ * Clase de servicio para gestionar categorías de servicio.
  */
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     /**
-     * Constructor with repository dependency
+     * Constructor con dependencia del repositorio
      *
-     * @param categoryRepository Repository for category data
+     * @param categoryRepository Repositorio para datos de categoría
      */
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
     /**
-     * Creates a new service category
+     * Crea una nueva categoría de servicio
      *
-     * @param name Category name
-     * @param description Category description
-     * @param prefix Prefix for ticket codes
-     * @return The created category if successful, null otherwise
+     * @param name Nombre de la categoría
+     * @param description Descripción de la categoría
+     * @param prefix Prefijo para códigos de ticket
+     * @return La categoría creada si fue exitoso, null en caso contrario
      */
     public Category createCategory(String name, String description, String prefix) {
-        // Check if a category with the same prefix already exists
+        // Verifica si ya existe una categoría con el mismo prefijo
         boolean prefixExists = categoryRepository.findAll().stream()
                 .anyMatch(c -> prefix.equals(c.getPrefix()));
 
         if (prefixExists) {
-            return null; // Prefix must be unique
+            return null; // El prefijo debe ser único
         }
 
-        // Generate a new ID (in a real system, this might be handled differently)
+        // Genera un nuevo ID (en un sistema real, esto podría manejarse de manera diferente)
         int newId = getNextCategoryId();
 
         Category category = new Category(newId, name, description, prefix, true);
 
-        // Replace this line:
+        // Reemplazo de esta línea:
         // if (categoryRepository.save(category)) {
         //     return category;
         // }
 
-        // With this:
+        // Con esta:
         Category savedCategory = categoryRepository.save(category);
         if (savedCategory != null) {
             return savedCategory;
@@ -60,17 +60,17 @@ public class CategoryService {
     }
 
     /**
-     * Updates an existing category
+     * Actualiza una categoría existente
      *
-     * @param category The category with updated information
-     * @return true if the update was successful, false otherwise
+     * @param category La categoría con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     public boolean updateCategory(Category category) {
         if (category == null || !categoryRepository.findById(category.getId()).isPresent()) {
             return false;
         }
 
-        // Check if updating the prefix would create a duplicate
+        // Verifica si actualizar el prefijo crearía un duplicado
         if (categoryRepository.findAll().stream()
                 .anyMatch(c -> category.getPrefix().equals(c.getPrefix()) && c.getId() != category.getId())) {
             return false;
@@ -80,10 +80,10 @@ public class CategoryService {
     }
 
     /**
-     * Activates a category
+     * Activa una categoría
      *
-     * @param categoryId The ID of the category to activate
-     * @return true if the activation was successful, false otherwise
+     * @param categoryId El ID de la categoría a activar
+     * @return true si la activación fue exitosa, false en caso contrario
      */
     public boolean activateCategory(int categoryId) {
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
@@ -99,10 +99,10 @@ public class CategoryService {
     }
 
     /**
-     * Deactivates a category
+     * Desactiva una categoría
      *
-     * @param categoryId The ID of the category to deactivate
-     * @return true if the deactivation was successful, false otherwise
+     * @param categoryId El ID de la categoría a desactivar
+     * @return true si la desactivación fue exitosa, false en caso contrario
      */
     public boolean deactivateCategory(int categoryId) {
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
@@ -118,11 +118,11 @@ public class CategoryService {
     }
 
     /**
-     * Assigns an employee to a category
+     * Asigna un empleado a una categoría
      *
-     * @param categoryId The category ID
-     * @param employee The employee to assign
-     * @return true if the assignment was successful, false otherwise
+     * @param categoryId El ID de la categoría
+     * @param employee El empleado a asignar
+     * @return true si la asignación fue exitosa, false en caso contrario
      */
     public boolean assignEmployeeToCategory(int categoryId, Employee employee) {
         if (employee == null) {
@@ -144,11 +144,11 @@ public class CategoryService {
     }
 
     /**
-     * Removes an employee from a category
+     * Elimina un empleado de una categoría
      *
-     * @param categoryId The category ID
-     * @param employee The employee to remove
-     * @return true if the removal was successful, false otherwise
+     * @param categoryId El ID de la categoría
+     * @param employee El empleado a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     public boolean removeEmployeeFromCategory(int categoryId, Employee employee) {
         if (employee == null) {
@@ -170,9 +170,9 @@ public class CategoryService {
     }
 
     /**
-     * Gets all active categories
+     * Obtiene todas las categorías activas
      *
-     * @return List of active categories
+     * @return Lista de categorías activas
      */
     public List<Category> getAllActiveCategories() {
         return categoryRepository.findAll().stream()
@@ -181,29 +181,29 @@ public class CategoryService {
     }
 
     /**
-     * Gets all categories (active and inactive)
+     * Obtiene todas las categorías (activas e inactivas)
      *
-     * @return List of all categories
+     * @return Lista de todas las categorías
      */
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
     /**
-     * Gets a category by ID
+     * Obtiene una categoría por su ID
      *
-     * @param categoryId The category ID
-     * @return Optional containing the category if found, empty otherwise
+     * @param categoryId El ID de la categoría
+     * @return Optional que contiene la categoría si se encuentra, vacío en caso contrario
      */
     public Optional<Category> getCategoryById(int categoryId) {
         return categoryRepository.findById(categoryId);
     }
 
     /**
-     * Gets a category by prefix
+     * Obtiene una categoría por su prefijo
      *
-     * @param prefix The category prefix
-     * @return Optional containing the category if found, empty otherwise
+     * @param prefix El prefijo de la categoría
+     * @return Optional que contiene la categoría si se encuentra, vacío en caso contrario
      */
     public Optional<Category> getCategoryByPrefix(String prefix) {
         return categoryRepository.findAll().stream()
@@ -212,9 +212,9 @@ public class CategoryService {
     }
 
     /**
-     * Generates the next available category ID
+     * Genera el siguiente ID de categoría disponible
      *
-     * @return The next available ID
+     * @return El siguiente ID disponible
      */
     private int getNextCategoryId() {
         return categoryRepository.findAll().stream()

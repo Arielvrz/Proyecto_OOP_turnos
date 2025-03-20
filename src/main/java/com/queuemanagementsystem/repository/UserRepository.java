@@ -8,90 +8,90 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for User data access operations.
+ * Interfaz de repositorio para operaciones de acceso a datos de Usuario.
  */
 public interface UserRepository {
     /**
-     * Saves a user to the repository
+     * Guarda un usuario en el repositorio
      *
-     * @param user The user to save
-     * @return The saved user
+     * @param user El usuario a guardar
+     * @return El usuario guardado
      */
     User save(User user);
 
     /**
-     * Finds a user by their ID
+     * Busca un usuario por su ID
      *
-     * @param id The user ID to search for
-     * @return Optional containing the user if found, empty otherwise
+     * @param id El ID del usuario a buscar
+     * @return Optional que contiene el usuario si se encuentra, vacío en caso contrario
      */
     Optional<User> findById(String id);
 
     /**
-     * Gets all users in the repository
+     * Obtiene todos los usuarios en el repositorio
      *
-     * @return List of all users
+     * @return Lista de todos los usuarios
      */
     List<User> findAll();
 
     /**
-     * Deletes a user by their ID
+     * Elimina un usuario por su ID
      *
-     * @param id The ID of the user to delete
-     * @return true if deletion was successful, false otherwise
+     * @param id El ID del usuario a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean deleteById(String id);
 
     /**
-     * Authenticates a user with provided credentials
+     * Autentica un usuario con las credenciales proporcionadas
      *
-     * @param id The user ID
-     * @param password The user password
-     * @return Optional containing the authenticated user if successful, empty otherwise
+     * @param id El ID del usuario
+     * @param password La contraseña del usuario
+     * @return Optional que contiene el usuario autenticado si es exitoso, vacío en caso contrario
      */
     Optional<User> authenticate(String id, String password);
 
     /**
-     * Saves all users to persistent storage
+     * Guarda todos los usuarios en almacenamiento persistente
      *
-     * @return true if save was successful, false otherwise
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean saveAll();
 
     /**
-     * Loads all users from persistent storage
+     * Carga todos los usuarios desde almacenamiento persistente
      *
-     * @return true if load was successful, false otherwise
+     * @return true si la carga fue exitosa, false en caso contrario
      */
     boolean loadAll();
 
     /**
-     * Updates an existing user
+     * Actualiza un usuario existente
      *
-     * @param user The user with updated information
-     * @return true if update was successful, false otherwise
+     * @param user El usuario con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     boolean update(User user);
 
     /**
-     * Deletes a user
+     * Elimina un usuario
      *
-     * @param id The ID of the user to delete
-     * @return true if deletion was successful, false otherwise
+     * @param id El ID del usuario a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean delete(String id);
 
     /**
-     * Finds all employees in the repository
+     * Busca todos los empleados en el repositorio
      *
-     * @return A list of all employees
+     * @return Una lista de todos los empleados
      */
     List<Employee> findAllEmployees();
 
     /**
-     * Finds all administrators in the repository
+     * Busca todos los administradores en el repositorio
      *
-     * @return A list of all administrators
+     * @return Una lista de todos los administradores
      */
     List<Administrator> findAllAdministrators();
 }

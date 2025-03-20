@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of ClientRepository using JSON file for persistence.
+ * Implementación de ClientRepository usando archivo JSON para persistencia.
  */
 public class JsonClientRepository implements ClientRepository {
     private static final String FILE_PATH = "data/clients.json";
     private List<Client> clients;
 
     /**
-     * Default constructor. Loads clients from file.
+     * Constructor por defecto. Carga clientes desde el archivo.
      */
     public JsonClientRepository() {
         this.clients = new ArrayList<>();
@@ -26,13 +26,13 @@ public class JsonClientRepository implements ClientRepository {
     @Override
     public Client save(Client client) {
         if (client == null) {
-            throw new IllegalArgumentException("Client cannot be null");
+            throw new IllegalArgumentException("El cliente no puede ser nulo");
         }
 
-        // Check if the client already exists
+        // Verifica si el cliente ya existe
         Optional<Client> existingClient = findById(client.getId());
         if (existingClient.isPresent()) {
-            // Update existing client
+            // Actualiza el cliente existente
             clients.remove(existingClient.get());
         }
 

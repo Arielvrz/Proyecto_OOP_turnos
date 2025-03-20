@@ -5,17 +5,17 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents a physical station where employees attend to clients.
+ * Representa una estación física donde los empleados atienden a los clientes.
  */
 public class Station {
     private int id;
     private int number;
     private String status; // "OPEN", "CLOSED"
     private Employee assignedEmployee;
-    private List<Integer> supportedCategoryIds; // Changed from List<Category> to List<Integer>
+    private List<Integer> supportedCategoryIds; // Cambiado de List<Category> a List<Integer>
 
     /**
-     * Default constructor
+     * Constructor por defecto
      */
     public Station() {
         this.status = "CLOSED";
@@ -23,10 +23,10 @@ public class Station {
     }
 
     /**
-     * Parameterized constructor with essential fields
+     * Constructor parametrizado con campos esenciales
      *
-     * @param id Station's unique identifier
-     * @param number Station's display number
+     * @param id Identificador único de la estación
+     * @param number Número de visualización de la estación
      */
     public Station(int id, int number) {
         this.id = id;
@@ -36,12 +36,12 @@ public class Station {
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param id Station's unique identifier
-     * @param number Station's display number
-     * @param status Station's operational status
-     * @param assignedEmployee Employee assigned to this station
+     * @param id Identificador único de la estación
+     * @param number Número de visualización de la estación
+     * @param status Estado operacional de la estación
+     * @param assignedEmployee Empleado asignado a esta estación
      */
     public Station(int id, int number, String status, Employee assignedEmployee) {
         this.id = id;
@@ -52,9 +52,9 @@ public class Station {
     }
 
     /**
-     * Opens the station for service
+     * Abre la estación para el servicio
      *
-     * @return true if the station was opened successfully, false otherwise
+     * @return true si la estación se abrió con éxito, false en caso contrario
      */
     public boolean openStation() {
         if (assignedEmployee != null) {
@@ -65,9 +65,9 @@ public class Station {
     }
 
     /**
-     * Closes the station
+     * Cierra la estación
      *
-     * @return true indicating the station was closed
+     * @return true indicando que la estación fue cerrada
      */
     public boolean closeStation() {
         this.status = "CLOSED";
@@ -75,10 +75,10 @@ public class Station {
     }
 
     /**
-     * Adds a service category to this station
+     * Añade una categoría de servicio a esta estación
      *
-     * @param category The category to add
-     * @return true if the category was added successfully, false otherwise
+     * @param category La categoría a añadir
+     * @return true si la categoría fue añadida con éxito, false en caso contrario
      */
     public boolean addCategory(Category category) {
         if (category != null && !supportedCategoryIds.contains(category.getId())) {
@@ -88,10 +88,10 @@ public class Station {
     }
 
     /**
-     * Removes a service category from this station
+     * Elimina una categoría de servicio de esta estación
      *
-     * @param category The category to remove
-     * @return true if the category was removed successfully, false otherwise
+     * @param category La categoría a eliminar
+     * @return true si la categoría fue eliminada con éxito, false en caso contrario
      */
     public boolean removeCategory(Category category) {
         if (category != null) {
@@ -101,29 +101,29 @@ public class Station {
     }
 
     /**
-     * Checks if this station supports a specific category
+     * Verifica si esta estación soporta una categoría específica
      *
-     * @param category The category to check
-     * @return true if the station supports the category, false otherwise
+     * @param category La categoría a verificar
+     * @return true si la estación soporta la categoría, false en caso contrario
      */
     public boolean supportsCategory(Category category) {
         return category != null && supportedCategoryIds.contains(category.getId());
     }
 
     /**
-     * Gets the list of supported category IDs
+     * Obtiene la lista de IDs de categorías soportadas
      *
-     * @return The list of category IDs supported by this station
+     * @return La lista de IDs de categorías soportadas por esta estación
      */
     public List<Integer> getSupportedCategoryIds() {
         return new ArrayList<>(supportedCategoryIds);
     }
 
     /**
-     * Gets the list of supported categories
+     * Obtiene la lista de categorías soportadas
      *
-     * @param categoryRepository The repository to look up categories
-     * @return The list of categories supported by this station
+     * @param categoryRepository El repositorio para buscar categorías
+     * @return La lista de categorías soportadas por esta estación
      */
     public List<Category> getSupportedCategories(com.queuemanagementsystem.repository.CategoryRepository categoryRepository) {
         List<Category> categories = new ArrayList<>();
@@ -134,17 +134,17 @@ public class Station {
     }
 
     /**
-     * Gets the list of supported categories (for backward compatibility)
+     * Obtiene la lista de categorías soportadas (para compatibilidad hacia atrás)
      *
-     * @return A list of placeholder categories (Note: use getSupportedCategories(repository) instead)
+     * @return Una lista de categorías de marcador de posición (Nota: use getSupportedCategories(repository) en su lugar)
      */
     public List<Category> getSupportedCategories() {
-        // This is a placeholder method for backward compatibility
-        // It returns an empty list since we can't look up the actual categories without a repository
+        // Este es un método de marcador de posición para compatibilidad hacia atrás
+        // Devuelve una lista vacía ya que no podemos buscar las categorías reales sin un repositorio
         return new ArrayList<>();
     }
 
-    // Getters and Setters
+    // Getters y Setters
 
     public int getId() {
         return id;
@@ -187,10 +187,10 @@ public class Station {
     }
 
     /**
-     * Compares this Station to another object for equality
+     * Compara esta Estación con otro objeto para determinar igualdad
      *
-     * @param o The object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @param o El objeto a comparar
+     * @return true si los objetos son iguales, false en caso contrario
      */
     @Override
     public boolean equals(Object o) {
@@ -201,9 +201,9 @@ public class Station {
     }
 
     /**
-     * Generates a hash code for this Station
+     * Genera un código hash para esta Estación
      *
-     * @return The hash code
+     * @return El código hash
      */
     @Override
     public int hashCode() {
@@ -211,9 +211,9 @@ public class Station {
     }
 
     /**
-     * Returns a string representation of this Station
+     * Devuelve una representación en string de esta Estación
      *
-     * @return A string representation
+     * @return Una representación en string
      */
     @Override
     public String toString() {

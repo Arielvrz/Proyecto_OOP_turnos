@@ -10,14 +10,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of CategoryRepository using JSON file for persistence.
+ * Implementación de CategoryRepository usando archivo JSON para persistencia.
  */
 public class JsonCategoryRepository implements CategoryRepository {
     private static final String FILE_PATH = "data/categories.json";
     private List<Category> categories;
 
     /**
-     * Default constructor. Loads categories from file.
+     * Constructor por defecto. Carga categorías desde el archivo.
      */
     public JsonCategoryRepository() {
         this.categories = new ArrayList<>();
@@ -27,13 +27,13 @@ public class JsonCategoryRepository implements CategoryRepository {
     @Override
     public Category save(Category category) {
         if (category == null) {
-            throw new IllegalArgumentException("Category cannot be null");
+            throw new IllegalArgumentException("La categoría no puede ser nula");
         }
 
-        // Check if the category already exists
+        // Verifica si la categoría ya existe
         Optional<Category> existingCategory = findById(category.getId());
         if (existingCategory.isPresent()) {
-            // Update existing category
+            // Actualiza la categoría existente
             categories.remove(existingCategory.get());
         }
 

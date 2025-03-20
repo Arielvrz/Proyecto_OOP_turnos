@@ -6,92 +6,92 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Ticket data access operations.
+ * Interfaz de repositorio para operaciones de acceso a datos de Ticket.
  */
 public interface TicketRepository {
     /**
-     * Saves a ticket to the repository
+     * Guarda un ticket en el repositorio
      *
-     * @param ticket The ticket to save
-     * @return true if save was successful, false otherwise
+     * @param ticket El ticket a guardar
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean save(Ticket ticket);
 
     /**
-     * Finds a ticket by its code
+     * Busca un ticket por su código
      *
-     * @param code The ticket code to search for
-     * @return Optional containing the ticket if found, empty otherwise
+     * @param code El código del ticket a buscar
+     * @return Optional que contiene el ticket si se encuentra, vacío en caso contrario
      */
     Optional<Ticket> findByCode(String code);
 
     /**
-     * Gets all tickets in the repository
+     * Obtiene todos los tickets en el repositorio
      *
-     * @return List of all tickets
+     * @return Lista de todos los tickets
      */
     List<Ticket> findAll();
 
     /**
-     * Finds tickets by client ID
+     * Busca tickets por ID de cliente
      *
-     * @param clientId The client ID to search for
-     * @return List of tickets for the specified client
+     * @param clientId El ID del cliente a buscar
+     * @return Lista de tickets para el cliente especificado
      */
     List<Ticket> findByClientId(String clientId);
 
     /**
-     * Finds tickets by category ID
+     * Busca tickets por ID de categoría
      *
-     * @param categoryId The category ID to search for
-     * @return List of tickets for the specified category
+     * @param categoryId El ID de la categoría a buscar
+     * @return Lista de tickets para la categoría especificada
      */
     List<Ticket> findByCategoryId(int categoryId);
 
     /**
-     * Finds tickets by status
+     * Busca tickets por estado
      *
-     * @param status The status to search for
-     * @return List of tickets with the specified status
+     * @param status El estado a buscar
+     * @return Lista de tickets con el estado especificado
      */
     List<Ticket> findByStatus(String status);
 
     /**
-     * Finds tickets generated between specified times
+     * Busca tickets generados entre tiempos especificados
      *
-     * @param start The start time
-     * @param end The end time
-     * @return List of tickets generated between start and end times
+     * @param start El tiempo de inicio
+     * @param end El tiempo de fin
+     * @return Lista de tickets generados entre los tiempos de inicio y fin
      */
     List<Ticket> findByGenerationTimeBetween(LocalDateTime start, LocalDateTime end);
 
     /**
-     * Deletes a ticket by its code
+     * Elimina un ticket por su código
      *
-     * @param code The code of the ticket to delete
-     * @return true if deletion was successful, false otherwise
+     * @param code El código del ticket a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean deleteByCode(String code);
 
     /**
-     * Updates an existing ticket
+     * Actualiza un ticket existente
      *
-     * @param ticket The ticket with updated information
-     * @return true if update was successful, false otherwise
+     * @param ticket El ticket con información actualizada
+     * @return true si la actualización fue exitosa, false en caso contrario
      */
     boolean update(Ticket ticket);
 
     /**
-     * Saves all tickets to persistent storage
+     * Guarda todos los tickets en almacenamiento persistente
      *
-     * @return true if save was successful, false otherwise
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean saveAll();
 
     /**
-     * Loads all tickets from persistent storage
+     * Carga todos los tickets desde almacenamiento persistente
      *
-     * @return true if load was successful, false otherwise
+     * @return true si la carga fue exitosa, false en caso contrario
      */
     boolean loadAll();
 }

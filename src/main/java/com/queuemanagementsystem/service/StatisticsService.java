@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Service class for generating and managing service statistics.
+ * Clase de servicio para generar y gestionar estadísticas de servicio.
  */
 public class StatisticsService {
     private final TicketRepository ticketRepository;
@@ -28,12 +28,12 @@ public class StatisticsService {
     private  ServiceStatistics currentDayStatistics;
 
     /**
-     * Constructor with repository dependencies
+     * Constructor con dependencias de repositorios
      *
-     * @param ticketRepository Repository for ticket data
-     * @param userRepository Repository for user data
-     * @param categoryRepository Repository for category data
-     * @param dateTimeUtil Utility for date and time operations
+     * @param ticketRepository Repositorio para datos de tickets
+     * @param userRepository Repositorio para datos de usuarios
+     * @param categoryRepository Repositorio para datos de categorías
+     * @param dateTimeUtil Utilidad para operaciones de fecha y hora
      */
     public StatisticsService(TicketRepository ticketRepository, UserRepository userRepository,
                              CategoryRepository categoryRepository, DateTimeUtil dateTimeUtil) {
@@ -46,12 +46,12 @@ public class StatisticsService {
                 dateTimeUtil.getEndOfDay(LocalDateTime.now())
         );
 
-        // Initialize statistics with existing data
+        // Inicializa estadísticas con datos existentes
         initializeCurrentDayStatistics();
     }
 
     /**
-     * Initializes current day statistics from existing data
+     * Inicializa las estadísticas del día actual a partir de datos existentes
      */
     private void initializeCurrentDayStatistics() {
         LocalDateTime startOfDay = dateTimeUtil.getStartOfDay(LocalDateTime.now());
@@ -67,12 +67,12 @@ public class StatisticsService {
             currentDayStatistics.updateWithTicket(ticket);
         }
 
-        // Update employee performance statistics
+        // Actualiza estadísticas de rendimiento de empleados
         updateEmployeePerformanceStatistics();
     }
 
     /**
-     * Updates employee performance statistics
+     * Actualiza estadísticas de rendimiento de empleados
      */
     private void updateEmployeePerformanceStatistics() {
         List<Employee> employees = userRepository.findAll().stream()
@@ -87,10 +87,10 @@ public class StatisticsService {
     }
 
     /**
-     * Calculates the number of tickets processed per hour by an employee
+     * Calcula el número de tickets procesados por hora por un empleado
      *
-     * @param employee The employee
-     * @return Tickets per hour
+     * @param employee El empleado
+     * @return Tickets por hora
      */
     private double calculateEmployeeTicketsPerHour(Employee employee) {
         if (employee == null) {
@@ -105,7 +105,7 @@ public class StatisticsService {
             return 0.0;
         }
 
-        // Calculate total service time in hours
+        // Calcula el tiempo total de servicio en horas
         double totalServiceHours = 0.0;
         for (Ticket ticket : completedTickets) {
             if (ticket.getAttentionTime() != null && ticket.getCompletionTime() != null) {
@@ -122,9 +122,9 @@ public class StatisticsService {
     }
 
     /**
-     * Updates statistics with a new ticket
+     * Actualiza estadísticas con un nuevo ticket
      *
-     * @param ticket The ticket to add to statistics
+     * @param ticket El ticket para añadir a las estadísticas
      */
     public void updateStatistics(Ticket ticket) {
         if (ticket == null) {
@@ -133,25 +133,25 @@ public class StatisticsService {
 
         currentDayStatistics.updateWithTicket(ticket);
 
-        // If the ticket is completed, update employee performance
+        // Si el ticket está completado, actualiza el rendimiento del empleado
         if ("COMPLETED".equals(ticket.getStatus())) {
             updateEmployeePerformanceStatistics();
         }
     }
 
     /**
-     * Generates daily statistics report
+     * Genera informe de estadísticas diarias
      *
-     * @return The daily statistics report
+     * @return El informe de estadísticas diarias
      */
     public String generateDailyStatistics() {
         return currentDayStatistics.generateDailyStatistics();
     }
 
     /**
-     * Generates weekly statistics report
+     * Genera informe de estadísticas semanales
      *
-     * @return The weekly statistics report
+     * @return El informe de estadísticas semanales
      */
     public String generateWeeklyStatistics() {
         LocalDateTime weekStart = dateTimeUtil.getStartOfWeek(LocalDateTime.now());
@@ -161,9 +161,9 @@ public class StatisticsService {
     }
 
     /**
-     * Generates monthly statistics report
+     * Genera informe de estadísticas mensuales
      *
-     * @return The monthly statistics report
+     * @return El informe de estadísticas mensuales
      */
     public String generateMonthlyStatistics() {
         LocalDateTime monthStart = dateTimeUtil.getStartOfMonth(LocalDateTime.now());
@@ -173,12 +173,12 @@ public class StatisticsService {
     }
 
     /**
-     * Generates statistics for a specific period
+     * Genera estadísticas para un período específico
      *
-     * @param startDate Start of the period
-     * @param endDate End of the period
-     * @param periodType The type of period (e.g., "WEEKLY", "MONTHLY")
-     * @return The statistics report
+     * @param startDate Inicio del período
+     * @param endDate Fin del período
+     * @param periodType El tipo de período (p.ej., "WEEKLY", "MONTHLY")
+     * @return El informe de estadísticas
      */
     private String generateStatisticsForPeriod(LocalDateTime startDate, LocalDateTime endDate, String periodType) {
         ServiceStatistics periodStats = new ServiceStatistics(startDate, endDate);
@@ -193,7 +193,7 @@ public class StatisticsService {
             periodStats.updateWithTicket(ticket);
         }
 
-        // Calculate employee performance for the period
+        // Calcula el rendimiento de los empleados para el período
         List<Employee> employees = userRepository.findAll().stream()
                 .filter(user -> user instanceof Employee)
                 .map(user -> (Employee) user)
@@ -207,7 +207,7 @@ public class StatisticsService {
                             !ticket.getCompletionTime().isAfter(endDate))
                     .collect(Collectors.toList());
 
-            // Calculate tickets per hour for this period
+            // Calcula tickets por hora para este período
             double totalServiceHours = 0.0;
             for (Ticket ticket : employeeTickets) {
                 double serviceTimeMinutes = ticket.calculateServiceTime();
@@ -220,7 +220,7 @@ public class StatisticsService {
             periodStats.updateEmployeePerformance(employee.getId(), ticketsPerHour);
         }
 
-        // Build a custom report for the period
+        // Construye un informe personalizado para el período
         StringBuilder report = new StringBuilder();
         report.append("=== ").append(periodType).append(" STATISTICS REPORT ===\n");
         report.append("Period: ").append(startDate.toLocalDate()).append(" to ")
@@ -253,10 +253,10 @@ public class StatisticsService {
     }
 
     /**
-     * Calculates the average waiting time for a specific category
+     * Calcula el tiempo medio de espera para una categoría específica
      *
-     * @param categoryId The category ID
-     * @return The average waiting time in minutes
+     * @param categoryId El ID de la categoría
+     * @return El tiempo medio de espera en minutos
      */
     public double getAverageWaitingTimeByCategory(int categoryId) {
         Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
@@ -285,9 +285,9 @@ public class StatisticsService {
     }
 
     /**
-     * Gets productivity statistics for each employee
+     * Obtiene estadísticas de productividad para cada empleado
      *
-     * @return Map of employee IDs to productivity statistics
+     * @return Mapa de IDs de empleados con sus estadísticas de productividad
      */
     public Map<String, Double> getEmployeeProductivityStatistics() {
         Map<String, Double> productivityStats = new HashMap<>();
@@ -306,9 +306,9 @@ public class StatisticsService {
     }
 
     /**
-     * Gets the current service statistics
+     * Obtiene las estadísticas de servicio actuales
      *
-     * @return The current service statistics
+     * @return Las estadísticas de servicio actuales
      */
     public ServiceStatistics getCurrentStatistics() {
         return currentDayStatistics;

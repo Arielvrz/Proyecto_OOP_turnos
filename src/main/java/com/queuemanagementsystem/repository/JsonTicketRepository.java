@@ -11,14 +11,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of TicketRepository using JSON file for persistence.
+ * Implementación de TicketRepository usando archivo JSON para persistencia.
  */
 public class JsonTicketRepository implements TicketRepository {
     private static final String FILE_PATH = "data/tickets.json";
     private List<Ticket> tickets;
 
     /**
-     * Default constructor. Loads tickets from file.
+     * Constructor por defecto. Carga tickets desde el archivo.
      */
     public JsonTicketRepository() {
         this.tickets = new ArrayList<>();
@@ -28,13 +28,13 @@ public class JsonTicketRepository implements TicketRepository {
     @Override
     public boolean save(Ticket ticket) {
         if (ticket == null) {
-            throw new IllegalArgumentException("Ticket cannot be null");
+            throw new IllegalArgumentException("El ticket no puede ser nulo");
         }
 
-        // Check if the ticket already exists
+        // Verifica si el ticket ya existe
         Optional<Ticket> existingTicket = findByCode(ticket.getCode());
         if (existingTicket.isPresent()) {
-            // Update existing ticket
+            // Actualiza el ticket existente
             tickets.remove(existingTicket.get());
         }
 

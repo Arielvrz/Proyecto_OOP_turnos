@@ -5,51 +5,51 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Client data access operations.
+ * Interfaz de repositorio para operaciones de acceso a datos de Cliente.
  */
 public interface ClientRepository {
     /**
-     * Saves a client to the repository
+     * Guarda un cliente en el repositorio
      *
-     * @param client The client to save
-     * @return The saved client
+     * @param client El cliente a guardar
+     * @return El cliente guardado
      */
     Client save(Client client);
 
     /**
-     * Finds a client by their ID
+     * Encuentra un cliente por su ID
      *
-     * @param id The client ID to search for
-     * @return Optional containing the client if found, empty otherwise
+     * @param id El ID del cliente a buscar
+     * @return Optional conteniendo el cliente si se encuentra, vacío en caso contrario
      */
     Optional<Client> findById(String id);
 
     /**
-     * Gets all clients in the repository
+     * Obtiene todos los clientes en el repositorio
      *
-     * @return List of all clients
+     * @return Lista de todos los clientes
      */
     List<Client> findAll();
 
     /**
-     * Deletes a client by their ID
+     * Elimina un cliente por su ID
      *
-     * @param id The ID of the client to delete
-     * @return true if deletion was successful, false otherwise
+     * @param id El ID del cliente a eliminar
+     * @return true si la eliminación fue exitosa, false en caso contrario
      */
     boolean deleteById(String id);
 
     /**
-     * Saves all clients to persistent storage
+     * Guarda todos los clientes en almacenamiento persistente
      *
-     * @return true if save was successful, false otherwise
+     * @return true si el guardado fue exitoso, false en caso contrario
      */
     boolean saveAll();
 
     /**
-     * Loads all clients from persistent storage
+     * Carga todos los clientes desde almacenamiento persistente
      *
-     * @return true if load was successful, false otherwise
+     * @return true si la carga fue exitosa, false en caso contrario
      */
     boolean loadAll();
 }

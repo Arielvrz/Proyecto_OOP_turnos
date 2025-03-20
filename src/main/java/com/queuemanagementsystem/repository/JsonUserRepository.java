@@ -12,14 +12,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of UserRepository using JSON file for persistence.
+ * Implementación de UserRepository usando archivo JSON para persistencia.
  */
 public class JsonUserRepository implements UserRepository {
     private static final String FILE_PATH = "data/users.json";
     private List<User> users;
 
     /**
-     * Default constructor. Loads users from file.
+     * Constructor por defecto. Carga usuarios desde el archivo.
      */
     public JsonUserRepository() {
         this.users = new ArrayList<>();
@@ -29,13 +29,13 @@ public class JsonUserRepository implements UserRepository {
     @Override
     public User save(User user) {
         if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
+            throw new IllegalArgumentException("El usuario no puede ser nulo");
         }
 
-        // Check if the user already exists
+        // Verifica si el usuario ya existe
         Optional<User> existingUser = findById(user.getId());
         if (existingUser.isPresent()) {
-            // Update existing user
+            // Actualiza el usuario existente
             users.remove(existingUser.get());
         }
 
@@ -94,10 +94,10 @@ public class JsonUserRepository implements UserRepository {
         TypeToken<List<User>> typeToken = new TypeToken<List<User>>() {};
         this.users = JsonFileHandler.loadFromFile(FILE_PATH, typeToken.getType());
 
-        // Debug logging
-        System.out.println("Debug - Loaded " + users.size() + " users from " + FILE_PATH);
+        // Registro de depuración
+        System.out.println("Debug - Cargados " + users.size() + " usuarios desde " + FILE_PATH);
         for (User user : users) {
-            System.out.println("Debug - Loaded user: " + user.getId() + " - " + user.getClass().getSimpleName());
+            System.out.println("Debug - Usuario cargado: " + user.getId() + " - " + user.getClass().getSimpleName());
         }
 
         return true;
