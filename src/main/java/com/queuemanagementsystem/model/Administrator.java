@@ -1,39 +1,39 @@
 package com.queuemanagementsystem.model;
 
 /**
- * Represents an administrator responsible for system configuration and management.
- * Extends the base User class.
+ * Esta parte representa al administrador responsable de la configuracion y de la gestion del sistema.
+ * Se extiende la clase base User.
  */
 public class Administrator extends User {
     private int accessLevel;
 
     /**
-     * Default constructor
+     * En esta parte se crea un metodo constructor.
      */
     public Administrator() {
         super();
-        this.accessLevel = 1; // Default access level
+        this.accessLevel = 1;  // Nivel de acceso por defecto
     }
 
     /**
-     * Parameterized constructor with base user fields
+     * Constructor parametrizado con campos de usuario base
      *
-     * @param id Administrator's unique identifier
-     * @param name Administrator's full name
-     * @param password Administrator's authentication password
+     * @param id Identificador unico del administrador
+     * @param name Nombre completo del administrador
+     * @param password Contraseña de autentificacion del administrador
      */
     public Administrator(String id, String name, String password) {
         super(id, name, password);
-        this.accessLevel = 1; // Default access level
+        this.accessLevel = 1; // Nivel de accesos por defecto
     }
 
     /**
-     * Complete constructor with all fields
+     * Constructor completo con todos los campos
      *
-     * @param id Administrator's unique identifier
-     * @param name Administrator's full name
-     * @param password Administrator's authentication password
-     * @param accessLevel Administrator's permission level
+     * @param id Identificador único del administrador
+     * @param name Nombre completo del administrador
+     * @param password Contraseña de autenticación del administrador
+     * @param accessLevel Nivel de permisos del administrador
      */
     public Administrator(String id, String name, String password, int accessLevel) {
         super(id, name, password);
@@ -41,9 +41,9 @@ public class Administrator extends User {
     }
 
     /**
-     * Configures a service category
+     * Configura una categoría de servicio
      *
-     * @param category The category to configure
+     * @param
      * @return true if the category was successfully configured, false otherwise
      */
     public boolean configureCategory(Category category) {
