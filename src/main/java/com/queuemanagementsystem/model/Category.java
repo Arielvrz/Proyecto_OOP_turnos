@@ -1,5 +1,5 @@
 package com.queuemanagementsystem.model;
-package com.queuemanagementsystem.model;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
